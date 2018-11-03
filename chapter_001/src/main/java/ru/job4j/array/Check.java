@@ -15,17 +15,14 @@ public class Check {
      * @return перевернутый массив.
      */
     public boolean mono(boolean[] data) {
-        //boolean result = false;
-        int f = 0;
-        int t = 0;
-        for (boolean b : data) {
-            if (!b) {
-                f++;
-            } else {
-                t++;
+        boolean result = true;
+        for (int i = 0; i < data.length - 1; i++) {
+            if (data[i] != data[i + 1]) {
+                result = false;
+                break;
             }
         }
-        return !(f != data.length && t != data.length);
+        return result;
     }
 }
 
