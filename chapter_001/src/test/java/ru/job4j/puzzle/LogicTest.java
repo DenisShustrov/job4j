@@ -25,15 +25,15 @@ public class LogicTest {
 
     @Test
     public void whenHorizontalWin() {
-        Logic logic = new Logic(6) {
+        Logic logic = new Logic(5) {
 
             public int[][] convert() {
                 return new int[][] {
-                        {0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0},
+                        {1, 1, 1, 1, 1},
+                        {0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0},
                 };
             }
         };
