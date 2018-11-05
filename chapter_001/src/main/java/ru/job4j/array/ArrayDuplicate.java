@@ -18,9 +18,9 @@ public class ArrayDuplicate {
         int count = 0;
         for (int i = 0; i < array.length / 2; i++) {
             for (int j = i; j < array.length - 1; j++) {
-                if (array[i].equals(array[j + 1])) {
+                if (array[i].equals(array[j + 1]) & !array[i].equals("повтор")) {
+                    count++;
                     array[j + 1] = "повтор";
-
                 }
             }
         }
@@ -32,11 +32,6 @@ public class ArrayDuplicate {
                 }
             }
         }
-        for (String x : array) {
-            if (!x.equals("повтор")) {
-               count++;
-            }
-        }
-         return Arrays.copyOf(array, count);
+        return Arrays.copyOf(array, array.length - count);
     }
 }
