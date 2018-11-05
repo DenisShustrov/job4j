@@ -15,23 +15,16 @@ public class ArrayDuplicate {
      * @return массив строк без дубликатов.
      */
     public String[] remove(String[] array) {
-        int count = 0;
-        for (int i = 0; i < array.length / 2; i++) {
-            for (int j = i; j < array.length - 1; j++) {
-                if (array[i].equals(array[j + 1]) & !array[i].equals("повтор")) {
-                    count++;
-                    array[j + 1] = "повтор";
+        int unique = array.length;
+        for (int i = 0; i < unique; i++) {
+            for (int j = i + 1; j < unique; j++) {
+                if (array[i].equals(array[j])) {
+                    array[j] = array[unique - 1];
+                    unique--;
+                    j--;
                 }
             }
         }
-        for (int i = array.length - 1; i >= 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (array[j].equals("повтор")) {
-                    array[j] = array[j + 1];
-                    array[j + 1] = "повтор";
-                }
-            }
-        }
-        return Arrays.copyOf(array, array.length - count);
+        return Arrays.copyOf(array, unique);
     }
 }
