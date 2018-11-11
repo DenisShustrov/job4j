@@ -10,7 +10,9 @@ class Diagnose {
     public String findDiagnosis(Patient patient) {
         if (patient.getAppearance() == 5) {
             return "здоров";
-        } else
+        } else {
             return "болен";
+        }
+
     }
 }
