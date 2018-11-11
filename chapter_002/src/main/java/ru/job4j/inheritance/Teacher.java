@@ -6,12 +6,8 @@ package ru.job4j.inheritance;
  * @version 1
  * @since 08.11.2018
  */
-public class Profession {
-    private String name;
-    public String getName() {
-        return name;
+class Teacher extends Profession {
+    public Student teachStudents(Student student) {
+        return student;
     }
 }
-
-
-
