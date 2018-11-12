@@ -2,7 +2,6 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.*;
 
 public class TrackerTest {
@@ -41,13 +40,15 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemThenNewItems() {
         Tracker tracker = new Tracker();
-        Item[] items = {new Item("test1", "testDescription", 123L),
-                new Item("test2", "testDescription2", 1234L),
-        };
-        tracker.add(items[0]);
-        tracker.add(items[1]);
-        tracker.delete(items[1].getId());
-        assertThat(tracker.findById(items[1].getId()), is(nullValue()));
+        Item previous1 = new Item("test1", "testDescription1", 123L);
+        Item previous2 = new Item("test2", "testDescription2", 124L);
+        Item previous3 = new Item("test3", "testDescription3", 125L);
+        tracker.add(previous1);
+        tracker.add(previous2);
+        tracker.add(previous3);
+        tracker.delete(previous1.getId());
+        Item[] result = tracker.findAll();
+        assertThat(result[0].getName(), is("test2"));
     }
 
     /**

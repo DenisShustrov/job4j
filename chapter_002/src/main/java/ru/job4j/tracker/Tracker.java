@@ -59,11 +59,7 @@ public class Tracker {
      * Метод получение списка всех заявок.
      */
     public Item[] findAll() {
-        Item[] result = new Item[position];
-        for (int i = 0; i != this.position; i++) {
-            result[i] = items[i];
-        }
-        return result;
+        return Arrays.copyOf(this.items, this.position);
     }
     /**
      * Метод редактирования заявок.
@@ -71,6 +67,7 @@ public class Tracker {
      * @param item заявка для замены.
      */
     public void replace(String id, Item item) {
+        item.setId(id);
         for (int i = 0; i != this.position; i++) {
             if (items[i].getId().equals(id)) {
                 items[i] = item;
@@ -83,12 +80,24 @@ public class Tracker {
      * @param id заявки.
      */
     public void delete(String id) {
-        for (int i = 0; i != this.position; i++) {
+        int count = 0;
+        for (int i = 0; i <= this.position; i++) {
             if (items[i].getId().equals(id)) {
+                count = i;
                 items[i] = null;
                 break;
             }
         }
+        if (items[0] == null) {
+            Item[] result = new Item[items.length];
+            System.arraycopy(items, count + 1, result, 0, items.length - count - 1);
+            System.arraycopy(result, 0, items, count, result.length);
+        } else {
+            Item[] result = new Item[items.length - 1];
+            System.arraycopy(items, count + 1, result, 0, items.length - count - 1);
+            System.arraycopy(result, 0, items, count, result.length);
+        }
+
     }
 
     /**
