@@ -78,20 +78,25 @@ public class StartUI {
             switch (answer) {
                 case ADD:
                     this.createItem();
+                    //exit = true;
                     break;
                 case SHOW:
                     this.showItem();
+                    //exit = true;
                     break;
                 case EDIT:
                     this.editItem();
+                    exit = true;
                     break;
                 case DELETE:
                     this.deleteItem();
+                    exit = true;
                     break;
                 case FIND_ITEM_BY_ID:
                     this.findByIdItem();
                     break;
                 case FIND_ITEMS_BY_NAME:
+                    findByNameItem();
                     break;
                 case EXIT:
                     exit = true;
@@ -123,8 +128,9 @@ public class StartUI {
         System.out.println("------------ Все текущие заявки: --------------");
         Item[] items = this.tracker.findAll();
         for (Item item : items) {
-            System.out.println(item.getName());
+            System.out.println(item);
         }
+
     }
 
     /**
@@ -137,7 +143,11 @@ public class StartUI {
         String desc = this.input.ask("Введите описание заявки :");
         String create = this.input.ask("Введите время время создания заявки :");
         Item item = new Item(name, desc, Long.parseLong(create));
-        this.tracker.replace(id, item);
+        if (!this.tracker.replace(id, item)) {
+            System.out.println("Заявки с таким id в базе нет");
+        } else if ( this.tracker.replace(id, item)) {
+            System.out.println("Заявки с id: " +  id + " отредактирована!");
+        }
     }
 
     /**
@@ -147,6 +157,11 @@ public class StartUI {
         System.out.println("------------ Удаление заявки: --------------");
         String id = this.input.ask("Введите id заявки :");
         this.tracker.delete(id);
+        if (!this.tracker.delete(id)) {
+            System.out.println("Заявки с таким id в базе нет");
+        } else if (this.tracker.delete(id)) {
+            System.out.println("Заявки с id: " +  id + " удалена!");
+        }
     }
 
     /**
@@ -155,8 +170,11 @@ public class StartUI {
     private void findByIdItem() throws IOException {
         System.out.println("------------ Найти заявку по id: --------------");
         String id = this.input.ask("Введите id заявки :");
-        Item item = this.tracker.findById(id);
-        System.out.println("------------ Заявка с id: " + item.getId() + " " + item.getName());
+        if (this.tracker.findById(id) != null) {
+            Item item = this.tracker.findById(id);
+            System.out.println("------------ Заявка с id: " + item.getId() + " " + item.getName());
+        }
+
     }
 
     /**
@@ -172,22 +190,17 @@ public class StartUI {
     }
 
     private void showMenu() {
-        System.out.println("Меню.");
-        System.out.println("0. Add new Item\n"
-                +
-                "1. Show all items\n"
-                +
-                "2. Edit item\n"
-                +
-                "3. Delete item\n"
-                +
-                "4. Find item by Id\n"
-                +
-                "5. Find items by name\n"
-                +
-                "6. Exit Program\n"
-                +
-                "Select:");
+        StringBuilder str = new StringBuilder();
+        str.append("Меню.\n");
+        str.append("0. Add new Item\n");
+        str.append("1. Show all items\n");
+        str.append("2. Edit item\n");
+        str.append("3. Delete item\n");
+        str.append("4. Find item by Id\n");
+        str.append("5. Find items by name\n");
+        str.append("6. Exit Program\n");
+        str.append("Select:");
+        System.out.println(str.toString());
     }
 
     /**

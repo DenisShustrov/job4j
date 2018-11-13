@@ -61,25 +61,37 @@ public class Tracker {
     public Item[] findAll() {
         return Arrays.copyOf(this.items, this.position);
     }
+
     /**
      * Метод редактирования заявок.
-     * @param id заявки.
+     *
+     * @param id   заявки.
      * @param item заявка для замены.
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result = false;
+        int count = 0;
         item.setId(id);
         for (int i = 0; i != this.position; i++) {
             if (items[i].getId().equals(id)) {
                 items[i] = item;
+                count++;
                 break;
             }
         }
+        if (count != 0) {
+            result = true;
+        }
+        return result;
     }
+
     /**
      * Метод удаления заявок.
+     *
      * @param id заявки.
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         int count = 0;
         for (int i = 0; i <= this.position; i++) {
             if (items[i].getId().equals(id)) {
@@ -88,20 +100,24 @@ public class Tracker {
                 break;
             }
         }
-        if (items[0] == null) {
-            Item[] result = new Item[items.length];
-            System.arraycopy(items, count + 1, result, 0, items.length - count - 1);
-            System.arraycopy(result, 0, items, count, result.length);
-        } else {
-            Item[] result = new Item[items.length - 1];
-            System.arraycopy(items, count + 1, result, 0, items.length - count - 1);
-            System.arraycopy(result, 0, items, count, result.length);
+        if (count != 0) {
+            result = true;
         }
-
+        if (items[0] == null) {
+            Item[] itog = new Item[items.length];
+            System.arraycopy(items, count + 1, itog, 0, items.length - count - 1);
+            System.arraycopy(itog, 0, items, count, itog.length);
+        } else {
+            Item[] itog = new Item[items.length - 1];
+            System.arraycopy(items, count + 1, itog, 0, items.length - count - 1);
+            System.arraycopy(itog, 0, items, count, itog.length);
+        }
+        return result;
     }
 
     /**
      * Метод получает список заявок по ключу.
+     *
      * @param key ключ.
      */
     public Item[] findByName(String key) {

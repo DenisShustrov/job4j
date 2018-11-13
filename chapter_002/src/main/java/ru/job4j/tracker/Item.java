@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.Arrays;
+
 /**
  * Class Item.
  * @author dshustrov
@@ -82,4 +84,13 @@ public class Item {
         this.comments = comments;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", discription='" + discription + '\'' +
+                ", create=" + create  +
+                '}';
+    }
 }
