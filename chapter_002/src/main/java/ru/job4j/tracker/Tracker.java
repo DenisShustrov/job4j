@@ -92,25 +92,13 @@ public class Tracker {
      */
     public boolean delete(String id) {
         boolean result = false;
-        int count = 0;
         for (int i = 0; i <= this.position; i++) {
             if (items[i].getId().equals(id)) {
-                count = i;
-                items[i] = null;
+                result = true;
+                System.arraycopy(items, i + 1, items, i, items.length - i - 1);
+                position--;
                 break;
             }
-        }
-        if (count != 0) {
-            result = true;
-        }
-        if (items[0] == null) {
-            Item[] itog = new Item[items.length];
-            System.arraycopy(items, count + 1, itog, 0, items.length - count - 1);
-            System.arraycopy(itog, 0, items, count, itog.length);
-        } else {
-            Item[] itog = new Item[items.length - 1];
-            System.arraycopy(items, count + 1, itog, 0, items.length - count - 1);
-            System.arraycopy(itog, 0, items, count, itog.length);
         }
         return result;
     }
