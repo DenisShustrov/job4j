@@ -86,11 +86,16 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", discription='" + discription + '\'' +
-                ", create=" + create  +
+        return "Item{"
+                +
+                "id='" + id + '\''
+                +
+                ", name='" + name + '\''
+                +
+                ", discription='" + discription + '\''
+                +
+                ", create=" + create
+                +
                 '}';
     }
 }

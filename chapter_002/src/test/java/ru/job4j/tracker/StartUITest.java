@@ -20,6 +20,26 @@ public class StartUITest {
 
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final StringBuilder str = new StringBuilder()
+            .append("Меню.")
+            .append(System.lineSeparator())
+            .append("0. Add new Item")
+            .append(System.lineSeparator())
+            .append("1. Show all items")
+            .append(System.lineSeparator())
+            .append("2. Edit item")
+            .append(System.lineSeparator())
+            .append("3. Delete item")
+            .append(System.lineSeparator())
+            .append("4. Find item by Id")
+            .append(System.lineSeparator())
+            .append("5. Find items by name")
+            .append(System.lineSeparator())
+            .append("6. Exit Program")
+            .append(System.lineSeparator())
+            .append("Select:")
+            .append(System.lineSeparator());
+
 
     @Before
     public void loadOutput() {
@@ -88,24 +108,20 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\n")
-                                .append("0. Add new Item\n")
-                                .append("1. Show all items\n")
-                                .append("2. Edit item\n")
-                                .append("3. Delete item\n")
-                                .append("4. Find item by Id\n")
-                                .append("5. Find items by name\n")
-                                .append("6. Exit Program\n")
-                                .append("Select:\r\n")
-                                .append("------------ Все текущие заявки: --------------\r\n")
-                                .append("Item{id='" + item1.getId() + "', name='test name1', discription='desc1', create=1234}\r\n")
-                                .append("Item{id='" + item2.getId() + "', name='test name2', discription='desc2', create=1235}\r\n")
+                                .append(str)
+                                .append(System.lineSeparator())
+                                .append("------------ Все текущие заявки: --------------")
+                                .append(System.lineSeparator())
+                                .append("Item{id='" + item1.getId() + "', name='test name1', discription='desc1', create=1234}")
+                                .append(System.lineSeparator())
+                                .append("Item{id='" + item2.getId() + "', name='test name2', discription='desc2', create=1235}")
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );
     }
     /**
-     *  Test showItem.
+     *  Test findByIdItem.
      */
     @Test
     public void whenEnterIdThenFindId() throws Exception {
@@ -118,17 +134,12 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\n")
-                                .append("0. Add new Item\n")
-                                .append("1. Show all items\n")
-                                .append("2. Edit item\n")
-                                .append("3. Delete item\n")
-                                .append("4. Find item by Id\n")
-                                .append("5. Find items by name\n")
-                                .append("6. Exit Program\n")
-                                .append("Select:\r\n")
-                                .append("------------ Найти заявку по id: --------------\r\n")
-                                .append("------------ Заявка с id: " + item.getId() + " " + item.getName() + "\r\n")
+                                .append(str)
+                                .append(System.lineSeparator())
+                                .append("------------ Найти заявку по id: --------------")
+                                .append(System.lineSeparator())
+                                .append("------------ Заявка с id: " + item.getId() + " " + item.getName())
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );
@@ -147,17 +158,12 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\n")
-                                .append("0. Add new Item\n")
-                                .append("1. Show all items\n")
-                                .append("2. Edit item\n")
-                                .append("3. Delete item\n")
-                                .append("4. Find item by Id\n")
-                                .append("5. Find items by name\n")
-                                .append("6. Exit Program\n")
-                                .append("Select:\r\n")
-                                .append("------------ Найти заявки по названию: --------------\r\n")
-                                .append("test name\r\n")
+                                .append(str)
+                                .append(System.lineSeparator())
+                                .append("------------ Найти заявки по названию: --------------")
+                                .append(System.lineSeparator())
+                                .append("test name")
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );

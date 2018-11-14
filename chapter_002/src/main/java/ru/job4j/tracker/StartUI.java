@@ -128,6 +128,7 @@ public class StartUI {
      */
     private void showItem() throws IOException {
         System.out.println("------------ Все текущие заявки: --------------");
+        System.lineSeparator();
         Item[] items = this.tracker.findAll();
         for (Item item : items) {
             System.out.println(item);
@@ -171,12 +172,15 @@ public class StartUI {
      */
     private void findByIdItem() throws IOException {
         System.out.println("------------ Найти заявку по id: --------------");
+        System.lineSeparator();
         String id = this.input.ask("Введите id заявки :");
         Item item = this.tracker.findById(id);
         if (item != null) {
             System.out.println("------------ Заявка с id: " + item.getId() + " " + item.getName());
+            System.lineSeparator();
         } else {
             System.out.println("Заявки с таким id в базе нет");
+            System.lineSeparator();
         }
     }
 
@@ -185,6 +189,7 @@ public class StartUI {
      */
     private void findByNameItem() throws IOException {
         System.out.println("------------ Найти заявки по названию: --------------");
+        System.lineSeparator();
         String nameItem = this.input.ask("Введите название заявки :");
         Item[] items = this.tracker.findByName(nameItem);
         for (Item item : items) {
@@ -194,15 +199,24 @@ public class StartUI {
 
     private void showMenu() {
         StringBuilder str = new StringBuilder();
-        str.append("Меню.\n");
-        str.append("0. Add new Item\n");
-        str.append("1. Show all items\n");
-        str.append("2. Edit item\n");
-        str.append("3. Delete item\n");
-        str.append("4. Find item by Id\n");
-        str.append("5. Find items by name\n");
-        str.append("6. Exit Program\n");
+        str.append("Меню.");
+        str.append(System.lineSeparator());
+        str.append("0. Add new Item");
+        str.append(System.lineSeparator());
+        str.append("1. Show all items");
+        str.append(System.lineSeparator());
+        str.append("2. Edit item");
+        str.append(System.lineSeparator());
+        str.append("3. Delete item");
+        str.append(System.lineSeparator());
+        str.append("4. Find item by Id");
+        str.append(System.lineSeparator());
+        str.append("5. Find items by name");
+        str.append(System.lineSeparator());
+        str.append("6. Exit Program");
+        str.append(System.lineSeparator());
         str.append("Select:");
+        str.append(System.lineSeparator());
         System.out.println(str.toString());
     }
 
