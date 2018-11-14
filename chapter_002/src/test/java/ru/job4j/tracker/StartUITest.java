@@ -1,13 +1,39 @@
 package ru.job4j.tracker;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.StringJoiner;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
+/**
+ * @author dshustrov
+ * @version $Id$
+ * @since 0.1
+ */
 public class StartUITest {
+
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Before
+    public void loadOutput() {
+        System.out.println("execute before method");
+        System.setOut(new PrintStream(this.out));
+    }
+
+    @After
+    public void backOutput() {
+        System.setOut(this.stdout);
+        System.out.println("execute after method");
+    }
     /**
-     * * Test add.
+     *  Test add.
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() throws Exception {
@@ -18,7 +44,7 @@ public class StartUITest {
     }
 
     /**
-     * * Test edit.
+     *  Test edit.
      */
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() throws Exception {
@@ -46,4 +72,95 @@ public class StartUITest {
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name2"));
     }
+
+    /**
+     *  Test showItem.
+     */
+    @Test
+    public void whenChooseTwoThenAllTtems() throws Exception {
+        Tracker tracker = new Tracker();
+        Item item1 = tracker.add(new Item("test name1", "desc1", 1234L));
+        Item item2 = tracker.add(new Item("test name2", "desc2", 1235L));
+        Input input = new StubInput(new String[]{"1", "6"});
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("Меню.\n")
+                                .append("0. Add new Item\n")
+                                .append("1. Show all items\n")
+                                .append("2. Edit item\n")
+                                .append("3. Delete item\n")
+                                .append("4. Find item by Id\n")
+                                .append("5. Find items by name\n")
+                                .append("6. Exit Program\n")
+                                .append("Select:\r\n")
+                                .append("------------ Все текущие заявки: --------------\r\n")
+                                .append("Item{id='" + item1.getId() + "', name='test name1', discription='desc1', create=1234}\r\n")
+                                .append("Item{id='" + item2.getId() + "', name='test name2', discription='desc2', create=1235}\r\n")
+                                .toString()
+                )
+        );
+    }
+    /**
+     *  Test showItem.
+     */
+    @Test
+    public void whenEnterIdThenFindId() throws Exception {
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("test name2", "desc2", 1234L));
+        Input input = new StubInput(new String[]{"4", item.getId(), "6"});
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("Меню.\n")
+                                .append("0. Add new Item\n")
+                                .append("1. Show all items\n")
+                                .append("2. Edit item\n")
+                                .append("3. Delete item\n")
+                                .append("4. Find item by Id\n")
+                                .append("5. Find items by name\n")
+                                .append("6. Exit Program\n")
+                                .append("Select:\r\n")
+                                .append("------------ Найти заявку по id: --------------\r\n")
+                                .append("------------ Заявка с id: " + item.getId() + " " + item.getName() + "\r\n")
+                                .toString()
+                )
+        );
+    }
+    /**
+     *  Test findByNameItem.
+     */
+    @Test
+    public void whenEnterNameItemThenFindItem() throws Exception {
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("test name", "desc", 1234L));
+        Input input = new StubInput(new String[]{"5", item.getName(), "6"});
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("Меню.\n")
+                                .append("0. Add new Item\n")
+                                .append("1. Show all items\n")
+                                .append("2. Edit item\n")
+                                .append("3. Delete item\n")
+                                .append("4. Find item by Id\n")
+                                .append("5. Find items by name\n")
+                                .append("6. Exit Program\n")
+                                .append("Select:\r\n")
+                                .append("------------ Найти заявки по названию: --------------\r\n")
+                                .append("test name\r\n")
+                                .toString()
+                )
+        );
+    }
 }
+

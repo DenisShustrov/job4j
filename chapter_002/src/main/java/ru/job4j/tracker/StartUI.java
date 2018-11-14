@@ -94,9 +94,11 @@ public class StartUI {
                     break;
                 case FIND_ITEM_BY_ID:
                     this.findByIdItem();
+                    exit = true;
                     break;
                 case FIND_ITEMS_BY_NAME:
                     findByNameItem();
+                    exit = true;
                     break;
                 case EXIT:
                     exit = true;
