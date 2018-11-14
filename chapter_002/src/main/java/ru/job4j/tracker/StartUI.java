@@ -78,11 +78,11 @@ public class StartUI {
             switch (answer) {
                 case ADD:
                     this.createItem();
-                    //exit = true;
+                    exit = true;
                     break;
                 case SHOW:
                     this.showItem();
-                    //exit = true;
+                    exit = true;
                     break;
                 case EDIT:
                     this.editItem();
@@ -143,10 +143,10 @@ public class StartUI {
         String desc = this.input.ask("Введите описание заявки :");
         String create = this.input.ask("Введите время время создания заявки :");
         Item item = new Item(name, desc, Long.parseLong(create));
-        if (!this.tracker.replace(id, item)) {
-            System.out.println("Заявки с таким id в базе нет");
-        } else if ( this.tracker.replace(id, item)) {
+        if (this.tracker.replace(id, item)) {
             System.out.println("Заявки с id: " +  id + " отредактирована!");
+        } else {
+            System.out.println("Заявки с таким id в базе нет");
         }
     }
 
@@ -157,10 +157,10 @@ public class StartUI {
         System.out.println("------------ Удаление заявки: --------------");
         String id = this.input.ask("Введите id заявки :");
         this.tracker.delete(id);
-        if (!this.tracker.delete(id)) {
-            System.out.println("Заявки с таким id в базе нет");
-        } else if (this.tracker.delete(id)) {
+        if (this.tracker.delete(id)) {
             System.out.println("Заявки с id: " +  id + " удалена!");
+        } else {
+            System.out.println("Заявки с таким id в базе нет");
         }
     }
 
@@ -170,11 +170,12 @@ public class StartUI {
     private void findByIdItem() throws IOException {
         System.out.println("------------ Найти заявку по id: --------------");
         String id = this.input.ask("Введите id заявки :");
-        if (this.tracker.findById(id) != null) {
-            Item item = this.tracker.findById(id);
+        Item item = this.tracker.findById(id);
+        if (item != null) {
             System.out.println("------------ Заявка с id: " + item.getId() + " " + item.getName());
+        } else {
+            System.out.println("Заявки с таким id в базе нет");
         }
-
     }
 
     /**
