@@ -21,7 +21,7 @@ public class MenuTracker {
      */
     private Tracker tracker;
     /**
-     *  actions хранит ссылку на массив типа UserAction.
+     * actions хранит ссылку на массив типа UserAction.
      */
     private List<UserAction> actions = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    static class AddItem implements UserAction {
+    public static class AddItem implements UserAction {
         @Override
         public int key() {
             return 0;
@@ -214,7 +214,7 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    class FindItemsByName implements UserAction {
+    private class FindItemsByName implements UserAction {
         @Override
         public int key() {
             return 5;
@@ -236,55 +236,56 @@ public class MenuTracker {
         }
     }
 
+
     /**
-     * Class ExitProgram.
+     * Class ShowItems.
      *
      * @author dshustrov
      * @version 1
      * @since 14.11.2018
      */
-    class ExitProgram implements UserAction {
+    private class ShowItems implements UserAction {
         @Override
         public int key() {
-            return 6;
+            return 1;
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
-
+            System.out.println("------------ All available items: --------------");
+            Item[] items = tracker.findAll();
+            for (Item item : items) {
+                System.out.println(item);
+            }
         }
 
         @Override
         public String info() {
-            return "6. Exit Program.";
+            return "1. Show all items.";
         }
     }
 }
 
 /**
- * Class ShowItems.
+ * Class ExitProgram.
  *
  * @author dshustrov
  * @version 1
  * @since 14.11.2018
  */
-class ShowItems implements UserAction {
+class ExitProgram implements UserAction {
     @Override
     public int key() {
-        return 1;
+        return 6;
     }
 
     @Override
     public void execute(Input input, Tracker tracker) {
-        System.out.println("------------ All available items: --------------");
-        Item[] items = tracker.findAll();
-        for (Item item : items) {
-            System.out.println(item);
-        }
+
     }
 
     @Override
     public String info() {
-        return "1. Show all items.";
+        return "6. Exit Program.";
     }
 }
