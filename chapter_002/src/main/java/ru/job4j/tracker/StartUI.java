@@ -15,7 +15,7 @@ public class StartUI {
     /**
      * running имеет занчение true пока программа работает.
      */
-    static boolean running = true;
+   private boolean running = true;
 
     /**
      * Получение данных от пользователя.
@@ -52,13 +52,14 @@ public class StartUI {
      */
     public static void main(String[] args) throws IOException {
         new StartUI(new ConsoleInput(), new Tracker()).init();
+
     }
 
     /**
      * Основой цикл программы.
      */
     public void init() throws IOException {
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        MenuTracker menu = new MenuTracker(this.input, this.tracker, this);
         List<Integer> range = new ArrayList<>();
         menu.fillActions();
         for (int i = 0; i < menu.getActionsLentgh(); i++) {

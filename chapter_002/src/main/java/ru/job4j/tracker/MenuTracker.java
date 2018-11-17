@@ -12,7 +12,10 @@ import java.util.List;
  * @since 11.11.2018
  */
 public class MenuTracker {
-
+    /**
+     * startUI ссылка на StartUI.
+     */
+    private StartUI startUI;
     /**
      * input хранит ссылку на объект .
      */
@@ -28,13 +31,14 @@ public class MenuTracker {
 
     /**
      * Конструктор.
-     *
-     * @param input   объект типа Input
+     *  @param input   объект типа Input
      * @param tracker объект типа Tracker
+     * @param startUI объект типа StartUI
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, Tracker tracker, StartUI startUI) {
         this.input = input;
         this.tracker = tracker;
+        this.startUI = startUI;
     }
 
 
@@ -57,7 +61,7 @@ public class MenuTracker {
         this.actions.add(new MenuTracker.DeleteItem());
         this.actions.add(new FindItemById());
         this.actions.add(new FindItemsByName());
-        this.actions.add(new ExitProgram());
+        this.actions.add(new ExitProgram(this.startUI));
     }
 
     /**
@@ -276,6 +280,12 @@ public class MenuTracker {
  * @since 14.11.2018
  */
 class ExitProgram implements UserAction {
+    StartUI startUI;
+
+    public ExitProgram(StartUI startUI) {
+        this.startUI = startUI;
+    }
+
 
     @Override
     public int key() {
@@ -285,9 +295,9 @@ class ExitProgram implements UserAction {
     @Override
     public void execute(Input input, Tracker tracker) throws IOException {
         String exit = input.ask("Exit?(y): ");
-        StartUI start = new StartUI(input, tracker);
+        //StartUI start = new StartUI(input, tracker);
         if ("y".equals(exit)) {
-            start.exit();
+            startUI.exit();
 
         }
     }
