@@ -50,8 +50,8 @@ public class StartUI {
      *
      * @param args строки
      */
-    public static void main(String[] args) throws IOException {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+    public static void main(String[] args) throws IOException, MenuOutException {
+        new StartUI(new ValidateInput(), new Tracker()).init();
 
     }
 
@@ -67,7 +67,7 @@ public class StartUI {
         }
         do {
             menu.show();
-            menu.select(Integer.parseInt(input.ask("select:")));
+            menu.select(input.ask("select:", range));
         } while (running);
     }
 }
