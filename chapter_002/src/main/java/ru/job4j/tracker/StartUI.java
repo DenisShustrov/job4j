@@ -12,6 +12,10 @@ import java.util.List;
  * @since 11.11.2018
  */
 public class StartUI {
+    /**
+     * running имеет занчение true пока программа работает.
+     */
+    static boolean running = true;
 
     /**
      * Получение данных от пользователя.
@@ -32,6 +36,13 @@ public class StartUI {
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
+    }
+
+    /**
+     * Выход из программы.
+     */
+    public void exit() {
+        running = false;
     }
 
     /**
@@ -56,8 +67,7 @@ public class StartUI {
         do {
             menu.show();
             menu.select(Integer.parseInt(input.ask("select:")));
-            break;
-        } while (!"y".equals(this.input.ask("Exit?(y): ")));
+        } while (running);
     }
 }
 

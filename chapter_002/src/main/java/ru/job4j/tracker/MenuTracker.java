@@ -12,6 +12,7 @@ import java.util.List;
  * @since 11.11.2018
  */
 public class MenuTracker {
+
     /**
      * input хранит ссылку на объект .
      */
@@ -35,6 +36,7 @@ public class MenuTracker {
         this.input = input;
         this.tracker = tracker;
     }
+
 
     /**
      * Метод для получения массива меню.
@@ -274,14 +276,20 @@ public class MenuTracker {
  * @since 14.11.2018
  */
 class ExitProgram implements UserAction {
+
     @Override
     public int key() {
         return 6;
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, Tracker tracker) throws IOException {
+        String exit = input.ask("Exit?(y): ");
+        StartUI start = new StartUI(input, tracker);
+        if ("y".equals(exit)) {
+            start.exit();
 
+        }
     }
 
     @Override
