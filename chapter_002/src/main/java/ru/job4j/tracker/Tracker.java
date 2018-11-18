@@ -76,7 +76,6 @@ public class Tracker {
             if (items[i].getId().equals(id)) {
                 items[i] = item;
                 count++;
-                break;
             }
         }
         if (count != 0) {

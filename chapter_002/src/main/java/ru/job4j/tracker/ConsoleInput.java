@@ -24,11 +24,12 @@ public class ConsoleInput implements Input {
         System.out.println(question);
         return reader.readLine();
     }
+
     /**
      * Метод для ввода данных с консоли пользователями.
      *
      * @param question строка запроса ввести данные.
-     * @param range массив ключей.
+     * @param range    массив ключей.
      */
     public int ask(String question, List<Integer> range) throws MenuOutException, IOException {
         int key = Integer.valueOf(this.ask(question));
@@ -39,11 +40,14 @@ public class ConsoleInput implements Input {
                 break;
             }
         }
-        if (exist) {
-            return key;
-        } else {
-           throw new MenuOutException("Out of menu range");
+        if (!exist) {
+            throw new MenuOutException("Out of menu range");
         }
-
+        return key;
+//        if (exist) {
+//            return key;
+//        } else {
+//           throw new MenuOutException("Out of menu range");
+//        }
     }
 }
