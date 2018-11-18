@@ -31,7 +31,8 @@ public class MenuTracker {
 
     /**
      * Конструктор.
-     *  @param input   объект типа Input
+     *
+     * @param input   объект типа Input
      * @param tracker объект типа Tracker
      * @param startUI объект типа StartUI
      */
@@ -40,7 +41,6 @@ public class MenuTracker {
         this.tracker = tracker;
         this.startUI = startUI;
     }
-
 
     /**
      * Метод для получения массива меню.
@@ -55,13 +55,13 @@ public class MenuTracker {
      * Метод заполняет массив.
      */
     public void fillActions() {
-        this.actions.add(new AddItem());
-        this.actions.add(new ShowItems());
-        this.actions.add(new MenuTracker.EditItem());
-        this.actions.add(new MenuTracker.DeleteItem());
-        this.actions.add(new FindItemById());
-        this.actions.add(new FindItemsByName());
-        this.actions.add(new ExitProgram(this.startUI));
+        this.actions.add(new AddItem(0, "Add new Item."));
+        this.actions.add(new ShowItems(1, "Show all items."));
+        this.actions.add(new MenuTracker.EditItem(2, "Edit item."));
+        this.actions.add(new MenuTracker.DeleteItem(3, "Delete item."));
+        this.actions.add(new FindItemById(4, "Find item by Id."));
+        this.actions.add(new FindItemsByName(5, "Find items by name."));
+        this.actions.add(new ExitProgram(6, "Exit Program.", this.startUI));
     }
 
     /**
@@ -91,10 +91,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    public static class AddItem implements UserAction {
-        @Override
-        public int key() {
-            return 0;
+    public static class AddItem extends BaseAction {
+
+        public AddItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -109,11 +109,6 @@ public class MenuTracker {
             System.out.println("------------ New Item with Name : " + item.getName());
             System.out.println("------------ New Item with Description : " + item.getDiscription());
         }
-
-        @Override
-        public String info() {
-            return "0. Add new Item.";
-        }
     }
 
     /**
@@ -123,10 +118,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    private class EditItem implements UserAction {
-        @Override
-        public int key() {
-            return 2;
+    private class EditItem extends BaseAction {
+
+        public EditItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -143,13 +138,6 @@ public class MenuTracker {
                 System.out.println("There are no item with such id in the database");
             }
         }
-
-        @Override
-        public String info() {
-            return "2. Edit item.";
-        }
-
-
     }
 
     /**
@@ -159,10 +147,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    private class DeleteItem implements UserAction {
-        @Override
-        public int key() {
-            return 3;
+    private class DeleteItem extends BaseAction {
+
+        public DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -175,11 +163,6 @@ public class MenuTracker {
                 System.out.println("There are no item with such id in the database");
             }
         }
-
-        @Override
-        public String info() {
-            return "3. Delete item.";
-        }
     }
 
     /**
@@ -189,10 +172,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    private class FindItemById implements UserAction {
-        @Override
-        public int key() {
-            return 4;
+    private class FindItemById extends BaseAction {
+
+        public FindItemById(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -206,11 +189,6 @@ public class MenuTracker {
                 System.out.println("There are no item with such id in the database");
             }
         }
-
-        @Override
-        public String info() {
-            return "4. Find item by Id.";
-        }
     }
 
     /**
@@ -220,10 +198,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    private class FindItemsByName implements UserAction {
-        @Override
-        public int key() {
-            return 5;
+    private class FindItemsByName extends BaseAction {
+
+        public FindItemsByName(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -235,13 +213,7 @@ public class MenuTracker {
                 System.out.println(item.getName());
             }
         }
-
-        @Override
-        public String info() {
-            return "5. Find items by name.";
-        }
     }
-
 
     /**
      * Class ShowItems.
@@ -250,10 +222,10 @@ public class MenuTracker {
      * @version 1
      * @since 14.11.2018
      */
-    private class ShowItems implements UserAction {
-        @Override
-        public int key() {
-            return 1;
+    private class ShowItems extends BaseAction {
+
+        public ShowItems(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -265,10 +237,6 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return "1. Show all items.";
-        }
     }
 }
 
@@ -279,17 +247,13 @@ public class MenuTracker {
  * @version 1
  * @since 14.11.2018
  */
-class ExitProgram implements UserAction {
+class ExitProgram extends BaseAction {
+
     StartUI startUI;
 
-    public ExitProgram(StartUI startUI) {
+    public ExitProgram(int key, String name, StartUI startUI) {
+        super(key, name);
         this.startUI = startUI;
-    }
-
-
-    @Override
-    public int key() {
-        return 6;
     }
 
     @Override
@@ -298,12 +262,6 @@ class ExitProgram implements UserAction {
         //StartUI start = new StartUI(input, tracker);
         if ("y".equals(exit)) {
             startUI.exit();
-
         }
-    }
-
-    @Override
-    public String info() {
-        return "6. Exit Program.";
     }
 }
