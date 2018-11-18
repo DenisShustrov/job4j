@@ -10,14 +10,27 @@ import java.util.List;
  * @version 1
  * @since 17.11.2018
  */
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+    /**
+     * Поле для реализации композиции.
+     */
+    private final Input input;
+
+    public ValidateInput(Input input) {
+        this.input = input;
+    }
+
     @Override
+    public String ask(String question) throws IOException {
+        return this.input.ask(question);
+    }
+
     public int ask(String question, List<Integer> range) throws IOException {
         boolean invalid = true;
         int value = -1;
         do {
             try {
-                value = super.ask(question, range);
+                value = this.input.ask(question, range);
                 invalid = false;
             } catch (NumberFormatException nfe) {
                 System.out.println("Please enter a valid value.");

@@ -51,7 +51,7 @@ public class StartUI {
      * @param args строки
      */
     public static void main(String[] args) throws IOException, MenuOutException {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
 
     }
 
