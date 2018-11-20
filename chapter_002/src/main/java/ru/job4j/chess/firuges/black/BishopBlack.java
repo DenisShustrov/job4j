@@ -21,23 +21,18 @@ public class BishopBlack implements Figure {
         return this.position;
     }
 
+    public boolean isDiagonal(Cell source, Cell dest) {
+        return (Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y));
+      }
+
+
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (!(Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y))) {
+        if (!isDiagonal(source, dest)) {
             throw new ImpossibleMoveException("So you can not walk!");
         }
-        int deltaX = 0;
-        int deltaY = 0;
-        if (source.x > dest.x) {
-            deltaX = -1;
-        } else {
-            deltaX = 1;
-        }
-        if (source.y > dest.y) {
-            deltaY = -1;
-        } else {
-            deltaY = 1;
-        }
+        int deltaX = source.x > dest.x ? -1 : 1;
+        int deltaY = source.y > dest.y ? -1 : 1;
         int size = Math.abs(source.x - dest.x);
         Cell[] steps = new Cell[size];
         for (int i = 0; i < size; i++) {
