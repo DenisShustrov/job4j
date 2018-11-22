@@ -1,15 +1,15 @@
 package ru.job4j.chess.firuges.white;
 
-import ru.job4j.chess.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.King;
 
 /**
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
  * @since 0.1
  */
-public class KingWhite implements Figure {
+public class KingWhite extends King {
     private final Cell position;
 
     public KingWhite(final Cell position) {
@@ -21,16 +21,9 @@ public class KingWhite implements Figure {
         return this.position;
     }
 
-    public boolean isDiagonal(Cell source, Cell dest) {
-        return (Math.abs(source.x - dest.x) == 1 || Math.abs(source.y - dest.y) == 1);
-    }
-
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (!isDiagonal(source, dest)) {
-            throw new ImpossibleMoveException("So you can not walk!");
-        }
-        return new Cell[]{dest};
+        return kingWay(source, dest);
     }
 
     @Override
