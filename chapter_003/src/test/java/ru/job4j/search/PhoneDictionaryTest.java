@@ -25,4 +25,43 @@ public class PhoneDictionaryTest {
         List<Person> persons = phones.find("Petr");
         assertThat(persons.iterator().next().getSurname(), is("Arsentev"));
     }
+
+    /**
+     * * Test find.
+     */
+    @Test
+    public void whenFindSurname() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        List<Person> persons = phones.find("Arsentev");
+        assertThat(persons.iterator().next().getAddress(), is("Bryansk"));
+    }
+
+    /**
+     * * Test find.
+     */
+    @Test
+    public void whenFindFone() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        List<Person> persons = phones.find("534872");
+        assertThat(persons.iterator().next().getName(), is("Petr"));
+    }
+
+    /**
+     * * Test find.
+     */
+    @Test
+    public void whenFindAdress() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        List<Person> persons = phones.find("Bryansk");
+        assertThat(persons.iterator().next().getPhone(), is("534872"));
+    }
 }
