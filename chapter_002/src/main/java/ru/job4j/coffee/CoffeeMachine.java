@@ -1,6 +1,8 @@
 package ru.job4j.coffee;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,6 +13,18 @@ import java.util.List;
  * @since 08.11.2018
  */
 public class CoffeeMachine {
+    /**
+     * Массив c монетами разного наминала.
+     */
+    private Integer[] coins;
+
+    /**
+     * Конструктор.
+     * @param coins задаем количество и наминал монет для разных кофемашин.
+     */
+     public CoffeeMachine(Integer[] coins) {
+         this.coins = coins;
+     }
 
     /**
      * Метод выдачи сдачи для CoffeeMachine.
@@ -19,33 +33,24 @@ public class CoffeeMachine {
      * @return price цена кофе.
      */
     public int[] changes(int value, int price) {
-        List<Integer> coin = new ArrayList<>();
-        int coinOun = 1;
-        int coinTwo = 2;
-        int coinFivee = 5;
-        int coinTen = 10;
+        List<Integer> values = new ArrayList<>();
         int change = value - price;
         if (price > value) {
             return null;
         }
+        Arrays.sort(coins, Collections.reverseOrder());
         while (change != 0) {
-            if (change >= coinTen) {
-                coin.add(coinTen);
-                change = change - coinTen;
-            } else if (change >= coinFivee) {
-                coin.add(coinFivee);
-                change = change - coinFivee;
-            } else if (change >= coinTwo) {
-                coin.add(coinTwo);
-                change = change - coinTwo;
-            } else if (change >= coinOun) {
-                coin.add(coinOun);
-                change = change - coinOun;
+            for (int x : coins) {
+                if (change >= x) {
+                    values.add(x);
+                    change = change - x;
+                    break;
+                }
             }
         }
-        int[] result = new int[coin.size()];
+        int[] result = new int[values.size()];
         for (int i = 0; i < result.length; i++) {
-            result[i] = coin.get(i);
+            result[i] = values.get(i);
         }
         return result;
     }

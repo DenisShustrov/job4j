@@ -16,7 +16,7 @@ public class CoffeeMachineTest {
      */
     @Test
     public void whenOneArrayThenTwoArrays() {
-        CoffeeMachine coffe = new CoffeeMachine();
+        CoffeeMachine coffe = new CoffeeMachine(new Integer[]{5, 10, 2, 1});
         int[] result = coffe.changes(100, 35);
         int[] expect = {10, 10, 10, 10, 10, 10, 5};
         assertThat(result, is(expect));
