@@ -12,6 +12,6 @@ public abstract class King implements Figure {
         if (!isDiagonal(source, dest)) {
             throw new ImpossibleMoveException("So you can not walk!");
         }
-        return new Cell[] { dest };
+        return new Cell[] {dest};
     }
 }
