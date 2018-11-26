@@ -3,11 +3,9 @@ package ru.job4j.chess;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
-import java.util.Optional;
-
 /**
  * //TODO add comments.
- *
+ *'
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
  * @since 0.1
@@ -27,7 +25,7 @@ public class Logic {
             Cell[] steps = this.figures[index].way(source, dest);
             for (int i = 0; i < steps.length; i++) {
                 if (findBy(steps[i]) != -1) {
-                    throw new OccupiedWayException();
+                    throw new OccupiedWayException("Ход не возможен, стоит другая фигура");
                 }
             }
 
