@@ -1,5 +1,6 @@
 package ru.job4j.list;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +33,22 @@ public class ConvertList2Array {
             }
         }
         return array;
+    }
+
+    /**
+     * Метод добавляет все элементы входного листа в другой лист.
+     *
+     * @param list список на основе List состоящий из int[].
+     * @return result список на основе List<Integer>.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            for (int y : list.get(i)) {
+                result.add(y);
+            }
+        }
+        return result;
     }
 }
 
