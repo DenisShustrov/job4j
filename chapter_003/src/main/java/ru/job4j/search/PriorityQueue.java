@@ -24,14 +24,22 @@ public class PriorityQueue {
             tasks.addFirst(task);
         } else {
             for (int i = 0; i < tasks.size(); i++) {
-                if (tasks.get(i).getPriority() > task.getPriority()) {
-                    tasks.add(i, task);
+                if (tasks.get(i).getDesc().equals(task.getDesc())) {
+                    tasks.remove(i);
+                    break;
+                }
+            }
+            for (int y = 0; y < tasks.size(); y++) {
+                if (tasks.get(y).getPriority() > task.getPriority()) {
+                    tasks.add(y, task);
+                    break;
+                } else {
+                    tasks.addLast(task);
                     break;
                 }
             }
         }
     }
-
     public Task take() {
         return this.tasks.poll();
     }
