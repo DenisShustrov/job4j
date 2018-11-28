@@ -68,6 +68,7 @@ public class StartUI {
         do {
             menu.show();
             menu.select(input.ask("select:", range));
+            //break;
         } while (running);
     }
 }

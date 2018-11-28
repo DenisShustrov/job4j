@@ -208,7 +208,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) throws IOException {
             System.out.println("------------ Find item by name:: --------------");
             String nameItem = input.ask("Please, provide item name:");
-            Item[] items = tracker.findByName(nameItem);
+            ArrayList<Item> items = tracker.findByName(nameItem);
             for (Item item : items) {
                 System.out.println(item.getName());
             }
@@ -231,7 +231,8 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ All available items: --------------");
-            Item[] items = tracker.findAll();
+            //Item[] items = tracker.findAll();
+            ArrayList<Item> items = tracker.findAll();
             for (Item item : items) {
                 System.out.println(item);
             }
