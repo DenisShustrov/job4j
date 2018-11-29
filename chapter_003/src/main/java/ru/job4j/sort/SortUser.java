@@ -44,7 +44,7 @@ public class SortUser {
             @Override
             public int compare(User o1, User o2) {
                 int compare = o1.getName().compareTo(o2.getName());
-                return compare == 0 ? o1.getAge() - o2.getAge() : compare;
+                return compare == 0 ? Integer.compare(o1.getAge(), o2.getAge()) : compare;
             }
         });
         return list;
