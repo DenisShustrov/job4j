@@ -16,13 +16,15 @@ public class ListCompare implements Comparator<String> {
         int second = right.length();
         int lim = Math.min(first, second);
         int count = 0;
+        int result = first - second;
         while (count < lim) {
             if (left.charAt(count) != right.charAt(count)) {
-                return left.charAt(count) - right.charAt(count);
+                result = left.charAt(count) - right.charAt(count);
+                break;
             }
             count++;
         }
-        return first - second;
+        return result;
     }
 
     public static void main(String[] args) {
