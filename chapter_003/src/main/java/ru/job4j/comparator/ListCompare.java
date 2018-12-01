@@ -16,10 +16,10 @@ public class ListCompare implements Comparator<String> {
         int second = right.length();
         int lim = Math.min(first, second);
         int count = 0;
-        int result = first - second;
+        int result = Integer.compare(first, second);
         while (count < lim) {
             if (left.charAt(count) != right.charAt(count)) {
-                result = left.charAt(count) - right.charAt(count);
+                result = Character.compare(left.charAt(count), right.charAt(count));
                 break;
             }
             count++;
