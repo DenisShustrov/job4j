@@ -90,5 +90,15 @@ public class BankTest {
         boolean result = bank.transferMoney("12345", "4654351", "12346", "1238462", 100);
         assertThat(result, is(true));
     }
+
+    @Test
+    public void whenGetAccountThenAccount() {
+        Bank bank = new Bank();
+        bank.addUser(new User("Denis", "12345"));
+        bank.addUser(new User("Ivan", "12346"));
+        bank.addAccountToUser("12345", new Account(100, "4654351"));
+        double result = bank.getAccount("12345", "4654351").getValue();
+        assertThat(result, is(100.0));
+    }
 }
 

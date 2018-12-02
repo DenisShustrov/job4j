@@ -1,6 +1,6 @@
 package ru.job4j.Bank;
 
-import java.util.*;
+        import java.util.*;
 
 /**
  * Class Bank.
@@ -94,6 +94,22 @@ public class Bank {
     }
 
     /**
+     * Метод возвращает аккаунт пользователя.
+     *
+     * @param passport  паспорт.
+     * @param requisite счет.
+     */
+    public Account getAccount(String passport, String requisite) {
+        Account result = null;
+        for (Account account : getUserAccounts(passport)) {
+            if (account.getRequisites().equals(requisite)) {
+                result = account;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Метод для перечисления денег с одного счёта на другой счёт.
      *
      * @param srcPassport  паспорт.
@@ -104,25 +120,12 @@ public class Bank {
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
         boolean result = false;
-        for (Map.Entry<User, List<Account>> entryOne : base.entrySet()) {
-            if (entryOne.getKey().getPassport().equals(srcPassport)) {
-                for (Account accountOne : entryOne.getValue()) {
-                    if (accountOne.getRequisites().equals(srcRequisite) & accountOne.getValue() >= amount) {
-                        for (Map.Entry<User, List<Account>> entryTwo : base.entrySet()) {
-                            if (entryTwo.getKey().getPassport().equals(destPassport)) {
-                                for (Account accountTwo : entryTwo.getValue()) {
-                                    if (accountTwo.getRequisites().equals(dstRequisite)) {
-                                        accountOne.setValue(accountOne.getValue() - amount);
-                                        accountTwo.setValue(accountTwo.getValue() + amount);
-                                        result = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        Account src = getAccount(srcPassport, srcRequisite);
+        Account dest = getAccount(destPassport, dstRequisite);
+        if (src != null && src.getValue() >= amount && dest != null) {
+            src.setValue(src.getValue() - amount);
+            dest.setValue(dest.getValue() + amount);
+            result = true;
         }
         return result;
     }
