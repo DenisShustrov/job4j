@@ -64,14 +64,19 @@ public class SortedDep {
     public ArrayList<String> sortDescending() {
         directory.sort(((o1, o2) -> {
             int result;
-            if (o1.length() == o2.length()) result = o2.compareTo(o1);
-            else {
+            if (o1.length() == o2.length()) {
+                result = o2.compareTo(o1);
+            } else {
                 int min = Math.min(o1.length(), o2.length());
                 String one = o1.substring(0, min);
                 String two = o2.substring(0, min);
-                if (one.compareTo(two) == 0 && o1.length() > o2.length()) result = 1;
-                else if (one.compareTo(two) == 0 && o1.length() < o2.length()) result = -1;
-                else result = o2.compareTo(o1);
+                if (one.compareTo(two) == 0 && o1.length() > o2.length()) {
+                    result = 1;
+                } else if (one.compareTo(two) == 0 && o1.length() < o2.length()) {
+                    result = -1;
+                } else {
+                    result = o2.compareTo(o1);
+                }
             }
             return result;
         }));
