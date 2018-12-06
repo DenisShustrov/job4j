@@ -13,14 +13,6 @@ import java.util.function.Function;
  */
 public class FunctionImp {
 
-    List<Double> diapason(int start, int end, Function<Double, Double> func) {
-        List<Double> value = new ArrayList<>();
-        for (int index = start; index != end; index++) {
-            value.add(func.apply((double) index));
-        }
-        return value;
-    }
-
     public static void main(String[] args) {
         FunctionImp functionImp = new FunctionImp();
         functionImp.diapason(2, 52,
@@ -31,6 +23,14 @@ public class FunctionImp {
 
         functionImp.diapason(2, 52,
                 Math::log);
+    }
+
+    List<Double> diapason(int start, int end, Function<Double, Double> func) {
+        List<Double> value = new ArrayList<>();
+        for (int index = start; index != end; index++) {
+            value.add(func.apply((double) index));
+        }
+        return value;
     }
 
 }
