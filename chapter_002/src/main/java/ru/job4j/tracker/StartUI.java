@@ -15,7 +15,7 @@ public class StartUI {
     /**
      * running имеет занчение true пока программа работает.
      */
-   private boolean running = true;
+    private boolean running = true;
 
     /**
      * Получение данных от пользователя.
@@ -66,8 +66,9 @@ public class StartUI {
             range.add(i);
         }
         do {
-            menu.show();
+            menu.show(userActions -> userActions.forEach(userAction -> System.out.println(userAction.info())));
             menu.select(input.ask("select:", range));
+            // иначе тесты не проходят
             break;
         } while (running);
     }
