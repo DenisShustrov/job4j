@@ -13,7 +13,7 @@ public class SortedDep {
     /**
      * directory каталог депортаментов в виде ArrayList.
      */
-    private ArrayList<String> directory;
+    private TreeSet<String> directory;
 
     /**
      * Конструктор.
@@ -21,13 +21,13 @@ public class SortedDep {
      * @param directory каталог депортаментов в виде массива.
      */
     public SortedDep(String[] directory) {
-        this.directory = new ArrayList<>(Arrays.asList(directory));
+        this.directory = new TreeSet<>(Arrays.asList(directory));
     }
 
     /**
      * Метод позволяет получить доступ к каталогу депортаментов.
      */
-    public ArrayList<String> getDirectory() {
+    public TreeSet<String> getDirectory() {
         return directory;
     }
 
@@ -35,34 +35,26 @@ public class SortedDep {
      * Метод добовляет иерархию каталогов в случае отсутствия.
      */
     public void addDep() {
-        for (int i = 0; i < directory.size(); i++) {
-            String[] pars = directory.get(i).split("\\\\");
+        TreeSet<String> temp = new TreeSet<>();
+        for (String str : directory) {
+            String[] pars = str.split("\\\\");
             if (pars.length > 1) {
                 StringBuilder builder = new StringBuilder(pars[0]);
                 for (int j = 1; j < pars.length; j++) {
-                    if (!directory.contains(builder.toString())) {
-                        directory.add(builder.toString());
-                    }
+                    temp.add(builder.toString());
                     builder.append("\\");
                     builder.append(pars[j]);
                 }
             }
         }
-    }
-
-    /**
-     * Метод сортирует депортаменты по возрастанию.
-     */
-    public ArrayList<String> sortAscending() {
-        TreeSet<String> set = new TreeSet<>(directory);
-        return new ArrayList<>(set);
+        directory.addAll(temp);
     }
 
     /**
      * Метод сортирует депортаменты по убыванию.
      */
-    public ArrayList<String> sortDescending() {
-        directory.sort(((o1, o2) -> {
+    public void sortDescending() {
+        TreeSet<String> temp = new TreeSet<>(((o1, o2) -> {
             int result;
             if (o1.length() == o2.length()) {
                 result = o2.compareTo(o1);
@@ -80,21 +72,16 @@ public class SortedDep {
             }
             return result;
         }));
-        return directory;
-
+        temp.addAll(directory);
+        directory = temp;
     }
 
-    public static void main(String[] args) {
-        String[] dep = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1",
-                "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
-
-        SortedDep sort = new SortedDep(dep);
-
-        System.out.println(Arrays.asList(dep));
-
-        sort.addDep();
-        System.out.println(sort.getDirectory());
-        System.out.println(sort.sortDescending());
-
+    /**
+     * Метод сортирует депортаменты по возрастанию после использования метода sortDescending.
+     */
+    public void sortAscendingAfterSortDescending() {
+        TreeSet<String> temp = new TreeSet<>();
+        temp.addAll(directory);
+        directory = temp;
     }
 }

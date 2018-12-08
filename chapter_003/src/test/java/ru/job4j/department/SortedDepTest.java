@@ -2,6 +2,8 @@ package ru.job4j.department;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SortedDepTest {
     @Test
-    public void thenaddDepWnenNewArrayList1() {
+    public void thenaddDepWnenUpdatedTreeSet() {
         String[] dep = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
         SortedDep sort = new SortedDep(dep);
@@ -24,32 +26,38 @@ public class SortedDepTest {
     }
 
     @Test
-    public void thenaddDepWnenNewArrayList2() {
+    public void thenAddDepWnenUpdatedTreeSet2() {
         String[] dep = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
         SortedDep sort = new SortedDep(dep);
         sort.addDep();
-        String result = sort.getDirectory().get(sort.getDirectory().size() - 1);
-        assertThat(result, is("K2\\SK1"));
+        Iterator<String> iter = sort.getDirectory().iterator();
+        String result = iter.next();
+        assertThat(result, is("K1"));
     }
 
     @Test
-    public void thensortAscendingWnenNewArrayList() {
+    public void thensortDescendingWnenUpdatedTreeSet() {
         String[] dep = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
         SortedDep sort = new SortedDep(dep);
         sort.addDep();
-        String result = sort.sortAscending().get(1);
-        assertThat(result, is("K1\\SK1"));
+        sort.sortDescending();
+        Iterator<String> iter = sort.getDirectory().iterator();
+        String result = iter.next();
+        assertThat(result, is("K2"));
     }
 
     @Test
-    public void thensortDescendingWnenNewArrayList() {
+    public void thenSortAscendingAfterSortDescendingWnenUpdatedTreeSet() {
         String[] dep = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
         SortedDep sort = new SortedDep(dep);
         sort.addDep();
-        String result = sort.sortDescending().get(1);
-        assertThat(result, is("K2\\SK1"));
+        sort.sortDescending();
+        sort.sortAscendingAfterSortDescending();
+        Iterator<String> iter = sort.getDirectory().iterator();
+        String result = iter.next();
+        assertThat(result, is("K1"));
     }
 }
