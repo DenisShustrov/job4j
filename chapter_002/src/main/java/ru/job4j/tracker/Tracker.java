@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * Class Tracker.
@@ -53,8 +54,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
+        Predicate<String> predicate = t -> t.equals(id);
         for (Item item : items) {
-            if (item != null && item.getId().equals(id)) {
+            if (item != null && predicate.test(item.getId())) {
                 result = item;
                 break;
             }
@@ -86,8 +88,9 @@ public class Tracker {
 //                count++;
 //            }
 //        }
+        Predicate<String> predicate = t -> t.equals(id);
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId().equals(id)) {
+            if (predicate.test(items.get(i).getId())) {
                 this.items.set(i, item);
                 count++;
             }
@@ -113,8 +116,9 @@ public class Tracker {
 //                break;
 //            }
 //        }
+        Predicate<String> predicate = t -> t.equals(id);
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId().equals(id)) {
+            if (predicate.test(items.get(i).getId())) {
                 items.remove(i);
                 result = true;
                 break;
@@ -137,9 +141,10 @@ public class Tracker {
 //                count++;
 //            }
 //        }
+        Predicate<String> predicate = t -> t.equals(key);
         ArrayList<Item> temp = new ArrayList<>();
         for (Item it : items) {
-            if (key.equals(it.getName())) {
+            if (predicate.test(it.getName())) {
                 temp.add(it);
             }
         }
