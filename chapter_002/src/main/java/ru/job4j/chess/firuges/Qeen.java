@@ -2,10 +2,14 @@ package ru.job4j.chess.firuges;
 
 import ru.job4j.chess.ImpossibleMoveException;
 
+import java.util.function.BiPredicate;
+
 public abstract class Qeen implements Figure {
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        return (Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y) || Math.abs(source.x - dest.x) == 0 || Math.abs(source.y - dest.y) == 0);
+        BiPredicate<Integer, Integer> biPredicate = (one, two) -> one == two
+                || one == 0 || two == 0;
+        return biPredicate.test(Math.abs(source.x - dest.x), Math.abs(source.y - dest.y));
     }
 
     public Cell[] qeenWay(Cell source, Cell dest) {

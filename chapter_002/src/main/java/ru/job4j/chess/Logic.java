@@ -3,6 +3,8 @@ package ru.job4j.chess;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
+import java.util.function.Predicate;
+
 /**
  * //TODO add comments.
  *'
@@ -23,8 +25,8 @@ public class Logic {
         int index = this.findBy(source);
         if (index != -1) {
             Cell[] steps = this.figures[index].way(source, dest);
-            for (int i = 0; i < steps.length; i++) {
-                if (findBy(steps[i]) != -1) {
+            for (Cell st : steps) {
+                if (findBy(st) != -1) {
                     throw new OccupiedWayException("Ход не возможен, стоит другая фигура");
                 }
             }
@@ -48,8 +50,9 @@ public class Logic {
 
     private int findBy(Cell cell) {
         int rst = -1;
+        Predicate<Figure> predicate = t -> t != null && t.position().equals(cell);
         for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
+            if (predicate.test(this.figures[index])) {
                 rst = index;
                 break;
             }

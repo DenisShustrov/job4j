@@ -2,10 +2,13 @@ package ru.job4j.chess.firuges;
 
 import ru.job4j.chess.ImpossibleMoveException;
 
+import java.util.function.BiPredicate;
+
 public abstract class Bishop implements Figure {
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        return (Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y));
+        BiPredicate<Integer, Integer> biPredicate = (one, two) -> one == two;
+        return biPredicate.test(Math.abs(source.x - dest.x), Math.abs(source.y - dest.y));
     }
 
     public Cell[] bishopway(Cell source, Cell dest) {
