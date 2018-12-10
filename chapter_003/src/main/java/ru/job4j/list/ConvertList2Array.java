@@ -1,8 +1,9 @@
 package ru.job4j.list;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class ConvertList2Array.
@@ -42,13 +43,13 @@ public class ConvertList2Array {
      * @return result список на основе List<Integer>.
      */
     public List<Integer> convert(List<int[]> list) {
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            for (int y : list.get(i)) {
-                result.add(y);
-            }
-        }
-        return result;
+//        List<Integer> result = new ArrayList<>();
+//        for (int i = 0; i < list.size(); i++) {
+//            for (int y : list.get(i)) {
+//                result.add(y);
+//            }
+//        }
+        return list.stream().flatMapToInt(Arrays::stream).boxed().collect(Collectors.toList());
     }
 }
 

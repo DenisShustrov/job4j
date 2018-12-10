@@ -1,6 +1,7 @@
 package ru.job4j.search;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  * Class PriorityQueue.
@@ -20,16 +21,19 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-            int index = 0;
-            for (int i = 0; i < tasks.size(); i++) {
-                if (tasks.get(i).getPriority() > task.getPriority()) {
-                    index = i;
-                    break;
-                }
-                index++;
-            }
-            tasks.add(index, task);
-        }
+            //int index = 0;
+//            for (int i = 0; i < tasks.size(); i++) {
+//                if (tasks.get(i).getPriority() > task.getPriority()) {
+//                    index = i;
+//                    break;
+//                }
+//                index++;
+//            }
+//            tasks.add(index, task);
+             int index = tasks.stream().filter(tasks -> tasks.getPriority() < task.getPriority()).collect(Collectors.toList()).size();
+             this.tasks.add(index, task);
+    }
+
 
     public Task take() {
         return this.tasks.poll();

@@ -1,6 +1,7 @@
 package ru.job4j.bank;
 
-        import java.util.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class Bank.
@@ -9,7 +10,7 @@ package ru.job4j.bank;
  * @version 1
  * @since 01.12.2018
  */
-public class Bank {
+class Bank {
     /**
      * base база данных банка.
      */
@@ -20,14 +21,14 @@ public class Bank {
      *
      * @param user пользователь.
      */
-    public void addUser(User user) {
+    void addUser(User user) {
         base.put(user, new ArrayList<>());
     }
 
     /**
      * Метод для доступа к базе.
      */
-    public Map<User, List<Account>> getBase() {
+    Map<User, List<Account>> getBase() {
         return base;
     }
 
@@ -36,7 +37,7 @@ public class Bank {
      *
      * @param user пользователь.
      */
-    public void deleteUser(User user) {
+    void deleteUser(User user) {
         base.remove(user);
     }
 
@@ -46,15 +47,16 @@ public class Bank {
      * @param passport паспорт.
      * @param account  счет.
      */
-    public void addAccountToUser(String passport, Account account) {
+    void addAccountToUser(String passport, Account account) {
         if (!base.isEmpty()) {
-            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
-                if (entry.getKey().getPassport().equals(passport)) {
-                    entry.getValue().add(account);
-                    break;
-                }
-
-            }
+//            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
+//                if (entry.getKey().getPassport().equals(passport)) {
+//                    entry.getValue().add(account);
+//                    break;
+//                }
+//
+//            }
+            base.entrySet().stream().filter(x -> x.getKey().getPassport().equals(passport)).collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue().add(account)));
         }
     }
 
@@ -64,14 +66,17 @@ public class Bank {
      * @param passport паспорт.
      * @param account  счет.
      */
-    public void deleteAccountFromUser(String passport, Account account) {
+    void deleteAccountFromUser(String passport, Account account) {
+//        if (!base.isEmpty()) {
+//            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
+//                if (entry.getKey().getPassport().equals(passport)) {
+//                    entry.getValue().remove(account);
+//                    break;
+//                }
+//            }
+//        }
         if (!base.isEmpty()) {
-            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
-                if (entry.getKey().getPassport().equals(passport)) {
-                    entry.getValue().remove(account);
-                    break;
-                }
-            }
+            base.entrySet().stream().filter(x -> x.getKey().getPassport().equals(passport)).collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue().remove(account)));
         }
     }
 
@@ -80,15 +85,16 @@ public class Bank {
      *
      * @param passport паспорт.
      */
-    public List<Account> getUserAccounts(String passport) {
+    List<Account> getUserAccounts(String passport) {
         List<Account> accountList = new ArrayList<>();
         if (!base.isEmpty()) {
-            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
-                if (entry.getKey().getPassport().equals(passport)) {
-                    accountList = entry.getValue();
-                    break;
-                }
-            }
+//            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
+//                if (entry.getKey().getPassport().equals(passport)) {
+//                    accountList = entry.getValue();
+//                    break;
+//                }
+//            }
+            accountList = base.entrySet().stream().filter(x -> x.getKey().getPassport().equals(passport)).map(x -> x.getValue()).limit(1).collect(Collectors.toList()).get(0);
         }
         return accountList;
     }
@@ -99,7 +105,7 @@ public class Bank {
      * @param passport  паспорт.
      * @param requisite счет.
      */
-    public Account getAccount(String passport, String requisite) {
+    Account getAccount(String passport, String requisite) {
         Account result = null;
         for (Account account : getUserAccounts(passport)) {
             if (account.getRequisites().equals(requisite)) {
@@ -118,7 +124,7 @@ public class Bank {
      * @param dstRequisite счет на который перечисляют.
      * @param amount       сумма перечисления.
      */
-    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
+    boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
         boolean result = false;
         Account src = getAccount(srcPassport, srcRequisite);
         Account dest = getAccount(destPassport, dstRequisite);

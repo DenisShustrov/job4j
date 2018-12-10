@@ -22,7 +22,7 @@ public class UserConvertTest {
                 new User(2, "Denis", "Vyazma")
         };
         List<User> list = Arrays.asList(us);
-        HashMap<Integer, User> map = userConvert.process(list);
+        Map<Integer, User> map = userConvert.process(list);
         Iterator<Map.Entry<Integer, User>> iter = map.entrySet().iterator();
         Map.Entry<Integer, User> entry = iter.next();
         Integer result = entry.getKey();
@@ -36,7 +36,7 @@ public class UserConvertTest {
                 new User(2, "Denis", "Vyazma")
         };
         List<User> list = Arrays.asList(us);
-        HashMap<Integer, User> map = userConvert.process(list);
+        Map<Integer, User> map = userConvert.process(list);
         Iterator<Map.Entry<Integer, User>> iter = map.entrySet().iterator();
         Map.Entry<Integer, User> entry = iter.next();
         String result = entry.getValue().getName();

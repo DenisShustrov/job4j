@@ -25,20 +25,20 @@ public class Account {
      * @param value      количество денег на счете.
      * @param requisites реквизиты счета.
      */
-    public Account(double value, String requisites) {
+    Account(double value, String requisites) {
         this.value = value;
         this.requisites = requisites;
     }
 
-    public void setValue(double value) {
+    void setValue(double value) {
         this.value = value;
     }
 
-    public double getValue() {
+    double getValue() {
         return value;
     }
 
-    public String getRequisites() {
+    String getRequisites() {
         return requisites;
     }
 
