@@ -21,14 +21,14 @@ class Bank {
      *
      * @param user пользователь.
      */
-    void addUser(User user) {
+    public void addUser(User user) {
         base.put(user, new ArrayList<>());
     }
 
     /**
      * Метод для доступа к базе.
      */
-    Map<User, List<Account>> getBase() {
+    public Map<User, List<Account>> getBase() {
         return base;
     }
 
@@ -37,7 +37,7 @@ class Bank {
      *
      * @param user пользователь.
      */
-    void deleteUser(User user) {
+    public void deleteUser(User user) {
         base.remove(user);
     }
 
@@ -47,7 +47,7 @@ class Bank {
      * @param passport паспорт.
      * @param account  счет.
      */
-    void addAccountToUser(String passport, Account account) {
+    public void addAccountToUser(String passport, Account account) {
         if (!base.isEmpty()) {
 //            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
 //                if (entry.getKey().getPassport().equals(passport)) {
@@ -66,7 +66,7 @@ class Bank {
      * @param passport паспорт.
      * @param account  счет.
      */
-    void deleteAccountFromUser(String passport, Account account) {
+    public void deleteAccountFromUser(String passport, Account account) {
 //        if (!base.isEmpty()) {
 //            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
 //                if (entry.getKey().getPassport().equals(passport)) {
@@ -85,7 +85,7 @@ class Bank {
      *
      * @param passport паспорт.
      */
-    List<Account> getUserAccounts(String passport) {
+    public List<Account> getUserAccounts(String passport) {
         List<Account> accountList = new ArrayList<>();
         if (!base.isEmpty()) {
 //            for (Map.Entry<User, List<Account>> entry : base.entrySet()) {
@@ -105,7 +105,7 @@ class Bank {
      * @param passport  паспорт.
      * @param requisite счет.
      */
-    Account getAccount(String passport, String requisite) {
+    public Account getAccount(String passport, String requisite) {
         Account result = null;
         for (Account account : getUserAccounts(passport)) {
             if (account.getRequisites().equals(requisite)) {
@@ -124,7 +124,7 @@ class Bank {
      * @param dstRequisite счет на который перечисляют.
      * @param amount       сумма перечисления.
      */
-    boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
+    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
         boolean result = false;
         Account src = getAccount(srcPassport, srcRequisite);
         Account dest = getAccount(destPassport, dstRequisite);

@@ -22,16 +22,12 @@ public class User {
     /**
      * Конструктор.
      *
-     * @param name имя.
+     * @param name     имя.
      * @param passport пасспорт.
      */
     public User(String name, String passport) {
         this.name = name;
         this.passport = passport;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getPassport() {
