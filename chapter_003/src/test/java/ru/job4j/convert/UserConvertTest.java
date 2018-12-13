@@ -18,10 +18,13 @@ public class UserConvertTest {
     @Test
     public void whenListUserThenMapIntegerUserGetId() {
         UserConvert userConvert = new UserConvert();
-        User[] us = {new User(1, "Ivan", "Moscow"),
-                new User(2, "Denis", "Vyazma")
-        };
-        List<User> list = Arrays.asList(us);
+//        User[] us = {new User(1, "Ivan", "Moscow"),
+//                new User(2, "Denis", "Vyazma")
+//        };
+//        List<User> list = Arrays.asList(us);
+        List<User> list = List.of(
+                new User(1, "Ivan", "Moscow"),
+                new User(2, "Denis", "Vyazma"));
         Map<Integer, User> map = userConvert.process(list);
         Iterator<Map.Entry<Integer, User>> iter = map.entrySet().iterator();
         Map.Entry<Integer, User> entry = iter.next();
@@ -32,10 +35,13 @@ public class UserConvertTest {
     @Test
     public void whenListUserThenMapIntegerUserGetName() {
         UserConvert userConvert = new UserConvert();
-        User[] us = {new User(1, "Ivan", "Moscow"),
-                new User(2, "Denis", "Vyazma")
-        };
-        List<User> list = Arrays.asList(us);
+//        User[] us = {new User(1, "Ivan", "Moscow"),
+//                new User(2, "Denis", "Vyazma")
+//        };
+//        List<User> list = Arrays.asList(us);
+        List<User> list = List.of(
+                new User(1, "Ivan", "Moscow"),
+                new User(2, "Denis", "Vyazma"));
         Map<Integer, User> map = userConvert.process(list);
         Iterator<Map.Entry<Integer, User>> iter = map.entrySet().iterator();
         Map.Entry<Integer, User> entry = iter.next();
