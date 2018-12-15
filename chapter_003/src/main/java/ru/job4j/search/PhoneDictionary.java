@@ -25,13 +25,13 @@ public class PhoneDictionary {
      * @return Список подощедщих пользователей.
      */
     public List<Person> find(String key) {
-        List<Person> result;
+        //List<Person> result;
 //        for (Person p : persons) {
 //            if (p.getName().equals(key) || p.getSurname().equals(key) || p.getPhone().equals(key) || p.getAddress().equals(key)) {
 //                result.add(p);
 //            }
 //        }
-        result = persons.stream().filter(f -> f.getName().equals(key) || f.getSurname().equals(key)
+        var result = persons.stream().filter(f -> f.getName().equals(key) || f.getSurname().equals(key)
                 || f.getPhone().equals(key) || f.getAddress().equals(key)).collect(Collectors.toList());
         return result;
     }

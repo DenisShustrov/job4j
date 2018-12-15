@@ -30,7 +30,7 @@ public class PriorityQueue {
 //                index++;
 //            }
 //            tasks.add(index, task);
-             int index = tasks.stream().filter(tasks -> tasks.getPriority() < task.getPriority()).collect(Collectors.toList()).size();
+             var index = tasks.stream().filter(tasks -> tasks.getPriority() < task.getPriority()).collect(Collectors.toList()).size();
              this.tasks.add(index, task);
     }
 
