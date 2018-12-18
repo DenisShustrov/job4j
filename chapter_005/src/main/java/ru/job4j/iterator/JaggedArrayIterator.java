@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class JaggedArrayIterator.
@@ -14,10 +15,19 @@ public class JaggedArrayIterator implements Iterator {
      * array two-dimensional array of integers.
      */
     private final int[][] array;
-
+    /**
+     * index counter position.
+     */
     private int index;
+    /**
+     * row position.
+     */
     private int row;
+    /**
+     * cells position.
+     */
     private int cells;
+
     /**
      * Constructor.
      *
@@ -26,6 +36,7 @@ public class JaggedArrayIterator implements Iterator {
     public JaggedArrayIterator(final int[][] array) {
         this.array = array;
     }
+
     @Override
     public boolean hasNext() {
         return array.length >= index;
@@ -37,7 +48,11 @@ public class JaggedArrayIterator implements Iterator {
             row++;
             cells = 0;
         }
+        if (array.length < index) {
+            throw new NoSuchElementException();
+        }
         index++;
         return array[row][cells++];
     }
+
 }
