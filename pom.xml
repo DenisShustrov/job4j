@@ -19,6 +19,9 @@
         <module>chapter_003</module>
         <module>chapter_004</module>
         <module>chapter_005</module>
+        <module>puzzle</module>
+        <module>chess</module>
+        <module>tictactoe</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
