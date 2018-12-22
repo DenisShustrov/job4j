@@ -1,41 +1,32 @@
-# используем язык java. Travis CI поддерживает другие языки тоже.
 language: java
-# используем режим обычного пользователя для сборки проекта.
-sudo: false
 
-script: mvn verify -Pdist && mvn verify -PTC9 -Pdist
+sudo: false
+dist: trusty
+
+branches:
+  except:
+    - gh-pages
+
+before_install:
+  - unset _JAVA_OPTIONS
+
+install: echo "The default Travis install script is being skipped!"
+
 matrix:
   include:
-    # JDK 8
-    - env: JDK_RELEASE='OracleJDK 8'
-      jdk: oraclejdk8
-    - env: JDK_RELEASE='OpenJDK 8'
-      jdk: openjdk8
-    # JDK 9
-    - env: JDK_RELEASE='OracleJDK 9'
-      jdk: oraclejdk9
-    - env: JDK_RELEASE='OpenJDK 9'
-      install: . ./install-jdk.sh -F 9
-    # JDK 10
-    - env: JDK_RELEASE='OracleJDK 10'
-      install: . ./install-jdk.sh -F 10
-    - env: JDK_RELEASE='OpenJDK 10'
-      install: . ./install-jdk.sh -F 10
-    # JDK 11-ea
-    - env: JDK_RELEASE='OracleJDK 11'
-      install: . ./install-jdk.sh -F 11 -L BCL
-    - env: JDK_RELEASE='OpenJDK 11'
-install: . ./install-jdk.sh -F 11 -L GPL
+    # Java 9
+    - env: TARGET='-Pjava9'
+      jdk: openjdk9
+    # Java 10
+    - env: TARGET='-Pjava10'
+      jdk: openjdk10
+    # Java 11
+    - env: TARGET='-Pjava10'
+      jdk: openjdk11
+    # Java 12
+    - env: TARGET='-Pjava10'
+      jdk: openjdk-ea
 
-# после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
-# Здесь используется сторонни сервис https://codecov.io/
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-# Отправлять уведомление на почтуyouremail@smtp.ru(Изменить на свою) если сборка упала
-notifications:
-  email:
-    recipients:
-      -denisshustroff@yandex.ru
-    on_success: never # default: change
-    on_failure: always # default: always
+script:
+  - ./mvnw install ${TARGET} -DskipTests=true -Dmaven.javadoc.skip=true -Dnet.bytebuddy.test.ci=true -pl '!byte-buddy-gradle-plugin'
+  - ./mvnw jacoco:prepare-agent verify jacoco:report ${TARGET} -Pintegration -Dnet.bytebuddy.test.ci=true -pl '!byte-buddy-gradle-plugin'
