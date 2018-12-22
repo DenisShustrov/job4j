@@ -16,10 +16,6 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-    matrix:
-      include:
-        # 11
-        - env: JDK='Oracle JDK 11'
-          jdk: oraclejdk11
-        - env: JDK='OpenJDK 11'
-          jdk: openjdk11
+    jdk:
+      - oraclejdk11
+      - openjdk11
