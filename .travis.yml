@@ -8,6 +8,15 @@ sudo: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
+include:
+  # JDK 11
+  - name: "Java 11"
+    stage: test
+    jdk: openjdk11
+script: travis_retry ./gradlew check install
+
+
+
 # Отправлять уведомление на почтуyouremail@smtp.ru(Изменить на свою) если сборка упала
 notifications:
   email:
@@ -15,7 +24,3 @@ notifications:
       -denisshustroff@yandex.ru
     on_success: never # default: change
     on_failure: always # default: always
-
-    jdk:
-      - oraclejdk11
-      - openjdk11
