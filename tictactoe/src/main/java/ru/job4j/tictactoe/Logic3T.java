@@ -9,17 +9,6 @@ public class Logic3T {
         this.table = table;
     }
 
-    public static void main(String[] args) {
-        Figure3T[][] table = {
-                {new Figure3T(), new Figure3T(), new Figure3T()},
-                {new Figure3T(), new Figure3T(), new Figure3T()},
-                {new Figure3T(), new Figure3T(), new Figure3T()},
-        };
-        Logic3T login = new Logic3T(table);
-        System.out.println(login.isWinnerX());
-
-    }
-
     public boolean fillBy(Predicate<Figure3T> predicate, int startX, int startY, int deltaX, int deltaY) {
         boolean result = true;
         for (int index = 0; index != this.table.length; index++) {
