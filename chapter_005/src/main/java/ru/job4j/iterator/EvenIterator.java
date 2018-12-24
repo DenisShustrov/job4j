@@ -32,13 +32,12 @@ public class EvenIterator implements Iterator {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        int hasNextIndex = index;
-        while (numbers.length > hasNextIndex) {
-            if (numbers[hasNextIndex] % 2 == 0) {
+        while (numbers.length > index) {
+            if (numbers[index] % 2 == 0) {
                 result = true;
                 break;
             } else {
-                hasNextIndex++;
+                index++;
             }
         }
         return result;
@@ -46,19 +45,12 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
-        Object result = null;
+        Object result;
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        while (numbers.length > index) {
-            if (numbers[index] % 2 == 0) {
-                result = numbers[index];
-                index++;
-                break;
-            } else {
-                index++;
-            }
-        }
+        result = numbers[index];
+        index++;
         if (numbers.length == index && numbers[numbers.length - 1] % 2 != 0) {
             throw new NoSuchElementException();
         }
