@@ -51,9 +51,6 @@ public class EvenIterator implements Iterator {
         }
         result = numbers[index];
         index++;
-        if (numbers.length == index && numbers[numbers.length - 1] % 2 != 0) {
-            throw new NoSuchElementException();
-        }
         return result;
     }
 }

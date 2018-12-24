@@ -59,4 +59,16 @@ public class EvenIteratorTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(8));
     }
+
+    @Test
+    public void lastNumberOdd() {
+        it = new EvenIterator(new int[]{2, 4, 6, 1});
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(2));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(4));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(6));
+        assertThat(it.hasNext(), is(false));
+    }
 }
