@@ -23,7 +23,7 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                if (it.hasNext() && !iter.hasNext()) {
+                while (it.hasNext() && !iter.hasNext()) {
                     iter = it.next();
                 }
                 return iter.hasNext();
