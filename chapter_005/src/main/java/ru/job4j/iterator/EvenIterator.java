@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  *
  * @author dshustrov
  * @version 1
- * @since 22.12.2018
+ * @since 24.12.2018
  */
 public class EvenIterator implements Iterator {
     /**
