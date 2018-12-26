@@ -19,10 +19,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * index count position.
      */
     private int index;
-    /**
-     * position count for iterator.
-     */
-    private int position;
 
     /**
      * Constructor.
@@ -82,9 +78,14 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
 
+            /**
+             * position count for iterator.
+             */
+            private int position;
+
             @Override
             public boolean hasNext() {
-                return array.length >= position;
+                return index >= position;
             }
 
             @Override
