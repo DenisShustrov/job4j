@@ -53,6 +53,14 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     /**
+     * Method return count elements in the array.
+     *
+     */
+    public int size() {
+        return this.index;
+    }
+
+    /**
      * Method delete element under the specified index.
      *
      * @param index delete position.
