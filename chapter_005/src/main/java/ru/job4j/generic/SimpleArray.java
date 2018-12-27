@@ -93,7 +93,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index >= position;
+                return index > position;
             }
 
             @Override
