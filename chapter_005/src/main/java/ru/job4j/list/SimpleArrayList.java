@@ -24,16 +24,10 @@ public class SimpleArrayList<E> {
     public E delete() {
         E result = null;
         if (size > 0) {
-            if (size == 1) {
-                result = this.first.date;
-                this.first = null;
-                size--;
-            } else {
-                Node<E> res = this.first;
-                result = this.first.date;
-                this.first = res.next;
-                size--;
-            }
+            Node<E> res = this.first;
+            result = this.first.date;
+            this.first = res.next;
+            size--;
         }
         return result;
     }
