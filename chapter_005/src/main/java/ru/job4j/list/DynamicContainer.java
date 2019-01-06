@@ -1,5 +1,6 @@
 package ru.job4j.list;
 
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -53,11 +54,16 @@ public class DynamicContainer<E> implements Iterable<E> {
      */
     public void add(E value) {
         if (this.container.length == this.index) {
-            Object[] newContainer = new Object[this.container.length + 10];
-            System.arraycopy(this.container, 0, newContainer, 0, this.container.length);
-            this.container = newContainer;
+            containerIncrease();
         }
         this.container[index++] = value;
+    }
+
+    /**
+     * Method increases the capacity of the container in case of its overflow.
+     */
+    public void containerIncrease() {
+        this.container = Arrays.copyOf(this.container, this.container.length + 10);
     }
 
     /**
@@ -72,7 +78,6 @@ public class DynamicContainer<E> implements Iterable<E> {
         }
         return result;
     }
-
 
     @Override
     public Iterator<E> iterator() {
