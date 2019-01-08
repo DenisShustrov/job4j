@@ -79,7 +79,11 @@ public class MyLinkedList<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return get(count++);
+                Node<E> res = first;
+                E result = first.value;
+                first = res.next;
+                count++;
+                return result;
             }
         };
     }
