@@ -40,9 +40,30 @@ public class MyLinkedList<E> implements Iterable<E> {
      */
     public void add(E value) {
         Node<E> newLink = new Node<>(value);
-        newLink.next = this.first;
-        this.first = newLink;
-        this.size++;
+        newLink.next = first;
+        first = newLink;
+        size++;
+    }
+
+    /**
+     * Method delete elements of the list.
+     */
+    public E delete() {
+        E result = null;
+        if (size > 0) {
+            Node<E> temp = first;
+            result = first.value;
+            first = temp.next;
+            size--;
+        }
+        return result;
+    }
+
+    /**
+     * Method return size list.
+     */
+    public int getSize() {
+        return size;
     }
 
     /**
@@ -51,7 +72,7 @@ public class MyLinkedList<E> implements Iterable<E> {
      * @param index elements.
      */
     public E get(int index) {
-        Node<E> result = this.first;
+        Node<E> result = first;
         for (int i = 0; i < index; i++) {
             result = result.next;
         }
