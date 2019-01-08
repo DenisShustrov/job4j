@@ -62,6 +62,8 @@ public class MyLinkedList<E> implements Iterable<E> {
     public Iterator<E> iterator() {
         return new Iterator<>() {
 
+            private Node<E> res = first;
+
             private int expectedModCount = size;
 
             private int count;
@@ -79,9 +81,8 @@ public class MyLinkedList<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Node<E> res = first;
-                E result = first.value;
-                first = res.next;
+                E result = this.res.value;
+                this.res = this.res.next;
                 count++;
                 return result;
             }
