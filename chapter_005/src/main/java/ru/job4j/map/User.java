@@ -1,9 +1,6 @@
 package ru.job4j.map;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class User.
@@ -39,27 +36,6 @@ public class User {
         this.birthday = birthday;
     }
 
-    /**
-     * Method getting name.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Method getting count of children.
-     */
-    public int getChildren() {
-        return children;
-    }
-
-    /**
-     * Method getting day of birthday.
-     */
-    public Calendar getBirthday() {
-        return birthday;
-    }
-
     @Override
     public String toString() {
         return "User{"
@@ -73,9 +49,30 @@ public class User {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return children == user.children
+                &&
+                Objects.equals(name, user.name)
+                &&
+                Objects.equals(birthday, user.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
+
     public static void main(String[] args) {
-        User one = new User("Denis", 2, new GregorianCalendar(1983, 3, 24));
-        User two = new User("Denis", 2, new GregorianCalendar(1983, 3, 24));
+        User one = new User("Denis", 2, new GregorianCalendar(1983, Calendar.JANUARY, 24));
+        User two = new User("Denis", 2, new GregorianCalendar(1983, Calendar.JANUARY, 24));
         Map<User, Integer> map = new HashMap<>();
         map.put(one, 100);
         map.put(two, 150);
@@ -85,6 +82,5 @@ public class User {
             System.out.println(key + " - " + value);
 
         }
-
     }
 }
