@@ -75,6 +75,21 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
+    /**
+     * Method defines a binary tree.
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        Iterator<E> iter = iterator();
+        while (iter.hasNext()) {
+            if (findBy(iter.next()).get().leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public Iterator<E> iterator() {
