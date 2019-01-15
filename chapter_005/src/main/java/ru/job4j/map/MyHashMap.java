@@ -33,6 +33,16 @@ public class MyHashMap<K, V> implements Iterable<V> {
 
             private int count;
 
+            private Node<K, V>[] containerNotNull() {
+                List<Node<K, V>> list = new ArrayList<>();
+                for (Node<K, V> node : container) {
+                    if (node != null) {
+                        list.add(node);
+                    }
+                }
+                return list.toArray(new Node[size]);
+            }
+
             @Override
             public boolean hasNext() {
                 return size > this.count;
@@ -46,7 +56,7 @@ public class MyHashMap<K, V> implements Iterable<V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return container[count++].getValue();
+                return containerNotNull()[count++].getValue();
             }
         };
     }
@@ -122,9 +132,6 @@ public class MyHashMap<K, V> implements Iterable<V> {
         //Методы разрешения коллизий реализовывать не надо.
         if (!Objects.equals(container[index], newNode) & container[index] == null) {
             container[index] = newNode;
-
-            System.out.println(index + " - " + newNode.getValue());
-
             size++;
             result = true;
         }

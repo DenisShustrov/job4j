@@ -1,7 +1,10 @@
 package ru.job4j.map;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -42,5 +45,24 @@ public class MyHashMapTest {
     public void whenDeleteElementThatGetNull() {
         map.delete("4");
         assertNull(map.get("4"));
+    }
+
+    @Test
+    public void hasNextNextSequentialInvocation() {
+        Iterator<Integer> it = map.iterator();
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(6));
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(4));
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(5));
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(1));
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(3));
+        assertThat(it.hasNext(), Matchers.is(true));
+        assertThat(it.next(), Matchers.is(2));
+        assertThat(it.hasNext(), Matchers.is(false));
+
     }
 }
