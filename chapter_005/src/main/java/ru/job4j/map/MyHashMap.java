@@ -6,7 +6,12 @@ public class MyHashMap<K, V> implements Iterable<V> {
     /**
      * size container.
      */
-    private int size = 0;
+    private int size;
+
+    /**
+     * count of changes.
+     */
+    private int mod;
 
     /**
      * container of elements.
@@ -29,34 +34,33 @@ public class MyHashMap<K, V> implements Iterable<V> {
     public Iterator<V> iterator() {
         return new Iterator<>() {
 
-            private int expectedModCount = size;
+            private int expectedModCount = mod;
 
             private int count;
 
-            private Node<K, V>[] containerNotNull() {
-                List<Node<K, V>> list = new ArrayList<>();
-                for (Node<K, V> node : container) {
-                    if (node != null) {
-                        list.add(node);
-                    }
-                }
-                return list.toArray(new Node[size]);
-            }
+            private int index;
 
             @Override
             public boolean hasNext() {
-                return size > this.count;
+                if (expectedModCount != mod) {
+                    throw new ConcurrentModificationException();
+                }
+                return size > index;
             }
 
             @Override
             public V next() {
-                if (expectedModCount != size) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return containerNotNull()[count++].getValue();
+                for (int i = count; i < container.length; i++) {
+                    if (container[i] != null) {
+                        count = i;
+                        break;
+                    }
+                }
+                index++; // без еще одной переменнной не работает ->  count = i -> i может быть каким угодно
+                return container[count++].value;
             }
         };
     }
@@ -133,6 +137,7 @@ public class MyHashMap<K, V> implements Iterable<V> {
         if (!Objects.equals(container[index], newNode) & container[index] == null) {
             container[index] = newNode;
             size++;
+            mod++;
             result = true;
         }
         return result;
@@ -174,6 +179,7 @@ public class MyHashMap<K, V> implements Iterable<V> {
                 if (container[i].getKey().equals(key)) {
                     container[i] = null;
                     result = true;
+                    mod++;
                     size--;
                 }
             }
