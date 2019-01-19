@@ -43,25 +43,21 @@ public class Analize {
 //            }
 //        }
         Map<Integer, User> map = new HashMap<>();
-        for (User user : previous) {
+        for (User user : current) {
             map.put(user.id, user);
         }
 
-        for (User user : current) {
-            if (!map.containsValue(user)) {
-                in.added++;
-            }
-        }
-        for (Map.Entry<Integer, User> entry : map.entrySet()) {
-            for (User user : current) {
-                if (entry.getValue().id == user.id && !entry.getValue().name.equals(user.name)) {
+        for (User user : previous) {
+            User temp = map.remove(user.id);
+            if (temp == null) {
+                in.deleted++;
+            } else {
+                if (!temp.name.equals(user.name)) {
                     in.changed++;
                 }
             }
-            if (!current.contains(entry.getValue())) {
-                in.deleted++;
-            }
         }
+        in.added = map.size();
         return in;
     }
 
