@@ -99,23 +99,4 @@ public class Analize {
 
         int deleted;
     }
-
-    public static void main(String[] args) {
-        Analize an = new Analize();
-        List<Analize.User> previous = new ArrayList<>();
-        previous.add(new Analize.User(123, "Denis"));
-        previous.add(new Analize.User(124, "Ivan"));
-        previous.add(new Analize.User(125, "Max"));
-        previous.add(new Analize.User(126, "Alex"));
-        previous.add(new Analize.User(127, "Dima"));
-        List<Analize.User> current = new ArrayList<>();
-        current.add(new Analize.User(123, "DenisNew"));
-        current.add(new Analize.User(124, "Ivan"));
-        current.add(new Analize.User(127, "DimaNew"));
-        current.add(new Analize.User(128, "New1"));
-        Analize.Info in = an.diff(previous, current);
-        System.out.println(in.added);
-        System.out.println(in.deleted);
-        System.out.println(in.changed);
-    }
 }
