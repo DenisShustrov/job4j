@@ -1,0 +1,56 @@
+package ru.job4j.synchronizy;
+
+import java.util.Objects;
+
+/**
+ * Class User.
+ *
+ * @author dshustrov
+ * @version 1
+ * @since 21.01.2019
+ */
+public class User {
+    /**
+     * id user.
+     */
+    private int id;
+    /**
+     * amount user.
+     */
+    private int amount;
+
+
+    public User(int id, int amount) {
+        this.id = id;
+        this.amount = amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
