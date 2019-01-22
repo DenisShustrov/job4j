@@ -62,7 +62,7 @@ public class DynamicContainer<E> implements Iterable<E> {
     /**
      * Method increases the capacity of the container in case of its overflow.
      */
-    public void containerIncrease() {
+    private void containerIncrease() {
         this.container = Arrays.copyOf(this.container, this.container.length + 10);
     }
 
