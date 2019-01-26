@@ -1,6 +1,6 @@
 package ru.job4j.tree;
 
-import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Class TwoWordsCompar.
@@ -18,15 +18,27 @@ public class TwoWordsCompar {
      */
     public boolean wordsComparison(String first, String two) {
         boolean result = false;
+//        char[] arrOne = first.toCharArray();
+//        char[] arrTwo = two.toCharArray();
+//        Arrays.sort(arrOne);
+//        Arrays.sort(arrTwo);
+//        String firstWord = new String(arrOne);
+//        String twoWord = new String(arrTwo);
+//        if (firstWord.equals(twoWord)) {
+//            result = true;
+//        }
+        HashSet<Character> set1 = new HashSet<>();
+        HashSet<Character> set2 = new HashSet<>();
         char[] arrOne = first.toCharArray();
         char[] arrTwo = two.toCharArray();
-        Arrays.sort(arrOne);
-        Arrays.sort(arrTwo);
-        String firstWord = new String(arrOne);
-        String twoWord = new String(arrTwo);
-        if (firstWord.equals(twoWord)) {
-            result = true;
+        if (first.length() == two.length()) {
+            for (int i = 0; i < first.length(); i++) {
+                set1.add(arrOne[i]);
+                set2.add(arrTwo[i]);
+            }
+            result = (set1.size() == set2.size());
         }
+        System.out.println(set1.size() + " " + set2.size());
         return result;
     }
 }
