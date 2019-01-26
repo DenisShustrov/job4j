@@ -2,36 +2,46 @@ package ru.job4j.producer;
 
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
 public class SimpleBlockingQueueTest {
-
     @Test
-    public void whenProducerConsumerStartThenSizeQueue0() throws InterruptedException {
-        SimpleBlockingQueue<Integer> sbq = new SimpleBlockingQueue<>(5);
-        Thread one = new Thread(() -> {
-            try {
-                for (int i = 0; i < 100; i++) {
-                    sbq.offer(i);
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+        final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
+        Thread producer = new Thread(
+                () -> IntStream.range(0, 5).forEach(
+                        value -> {
+                            try {
+                                queue.offer(value);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                )
+        );
+        producer.start();
+        Thread consumer = new Thread(
+                () -> {
+                    while (queue.getsize() != 0 || !Thread.currentThread().isInterrupted()) {
+                        try {
+                            buffer.add(queue.poll());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
+                        }
+                    }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        Thread two = new Thread(() -> {
-            try {
-                for (int i = 0; i < 100; i++) {
-                    sbq.poll();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        one.start();
-        two.start();
-        one.join();
-        two.join();
-        assertThat(sbq.getsize(), is(0));
+        );
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        assertThat(buffer, is(Arrays.asList(0, 1, 2, 3, 4)));
     }
 }

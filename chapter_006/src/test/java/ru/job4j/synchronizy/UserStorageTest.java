@@ -47,13 +47,14 @@ public class UserStorageTest {
     @Test
     public void whenExecute2ThreadThenDoubleTransfer() throws InterruptedException {
         Thread thread1 = new ThreadStorage(2, 1, 20);
-        Thread thread2 = new ThreadStorage(2, 1, 100);
+        Thread thread2 = new ThreadStorage(5, 1, 100);
         thread1.start();
         thread2.start();
         thread1.join();
         thread2.join();
-        assertThat(storage.get(2).getAmount(), is(0));
+        assertThat(storage.get(2).getAmount(), is(100));
         assertThat(storage.get(1).getAmount(), is(130));
+        assertThat(storage.get(5).getAmount(), is(100));
     }
 
 
