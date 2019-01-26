@@ -6,13 +6,9 @@ public class ParallelSearch {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
         final Thread consumer = new Thread(
                 () -> {
-                    while (true) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println(queue.poll());
-                            Thread.sleep(1000);
-                            if (queue.getsize() == 0) {
-                                break;
-                            }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             Thread.currentThread().interrupt();
@@ -21,9 +17,9 @@ public class ParallelSearch {
                 }
         );
         consumer.start();
-        new Thread(
+        final Thread producer = new Thread(
                 () -> {
-                    for (int index = 0; index != 12; index++) {
+                    for (int index = 0; index != 3; index++) {
                         try {
                             //System.out.println("размер до " + queue.getsize());
                             queue.offer(index);
@@ -37,9 +33,13 @@ public class ParallelSearch {
                             e.printStackTrace();
                         }
                     }
+                    consumer.interrupt();
                 }
 
-        ).start();
+        );
+        producer.start();
+//        producer.join();
+//        producer.join();
 
     }
 }
