@@ -45,15 +45,19 @@ public class NonBlockingCache {
      * @param model update.
      */
     public void update(Base model) {
-        if (cache.containsKey(model.getId())) {
-            if (cache.get(model.getId()).getVersion() != model.getVersion()) {
-                throw new OptimisticException("This is OptimisticException");
-            } else {
-                model.versionIncrement();
-                cache.computeIfPresent(model.getId(), (k, v) -> v = model);
+        cache.computeIfPresent(model.getId(), (k, v) -> {
+                    if (cache.containsKey(model.getId())) {
+                        if (cache.get(model.getId()).getVersion() != model.getVersion()) {
+                            throw new OptimisticException("This is OptimisticException");
 
-            }
-        }
+                        } else {
+                            model.versionIncrement();
+                            v = model;
+                        }
+                    }
+                    return v;
+                }
+        );
     }
 
     /**
