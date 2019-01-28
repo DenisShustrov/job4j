@@ -46,16 +46,11 @@ public class NonBlockingCache {
      */
     public void update(Base model) {
         cache.computeIfPresent(model.getId(), (k, v) -> {
-                    if (cache.containsKey(model.getId())) {
-                        if (cache.get(model.getId()).getVersion() != model.getVersion()) {
-                            throw new OptimisticException("This is OptimisticException");
-
-                        } else {
-                            model.versionIncrement();
-                            v = model;
-                        }
+                    if (v.getVersion() > model.getVersion()) {
+                        throw new OptimisticException("This is OptimisticException");
                     }
-                    return v;
+                    model.versionIncrement();
+                    return model;
                 }
         );
     }
