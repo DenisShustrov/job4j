@@ -40,9 +40,9 @@ public class ThreadPool {
     }
 
     /**
-     * Method starts threads.
+     * Method add thread in the poll.
      */
-    public void shutdown() throws InterruptedException {
+    public void executor() {
         for (int i = 0; i < size; i++) {
             threads.add(new Thread(() -> {
                 try {
@@ -52,6 +52,13 @@ public class ThreadPool {
                 }
             }));
         }
+    }
+
+    /**
+     * Method starts threads.
+     */
+    public void shutdown() throws InterruptedException {
+
         for (Thread thread : threads) {
             thread.start();
             Thread.sleep(5000);

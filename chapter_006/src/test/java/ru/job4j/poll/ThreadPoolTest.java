@@ -17,19 +17,18 @@ public class ThreadPoolTest {
             for (int i = 0; i < 100; i++) {
                 System.out.println("Doing something 1");
             }
-
         });
 
         tp.work(() -> {
             for (int i = 0; i < 150; i++) {
                 System.out.println("Doing something 2");
             }
-
         });
     }
 
     @Test
     public void whenRunThreadThatPoolWorks() throws InterruptedException {
+        tp.executor();
         tp.shutdown();
         assertThat(tp.getSizeTasks(), is(0));
     }
