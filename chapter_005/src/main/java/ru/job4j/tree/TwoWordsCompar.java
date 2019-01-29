@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class TwoWordsCompar.
@@ -27,18 +28,25 @@ public class TwoWordsCompar {
 //        if (firstWord.equals(twoWord)) {
 //            result = true;
 //        }
-        HashSet<Character> set1 = new HashSet<>();
-        HashSet<Character> set2 = new HashSet<>();
+        Map<Character, Integer> map1 = new HashMap<>();
+        Map<Character, Integer> map2 = new HashMap<>();
         char[] arrOne = first.toCharArray();
         char[] arrTwo = two.toCharArray();
         if (first.length() == two.length()) {
             for (int i = 0; i < first.length(); i++) {
-                set1.add(arrOne[i]);
-                set2.add(arrTwo[i]);
+                if (!map1.containsKey(arrOne[i])) {
+                    map1.put(arrOne[i], 1);
+                } else {
+                    map1.put(arrOne[i], map1.get(arrOne[i]) + 1);
+                }
+                if (!map2.containsKey(arrTwo[i])) {
+                    map2.put(arrTwo[i], 1);
+                } else {
+                    map2.put(arrTwo[i], map2.get(arrTwo[i]) + 1);
+                }
             }
-            result = (set1.size() == set2.size());
+            result = map1.equals(map2);
         }
-        System.out.println(set1.size() + " " + set2.size());
         return result;
     }
 }

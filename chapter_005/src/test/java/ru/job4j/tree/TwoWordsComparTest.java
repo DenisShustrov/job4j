@@ -20,4 +20,11 @@ public class TwoWordsComparTest {
         boolean result = twc.wordsComparison("казарма", "мразак");
         assertThat(result, is(false));
     }
+
+    @Test
+    public void whenEqualsMamaAndMaaaThanFalse() {
+        TwoWordsCompar twc = new TwoWordsCompar();
+        boolean result = twc.wordsComparison("мама", "мааа");
+        assertThat(result, is(false));
+    }
 }
