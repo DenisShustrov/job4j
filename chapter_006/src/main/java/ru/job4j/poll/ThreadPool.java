@@ -16,7 +16,7 @@ public class ThreadPool {
     /**
      * size of poll.
      */
-    int size = Runtime.getRuntime().availableProcessors();
+    private final int size = Runtime.getRuntime().availableProcessors();
     /**
      * threads poll.
      */
@@ -45,26 +45,31 @@ public class ThreadPool {
     public void executor() {
         for (int i = 0; i < size; i++) {
             threads.add(new Thread(() -> {
-                try {
-                    tasks.poll().run();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                while (!Thread.currentThread().isInterrupted()) {
+                    try {
+                        tasks.poll().run();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+
+                    }
                 }
             }));
         }
+
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        System.out.println("Количество нитей " + threads.size());
     }
 
     /**
      * Method starts threads.
      */
     public void shutdown() throws InterruptedException {
-
         for (Thread thread : threads) {
-            thread.start();
-            Thread.sleep(5000);
+            thread.interrupt();
         }
-        System.out.println("Количество нитей " + threads.size());
-
     }
 
     public int getSizeTasks() {

@@ -14,13 +14,13 @@ public class ThreadPoolTest {
     public void beforeTest() {
         tp = new ThreadPool();
         tp.work(() -> {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 System.out.println("Doing something 1");
             }
         });
 
         tp.work(() -> {
-            for (int i = 0; i < 150; i++) {
+            for (int i = 0; i < 10; i++) {
                 System.out.println("Doing something 2");
             }
         });
