@@ -14,36 +14,21 @@ public class TwoWordsCompar {
     /**
      * Method checks whether it is possible to collect the first word from the second.
      *
-     * @param first collection.
-     * @param two   collection.
+     * @param first words.
+     * @param two   word.
      */
     public boolean wordsComparison(String first, String two) {
         boolean result = false;
-//        char[] arrOne = first.toCharArray();
-//        char[] arrTwo = two.toCharArray();
-//        Arrays.sort(arrOne);
-//        Arrays.sort(arrTwo);
-//        String firstWord = new String(arrOne);
-//        String twoWord = new String(arrTwo);
-//        if (firstWord.equals(twoWord)) {
-//            result = true;
-//        }
         Map<Character, Integer> map1 = new HashMap<>();
         Map<Character, Integer> map2 = new HashMap<>();
         char[] arrOne = first.toCharArray();
         char[] arrTwo = two.toCharArray();
         if (first.length() == two.length()) {
             for (int i = 0; i < first.length(); i++) {
-                if (!map1.containsKey(arrOne[i])) {
-                    map1.put(arrOne[i], 1);
-                } else {
-                    map1.put(arrOne[i], map1.get(arrOne[i]) + 1);
-                }
-                if (!map2.containsKey(arrTwo[i])) {
-                    map2.put(arrTwo[i], 1);
-                } else {
-                    map2.put(arrTwo[i], map2.get(arrTwo[i]) + 1);
-                }
+                map1.putIfAbsent(arrOne[i], 1);
+                map1.computeIfPresent(arrOne[i], (k, v) -> v + 1);
+                map2.putIfAbsent(arrTwo[i], 1);
+                map2.computeIfPresent(arrTwo[i], (k, v) -> v + 1);
             }
             result = map1.equals(map2);
         }
