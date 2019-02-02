@@ -1,5 +1,6 @@
 package ru.job4j.bomberman;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -18,14 +19,24 @@ public class Board {
      * size board.
      */
     private final int size;
+    /**
+     * Hero.
+     */
+    private final Hero hero;
+    /**
+     * flag stop.
+     */
+    private volatile boolean isStopped = false;
 
     /**
      * Constructor Board.
      *
      * @param size board.
+     * @param hero Hero.
      */
-    public Board(int size) {
+    public Board(int size, Hero hero) {
         this.board = new ReentrantLock[size][size];
+        this.hero = hero;
         this.size = size;
     }
 
@@ -41,30 +52,80 @@ public class Board {
     }
 
     /**
-     * Method returns size board.
+     * Method player movement.
+     *
+     * @param source current position.
+     * @param dist   next position.
      */
-    public int getSize() {
-        return size;
+    private void move(Cell source, Cell dist) throws InterruptedException {
+        ReentrantLock heroPosit = board[source.getX()][source.getY()];
+        heroPosit.lock();
+        ReentrantLock posit = board[dist.getX()][dist.getY()];
+        boolean temp = posit.tryLock(500, TimeUnit.MILLISECONDS);
+        if (temp) {
+            hero.setCell(dist);
+            heroPosit.unlock();
+            System.out.println("Игрок сейчас здесь. x " + dist.getX() + " y " + dist.getY());
+            Thread.sleep(1000);
+        }
     }
 
     /**
-     * Method returns position lock cell.
+     * Method method starts the thread.
      */
-    public ReentrantLock getCell(int x, int y) {
-        return this.board[x][y];
+    public void runThread() throws InterruptedException {
+        Thread thread1 = new Thread(
+                () -> {
+                    while (!isStopped) {
+                        try {
+                            Cell dist = moveHero(hero.getCell());
+                            move(hero.getCell(), dist);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+        );
+        thread1.start();
     }
 
-    public static void main(String[] args) {
-        Board board = new Board(10);
+    /**
+     * Method returns the hero's new position.
+     *
+     * @param hero current position.
+     */
+    private Cell moveHero(Cell hero) {
+        Cell result;
+        while (true) {
+            int newX = hero.getX() + (-1 + (int) (Math.random() * 4));
+            int newY = hero.getY() + (-1 + (int) (Math.random() * 4));
+            if (newX < size && newY < size && newX >= 0 && newY >= 0) {
+                result = new Cell(newX, newY);
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Method stops thread.
+     */
+    public void stop() {
+        Thread.currentThread().interrupt();
+        this.isStopped = true;
+
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Board board = new Board(10, new Hero(2, 2));
         board.initialization();
-        Hero hero = new Hero(2, 2, board);
-        Thread tread = new Thread(hero);
-        tread.start();
+        board.runThread();
         try {
-            Thread.sleep(100000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        hero.stop();
+        board.stop();
     }
 }
