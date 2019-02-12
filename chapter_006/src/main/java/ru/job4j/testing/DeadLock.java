@@ -1,59 +1,41 @@
 package ru.job4j.testing;
 
-import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DeadLock {
-    public static void main(String[] args) throws InterruptedException {
-        Runner runner = new Runner();
-        Thread thread1 = new Thread(runner::firstThread);
-        Thread thread2 = new Thread(runner::secondThread);
-        thread1.start();
-        thread2.start();
-        thread1.join();
-        thread2.join();
-    }
-}
-
-class Runner {
-    private Account account1 = new Account();
-    private Account account2 = new Account();
-
-    public void firstThread() {
-        Random random = new Random();
-        for (int i = 0; i < 10_000; i++) {
-            synchronized (account1) {
-                synchronized (account2) {
-                    Account.transfer(account1, account2, random.nextInt(100));
-                }
-            }
-
+    public static void main(String[] args) {
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        ExecutorService service = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 3; i++) {
+            service.submit(new Runner(i, countDownLatch));
         }
-    }
 
-    public void secondThread() {
-        Random random = new Random();
-        for (int i = 0; i < 10_000; i++) {
-            synchronized (account2) {
-                synchronized (account1) {
-                    Account.transfer(account2, account1, random.nextInt(100));
-                }
-            }
+        service.shutdown();
+        for (int i = 0; i < 2; i++) {
+            countDownLatch.countDown();
         }
     }
 }
 
-class Account {
-    private int balance = 10_000;
+class Runner implements Runnable {
+    private int id;
+    private CountDownLatch countDownLatch;
 
-    private void deposit(int amount) {
-        balance += amount;
+    public Runner(int id, CountDownLatch countDownLatch) {
+        this.id = id;
+        this.countDownLatch = countDownLatch;
     }
 
-    private void withdraw(int amount) {
-        balance -= amount;
-    }
-    public static void transfer(Account acc1, Account acc2, int amount) {
-        acc1.deposit(amount);
-        acc2.withdraw(amount);
+    @Override
+    public void run() {
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Thread id " + id + " running");
     }
 }
+
