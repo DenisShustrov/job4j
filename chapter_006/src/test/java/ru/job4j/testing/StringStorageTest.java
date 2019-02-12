@@ -27,44 +27,27 @@ public class StringStorageTest {
     public void whenTwoStreamsAddNumbersInTheStringThenNumbersAddedEvenly() throws InterruptedException {
         ReentrantLock lock = new ReentrantLock();
         int numberIterations = 5;
-        Thread one = new Thread(() -> {
-            for (int i = 0; i < numberIterations; i++) {
+        for (int i = 0; i < numberIterations; i++) {
+            Thread one = new Thread(() -> {
                 lock.lock();
                 for (int j = 0; j < 10; j++) {
                     ss.stringAppEnd(1);
                 }
                 lock.unlock();
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        Thread two = new Thread(() -> {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < numberIterations; i++) {
+            });
+            Thread two = new Thread(() -> {
                 lock.lock();
                 for (int j = 0; j < 10; j++) {
                     ss.stringAppEnd(2);
                 }
                 lock.unlock();
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        one.start();
-        two.start();
-        one.join();
-        two.join();
+
+            });
+            one.start();
+            one.join();
+            two.start();
+            two.join();
+        }
         String result = ss.getString();
         assertThat(result, is("Start string:1111111111222222222211111111112222222222111111111122222222221111111111222222222211111111112222222222"));
     }
