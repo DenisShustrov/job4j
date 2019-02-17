@@ -3,7 +3,7 @@ package ru.job4j.testing;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -25,29 +25,41 @@ public class StringStorageTest {
 
     @Test
     public void whenTwoStreamsAddNumbersInTheStringThenNumbersAddedEvenly() throws InterruptedException {
-        ReentrantLock lock = new ReentrantLock();
+        Semaphore one = new Semaphore(0);
+        Semaphore two = new Semaphore(1);
         int numberIterations = 5;
-        for (int i = 0; i < numberIterations; i++) {
-            Thread one = new Thread(() -> {
-                lock.lock();
+        Thread oneT = new Thread(() -> {
+            for (int i = 0; i < numberIterations; i++) {
+                try {
+                    two.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 for (int j = 0; j < 10; j++) {
                     ss.stringAppEnd(1);
                 }
-                lock.unlock();
-            });
-            Thread two = new Thread(() -> {
-                lock.lock();
+                one.release();
+            }
+
+        });
+
+        Thread twoT = new Thread(() -> {
+            for (int i = 0; i < numberIterations; i++) {
+                try {
+                    one.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 for (int j = 0; j < 10; j++) {
                     ss.stringAppEnd(2);
                 }
-                lock.unlock();
-
-            });
-            one.start();
-            one.join();
-            two.start();
-            two.join();
-        }
+                two.release();
+            }
+        });
+        oneT.start();
+        twoT.start();
+        oneT.join();
+        twoT.join();
         String result = ss.getString();
         assertThat(result, is("Start string:1111111111222222222211111111112222222222111111111122222222221111111111222222222211111111112222222222"));
     }
