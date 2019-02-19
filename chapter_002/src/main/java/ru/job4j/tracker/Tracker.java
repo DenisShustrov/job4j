@@ -11,12 +11,13 @@ import java.util.function.Predicate;
  * @version 1
  * @since 11.11.2018
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Массив для хранение заявок.
      */
     //private final Item[] items = new Item[100];
     private final ArrayList<Item> items = new ArrayList<>();
+
 
     /**
      * Указатель ячейки для новой заявки.

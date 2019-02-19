@@ -24,7 +24,7 @@ public class MenuTracker {
     /**
      * tracker хранит ссылку на объект .
      */
-    private Tracker tracker;
+    private ITracker tracker;
     /**
      * actions хранит ссылку на массив типа UserAction.
      */
@@ -34,10 +34,10 @@ public class MenuTracker {
      * Конструктор.
      *
      * @param input   объект типа Input
-     * @param tracker объект типа Tracker
+     * @param tracker объект типа ITracker
      * @param startUI объект типа StartUI
      */
-    public MenuTracker(Input input, Tracker tracker, StartUI startUI) {
+    public MenuTracker(Input input, ITracker tracker, StartUI startUI) {
         this.input = input;
         this.tracker = tracker;
         this.startUI = startUI;
@@ -102,7 +102,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) throws IOException {
+        public void execute(Input input, ITracker tracker) throws IOException {
             System.out.println("------------ Adding new item --------------");
             String name = input.ask("Please, provide item name:");
             String desc = input.ask("Please, provide item description:");
@@ -129,7 +129,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) throws IOException {
+        public void execute(Input input, ITracker tracker) throws IOException {
             System.out.println("------------ Editing item: --------------");
             String id = input.ask("Please, provide id item:");
             String name = input.ask("Please, provide item name:");
@@ -158,7 +158,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) throws IOException {
+        public void execute(Input input, ITracker tracker) throws IOException {
             System.out.println("------------ Deletion item: --------------");
             String id = input.ask("Please, provide id item:");
             if (tracker.delete(id)) {
@@ -183,7 +183,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) throws IOException {
+        public void execute(Input input, ITracker tracker) throws IOException {
             System.out.println("------------ Find item by id: --------------");
             String id = input.ask("Please, provide id item:");
             Item item = tracker.findById(id);
@@ -209,7 +209,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) throws IOException {
+        public void execute(Input input, ITracker tracker) throws IOException {
             System.out.println("------------ Find item by name:: --------------");
             String nameItem = input.ask("Please, provide item name:");
             ArrayList<Item> items = tracker.findByName(nameItem);
@@ -233,7 +233,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ All available items: --------------");
             //Item[] items = tracker.findAll();
             ArrayList<Item> items = tracker.findAll();
@@ -262,7 +262,7 @@ class ExitProgram extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) throws IOException {
+    public void execute(Input input, ITracker tracker) throws IOException {
         String exit = input.ask("Exit?(y): ");
         //StartUI start = new StartUI(input, tracker);
         if ("y".equals(exit)) {

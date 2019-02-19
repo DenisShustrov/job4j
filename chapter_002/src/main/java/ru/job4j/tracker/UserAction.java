@@ -17,9 +17,9 @@ public interface UserAction {
     /**
      * Основной метод.
      * @param input объект типа Input
-     * @param tracker объект типа Tracker
+     * @param tracker объект типа ITracker
      */
-    void execute(Input input, Tracker tracker) throws IOException;
+    void execute(Input input, ITracker tracker) throws IOException;
     /**
      * Метод возвращает информацию о данном пункте меню.
      * @return Строка меню
