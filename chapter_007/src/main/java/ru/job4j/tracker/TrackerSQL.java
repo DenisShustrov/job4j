@@ -57,6 +57,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             if (generatedKeys.next()) {
                 item.setId(String.valueOf(generatedKeys.getInt(1)));
             }
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -73,6 +74,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             statement.setInt(4, Integer.parseInt(id));
             statement.executeUpdate();
             result = true;
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -86,6 +88,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             statement.setInt(1, Integer.parseInt(id));
             statement.executeUpdate();
             result = true;
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -101,6 +104,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 itemTemp.setId(String.valueOf(date.getInt(1)));
                 items.add(itemTemp);
             }
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -117,6 +121,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 itemTemp.setId(String.valueOf(date.getInt(1)));
                 items.add(itemTemp);
             }
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -132,6 +137,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             date.next();
             itemId = new Item(date.getString("name"), date.getString("discription"), date.getTimestamp("create_item").getTime());
             itemId.setId(String.valueOf(date.getInt(1)));
+            close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -139,6 +145,9 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public void close() {
+    public void close() throws SQLException {
+        if (connection != null) {
+            connection.close();
+        }
     }
 }
