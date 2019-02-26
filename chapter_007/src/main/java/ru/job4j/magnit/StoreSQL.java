@@ -99,16 +99,4 @@ public class StoreSQL implements AutoCloseable {
             connect.close();
         }
     }
-
-    public static void main(String[] args) {
-//        Config con = new Config();
-//        StoreSQL sq = new StoreSQL(con);
-//        sq.generate(5);
-//        sq.load();
-//        sq.generate(10);
-//        sq.load();
-        for (Entry x : StoreSQL.getList()) {
-            System.out.println(x.getFields());
-        }
-    }
 }
