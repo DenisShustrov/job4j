@@ -50,13 +50,15 @@
         <module>chapter_006</module>
         <module>chapter_007</module>
     </modules>
+
+
     <dependencies>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>1.7.13</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-nop</artifactId>-->
+            <!--<version>1.7.13</version>-->
+        <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

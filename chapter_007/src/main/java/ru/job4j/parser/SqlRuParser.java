@@ -10,6 +10,7 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.tracker.TrackerSQL;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
@@ -28,11 +29,15 @@ public class SqlRuParser implements AutoCloseable, Job {
 
     private static final Logger LOG = LogManager.getLogger(SqlRuParser.class);
 
-    private static List<String> urls = new ArrayList<>();
+    private List<String> urls = new ArrayList<>();
 
     private Connection connect;
 
-    public boolean init() {
+    public SqlRuParser() {
+        init();
+    }
+
+    private boolean init() {
         try (InputStream in = SqlRuParser.class.getClassLoader().getResourceAsStream("app2.properties")) {
             Properties config = new Properties();
             config.load(in);
@@ -84,33 +89,25 @@ public class SqlRuParser implements AutoCloseable, Job {
         }
     }
 
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        init();
+
+    private int parserUrls() {
         // количество позиций строк в базе vacancy
         int countIdBase = 0;
         // количество позиций в urls
         int countIdArrayList = 0;
-        try (PreparedStatement statement = connect.prepareStatement("SELECT COUNT(link) FROM vacancy")) {
-            ResultSet date = statement.executeQuery();
+        try (PreparedStatement preparedStatement = connect.prepareStatement("SELECT COUNT(link) FROM vacancy")) {
+            ResultSet date = preparedStatement.executeQuery();
             date.next();
             countIdBase = date.getInt(1);
-            //parser.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
-
-        // добавление данных в базу
-        try (PreparedStatement statement = connect.prepareStatement("INSERT INTO vacancy (names_v, text_v, link) values (?, ?, ?) "
-                +
-                "ON CONFLICT (link) \n"
-                +
-                "DO NOTHING;", Statement.RETURN_GENERATED_KEYS)) {
-            Document doc;
-            // начало года
-            int startPositionForParsing = 5;
-            // получаем список ссылок с вакансиями и заносим в urls
-            for (int i = 1; i < 20; i++) {
+        Document doc;
+        // начало года
+        int startPositionForParsing = 5;
+        // получаем список ссылок с вакансиями и заносим в urls
+        try {
+            for (int i = 1; i < startPositionForParsing; i++) {
                 doc = Jsoup.connect("https://www.sql.ru/forum/job-offers/" + i).get();
                 Elements aElements = doc.select(".postslisttopic > a");
                 for (Element url : aElements) {
@@ -129,23 +126,72 @@ public class SqlRuParser implements AutoCloseable, Job {
                     }
                 }
             }
-            countIdArrayList = urls.size();
-            System.out.println("countIdBase " + countIdBase);
-            System.out.println("countIdArrayList " + countIdArrayList);
-            for (int i = 0; i < countIdArrayList; i++) {
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        countIdArrayList = urls.size();
+        System.out.println("countIdBase " + countIdBase);
+        System.out.println("countIdArrayList " + countIdArrayList);
+        return countIdArrayList;
+    }
+
+
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) {
+        try {
+            int count = parserUrls();
+            for (int i = 0; i < count; i++) {
                 String url = urls.get(i);
-                doc = Jsoup.connect(url).get();
-                String title = doc.title();
-                String text = doc.select(".msgBody").get(1).text();
-                statement.setString(1, title);
-                statement.setString(2, text);
-                statement.setString(3, url);
-                statement.executeUpdate();
+                String title = parseTitle(url);
+                String text = parseText(url);
+                addDateDB(title, text, url);
             }
-            close();
             urls.clear();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
+        } finally {
+            try {
+                close();
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
         }
+    }
+
+    private void addDateDB(String title, String text, String url) {
+        try (PreparedStatement preparedStatement = connect.prepareStatement("INSERT INTO vacancy (names_v, text_v, link) values (?, ?, ?) "
+                +
+                "ON CONFLICT (link) \n"
+                +
+                "DO NOTHING;", Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, text);
+            preparedStatement.setString(3, url);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    private String parseText(String url) {
+        String result = null;
+        try {
+            Document doc = Jsoup.connect(url).get();
+            result = doc.select(".msgBody").get(1).text();
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    private String parseTitle(String url) {
+        String result = null;
+        try {
+            Document doc = Jsoup.connect(url).get();
+            result = doc.title();
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
     }
 }
