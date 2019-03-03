@@ -27,13 +27,7 @@ public class Config {
             values.load(in);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            throw new IllegalStateException(e);
         }
-    }
-
-    public static void main(String[] args) {
-        Config config = new Config();
-        config.init();
     }
 
     public String get(String key) {

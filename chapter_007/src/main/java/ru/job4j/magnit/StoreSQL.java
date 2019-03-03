@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class StoreSQL implements AutoCloseable {
 
-    private static List<Entry> list = new ArrayList<>();
+    private List<Entry> list = new ArrayList<>();
 
     private final Config config;
 
@@ -46,7 +46,7 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
-    public void generate(int size) {
+    public void generate(int size) throws Exception {
         try {
             connection();
             statement = connect.createStatement();
@@ -57,35 +57,34 @@ public class StoreSQL implements AutoCloseable {
                 preparedStatement.setInt(1, i);
                 preparedStatement.executeUpdate();
             }
+
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
             preparedStatement.close();
             statement.close();
             close();
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
         }
     }
 
-    public List<Entry> load() {
+    public List<Entry> load() throws Exception {
         List<Field> fields = new ArrayList<>();
         try {
             connection();
-            PreparedStatement statement = connect.prepareStatement("SELECT * FROM entry");
-            ResultSet date = statement.executeQuery();
+            preparedStatement = connect.prepareStatement("SELECT * FROM entry");
+            ResultSet date = preparedStatement.executeQuery();
             while (date.next()) {
                 Field field = new Field(date.getInt("field"));
                 fields.add(field);
             }
             list.add(new Entry(fields));
             entryes.setEntry(list);
-            statement.close();
-            close();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
+        } finally {
+            preparedStatement.close();
+            close();
         }
-        return list;
-    }
-
-    public static List<Entry> getList() {
         return list;
     }
 
