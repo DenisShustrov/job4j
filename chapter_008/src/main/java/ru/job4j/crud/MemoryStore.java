@@ -11,19 +11,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version 1
  * @since 06.03.2019
  */
-public class MemoryStore implements Store {
+public final class MemoryStore implements Store {
 
     private List<User> storage = new CopyOnWriteArrayList<>();
 
-    private static MemoryStore memoryStore;
+    private final static MemoryStore memoryStore = new MemoryStore();
 
     private MemoryStore() {
     }
 
     public static MemoryStore getInstance() {
-        if (null == memoryStore) {
-            memoryStore = new MemoryStore();
-        }
         return memoryStore;
     }
 
@@ -56,6 +53,7 @@ public class MemoryStore implements Store {
             if (id == storage.get(i).getId()) {
                 storage.remove(i);
                 result = true;
+                break;
             }
         }
         return result;

@@ -1,5 +1,7 @@
 package ru.job4j.crud;
 
+import java.util.List;
+
 /**
  * Class ValidateService.
  *
@@ -62,5 +64,9 @@ public class ValidateService {
             result = "User not deleted";
         }
         return result;
+    }
+
+    public List<User> find() {
+        return logic.findAll();
     }
 }
