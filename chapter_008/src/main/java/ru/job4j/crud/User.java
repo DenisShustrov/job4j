@@ -50,6 +50,14 @@ public class User {
         return Objects.hash(id, name, login, email, createDate);
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "User{"

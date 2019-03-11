@@ -15,13 +15,13 @@ public final class MemoryStore implements Store {
 
     private List<User> storage = new CopyOnWriteArrayList<>();
 
-    private final static MemoryStore memoryStore = new MemoryStore();
+    private final static MemoryStore MEMORY_STORE = new MemoryStore();
 
     private MemoryStore() {
     }
 
     public static MemoryStore getInstance() {
-        return memoryStore;
+        return MEMORY_STORE;
     }
 
     @Override
