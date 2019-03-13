@@ -15,14 +15,23 @@ public class User {
     private String name;
     private String login;
     private String email;
-    private Date createDate;
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
+
+    private Long createDate;
+
+    public Long getCreateDate() {
+        return createDate;
+    }
 
     public User(int id, String name, String login, String email) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = new Date();
+        this.createDate = new Date().getTime();
     }
 
     public int getId() {

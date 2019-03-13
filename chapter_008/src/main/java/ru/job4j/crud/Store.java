@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1
  * @since 06.03.2019
  */
-public interface Store {
+public interface Store<User> {
     User add(User user);
 
     boolean replace(User user);

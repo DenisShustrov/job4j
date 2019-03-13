@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version 1
  * @since 06.03.2019
  */
-public final class MemoryStore implements Store {
+public final class MemoryStore implements Store<User> {
 
     private List<User> storage = new CopyOnWriteArrayList<>();
 

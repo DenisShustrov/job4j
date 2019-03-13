@@ -11,7 +11,8 @@ import java.util.List;
  */
 public class ValidateService {
 
-    private final Store logic = MemoryStore.getInstance();
+    //    private final Store logic = MemoryStore.getInstance();
+    private final Store logic = DbStore.getInstance();
 
     private static ValidateService validateService;
 
@@ -37,7 +38,7 @@ public class ValidateService {
 
     public String add(User user) {
         String result;
-        User addUser = logic.add(user);
+        User addUser = (User) logic.add(user);
         if (addUser != null) {
             result = "Added user with name :" + addUser.getName();
         } else {

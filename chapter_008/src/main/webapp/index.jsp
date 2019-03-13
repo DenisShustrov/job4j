@@ -1,5 +1,6 @@
 <%@ page import="ru.job4j.crud.User" %>
-<%@ page import="ru.job4j.crud.ValidateService" %><%--
+<%@ page import="ru.job4j.crud.ValidateService" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: denis
   Date: 12.03.2019
@@ -12,13 +13,14 @@
     <title>Table with all users</title>
 </head>
 <body>
-<table width='600px' border='1' cellpadding='1' cellspacing='0'>
+<table width='800px' border='1' cellpadding='1' cellspacing='0'>
     <caption>Table with all users</caption>
     <tr>
         <th>id</th>
         <th>name</th>
         <th>login</th>
         <th>email</th>
+        <th>createDate</th>
         <th>update</th>
         <th>delete</th>
     </tr>
@@ -35,6 +37,9 @@
         </td>
         <td>
             <%=us.getEmail()%>
+        </td>
+        <td>
+            <%=new Date(us.getCreateDate())%>
         </td>
         <td>
             <form action='<%=request.getContextPath()%>/update.jsp' method='get'>
