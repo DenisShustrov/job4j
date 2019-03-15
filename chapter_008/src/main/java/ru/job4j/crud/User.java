@@ -16,13 +16,13 @@ public class User {
     private String login;
     private String email;
 
-    public void setCreateDate(Long createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-    private Long createDate;
+    private Date createDate;
 
-    public Long getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
@@ -31,7 +31,7 @@ public class User {
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = new Date().getTime();
+        this.createDate = new Date();
     }
 
     public int getId() {

@@ -12,7 +12,7 @@
 </head>
 <body>
 <h3>Update users</h3>
-<form action='<%=request.getContextPath()%>/edit' method='post'>
+<form action='${pageContext.servletContext.contextPath}/edit' method='post'>
     <table>
         <tr>
             <td>id:</td>

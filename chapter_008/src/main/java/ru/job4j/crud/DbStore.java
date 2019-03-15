@@ -45,7 +45,7 @@ public class DbStore implements Store<User>, AutoCloseable {
             st.setString(2, user.getName());
             st.setString(3, user.getLogin());
             st.setString(4, user.getEmail());
-            st.setTimestamp(5, new Timestamp(user.getCreateDate()));
+            st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
             st.executeUpdate();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -62,7 +62,7 @@ public class DbStore implements Store<User>, AutoCloseable {
             st.setString(2, user.getName());
             st.setString(3, user.getLogin());
             st.setString(4, user.getEmail());
-            st.setTimestamp(5, new Timestamp(user.getCreateDate()));
+            st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
             st.setInt(6, user.getId());
             st.executeUpdate();
             result = true;
@@ -94,7 +94,7 @@ public class DbStore implements Store<User>, AutoCloseable {
             ResultSet date = st.executeQuery();
             while (date.next()) {
                 User us = new User(date.getInt("id"), date.getString("name_u"), date.getString("login"), date.getString("email"));
-                us.setCreateDate(date.getTimestamp("createDate").getTime());
+                us.setCreateDate(date.getTimestamp("createDate"));
                 storage.add(us);
             }
         } catch (SQLException e) {
@@ -112,7 +112,7 @@ public class DbStore implements Store<User>, AutoCloseable {
             ResultSet date = st.executeQuery();
             while (date.next()) {
                 User us = new User(date.getInt("id"), date.getString("name_u"), date.getString("login"), date.getString("email"));
-                us.setCreateDate(date.getTimestamp("createDate").getTime());
+                us.setCreateDate(date.getTimestamp("createDate"));
                 temp.add(us);
             }
         } catch (SQLException e) {
@@ -129,7 +129,7 @@ public class DbStore implements Store<User>, AutoCloseable {
             st.setInt(1, id);
             ResultSet date = st.executeQuery();
             us = new User(date.getInt("id"), date.getString("name_u"), date.getString("login"), date.getString("email"));
-            us.setCreateDate(date.getTimestamp("createDate").getTime());
+            us.setCreateDate(date.getTimestamp("createDate"));
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
