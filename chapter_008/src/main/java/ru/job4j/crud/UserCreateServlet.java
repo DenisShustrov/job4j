@@ -13,6 +13,8 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UsersRules ur = new UsersRules();
+        req.setAttribute("rules", ur.getList());
         req.getRequestDispatcher("/WEB-INF/view/create.jsp").forward(req, resp);
     }
 
@@ -23,11 +25,15 @@ public class UserCreateServlet extends HttpServlet {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String rules = req.getParameter("rules");
         logic.add(new User(
                 Integer.parseInt(id),
                 name,
                 login,
-                email
+                email,
+                password,
+                rules
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
 

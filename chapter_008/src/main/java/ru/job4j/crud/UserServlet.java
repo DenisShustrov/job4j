@@ -26,7 +26,9 @@ public class UserServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name"),
                 req.getParameter("login"),
-                req.getParameter("email")));
+                req.getParameter("email"),
+                req.getParameter("password"),
+                req.getParameter("rules")));
     }
 
     public void add(HttpServletRequest req) {
@@ -34,7 +36,9 @@ public class UserServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name"),
                 req.getParameter("login"),
-                req.getParameter("email")));
+                req.getParameter("email"),
+                req.getParameter("password"),
+                req.getParameter("rules")));
     }
 
     public void delete(HttpServletRequest req) {

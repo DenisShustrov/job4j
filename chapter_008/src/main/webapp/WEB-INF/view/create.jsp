@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
   User: denis
@@ -39,6 +40,25 @@
             <td><label>
                 <input type='text' name='email'>
             </label></td>
+        </tr>
+        <tr>
+            <td>password:</td>
+            <td><label>
+                <input type='text' name='password'>
+            </label></td>
+        </tr>
+        <tr>
+            <td>rules:</td>
+            <td>
+                <label>
+                    <select name="rules">
+                        <option>Выберите роль</option>
+                        <c:forEach items="${rules}" var="rul">
+                            <option>${rul}</option>
+                        </c:forEach>
+                    </select>
+                </label>
+            </td>
         </tr>
         <tr>
             <td></td>

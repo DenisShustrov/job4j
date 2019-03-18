@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class ValidateService {
 
-    //    private final Store logic = MemoryStore.getInstance();
     private final Store logic = DbStore.getInstance();
 
     private static ValidateService validateService;
@@ -69,5 +68,26 @@ public class ValidateService {
 
     public List<User> find() {
         return logic.findAll();
+    }
+
+    public boolean isConformity(String login, String password) {
+        boolean result = false;
+        for (User us : find()) {
+            if (us.getLogin().equals(login) && us.getPassword().equals(password)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public String findRules(String login, String password) {
+        String result = "";
+        for (User us : find()) {
+            if (us.getLogin().equals(login) && us.getPassword().equals(password)) {
+                result = us.getRules();
+            }
+        }
+        return result;
     }
 }

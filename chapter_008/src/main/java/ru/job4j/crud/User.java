@@ -15,6 +15,8 @@ public class User {
     private String name;
     private String login;
     private String email;
+    private String password;
+    private String rules;
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
@@ -26,11 +28,13 @@ public class User {
         return createDate;
     }
 
-    public User(int id, String name, String login, String email) {
+    public User(int id, String name, String login, String email, String password, String rules) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
+        this.password = password;
+        this.rules = rules;
         this.createDate = new Date();
     }
 
@@ -41,6 +45,8 @@ public class User {
     public String getName() {
         return name;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -65,6 +71,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRules() {
+        return rules;
     }
 
     @Override
