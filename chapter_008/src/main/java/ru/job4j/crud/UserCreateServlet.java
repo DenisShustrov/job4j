@@ -21,19 +21,13 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
-        String id = req.getParameter("id");
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String rules = req.getParameter("rules");
         logic.add(new User(
-                Integer.parseInt(id),
-                name,
-                login,
-                email,
-                password,
-                rules
+                Integer.parseInt(req.getParameter("id")),
+                req.getParameter("name"),
+                req.getParameter("login"),
+                req.getParameter("email"),
+                req.getParameter("password"),
+                req.getParameter("rules")
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
 
