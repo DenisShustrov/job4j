@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class UserCreateServlet extends HttpServlet {
 
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

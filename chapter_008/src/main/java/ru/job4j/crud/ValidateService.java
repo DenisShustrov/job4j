@@ -9,20 +9,17 @@ import java.util.List;
  * @version 1
  * @since 06.03.2019
  */
-public class ValidateService {
+public class ValidateService implements Validate {
 
     private final Store logic = DbStore.getInstance();
 
-    private static ValidateService validateService;
+    private final static Validate VALIDATE_SERVICE = new ValidateService();
 
     private ValidateService() {
     }
 
-    public static ValidateService getInstance() {
-        if (null == validateService) {
-            validateService = new ValidateService();
-        }
-        return validateService;
+    public static Validate getInstance() {
+        return VALIDATE_SERVICE;
     }
 
     public String findAll() {

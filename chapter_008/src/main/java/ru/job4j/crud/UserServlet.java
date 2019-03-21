@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class UserServlet extends HttpServlet {
 
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
 
     private final Map<String, Consumer<HttpServletRequest>> acts = new HashMap<>();
 
