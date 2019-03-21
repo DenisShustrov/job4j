@@ -23,12 +23,13 @@ public class UserLoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        if (ValidateService.getInstance().isConformity(login, password)) {
+        User user = ValidateService.getInstance().findUser(
+                req.getParameter("login"),
+                req.getParameter("password")
+        );
+        if (user != null) {
             HttpSession session = req.getSession();
-            session.setAttribute("login", login);
-            session.setAttribute("password", password);
+            session.setAttribute("user", user);
             resp.sendRedirect(String.format("%s/list", req.getContextPath()));
         } else {
             req.setAttribute("error", "Wrong login or password! Try again.");

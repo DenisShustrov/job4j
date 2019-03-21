@@ -25,7 +25,7 @@ public class UserFilter implements Filter {
             filterChain.doFilter(req, resp);
         } else {
             HttpSession session = request.getSession();
-            if (session.getAttribute("login") == null) {
+            if (session.getAttribute("user") == null) {
                 ((HttpServletResponse) resp).sendRedirect(String.format("%s/login", request.getContextPath()));
             } else {
                 filterChain.doFilter(req, resp);

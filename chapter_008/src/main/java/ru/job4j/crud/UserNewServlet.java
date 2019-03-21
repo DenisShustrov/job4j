@@ -21,16 +21,21 @@ public class UserNewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String login = (String) session.getAttribute("login");
-        String password = (String) session.getAttribute("password");
-        if (login == null) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             resp.sendRedirect(String.format("%s/login", req.getContextPath()));
         } else {
-            req.setAttribute("login", login);
-            req.setAttribute("password", password);
-            req.setAttribute("rules", ValidateService.getInstance().findRules(login, password));
-            req.setAttribute("users", ValidateService.getInstance().find());
-            req.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(req, resp);
+            req.setAttribute("login", user.getLogin());
+            req.setAttribute("password", user.getPassword());
+            if (ValidateService.getInstance().findRules(user) == null) {
+                session.invalidate();
+                resp.sendRedirect(String.format("%s/list", req.getContextPath()));
+            } else {
+                req.setAttribute("rules", ValidateService.getInstance().findRules(user));
+                req.setAttribute("users", ValidateService.getInstance().find());
+                req.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(req, resp);
+            }
+
         }
     }
 

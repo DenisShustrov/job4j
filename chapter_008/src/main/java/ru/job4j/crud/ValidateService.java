@@ -67,10 +67,10 @@ public class ValidateService implements Validate {
         return logic.findAll();
     }
 
-    public boolean isConformity(String login, String password) {
+    public boolean isConformity(User user) {
         boolean result = false;
         for (User us : find()) {
-            if (us.getLogin().equals(login) && us.getPassword().equals(password)) {
+            if (us.equals(user)) {
                 result = true;
                 break;
             }
@@ -78,11 +78,23 @@ public class ValidateService implements Validate {
         return result;
     }
 
-    public String findRules(String login, String password) {
-        String result = "";
+    public String findRules(User user) {
+        String result = null;
         for (User us : find()) {
-            if (us.getLogin().equals(login) && us.getPassword().equals(password)) {
+            if (us.equals(user)) {
                 result = us.getRules();
+                break;
+            }
+        }
+        return result;
+    }
+
+    public User findUser(String login, String password) {
+        User result = null;
+        for (User us : find()) {
+            if (us.getLogin().equals(login) & us.getPassword().equals(password)) {
+                result = us;
+                break;
             }
         }
         return result;

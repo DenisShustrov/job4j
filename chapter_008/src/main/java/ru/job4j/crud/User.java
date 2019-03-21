@@ -47,7 +47,6 @@ public class User {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -57,12 +56,24 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return id == user.id;
+        return id == user.id
+                &&
+                Objects.equals(name, user.name)
+                &&
+                Objects.equals(login, user.login)
+                &&
+                Objects.equals(email, user.email)
+                &&
+                Objects.equals(password, user.password)
+                &&
+                Objects.equals(rules, user.rules)
+                &&
+                Objects.equals(createDate, user.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate);
+        return Objects.hash(id, name, login, email, password, rules, createDate);
     }
 
     public String getLogin() {

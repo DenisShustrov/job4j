@@ -15,14 +15,13 @@ public class UserUpdateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UsersRules ur = new UsersRules();
         HttpSession session = req.getSession();
-        String login = (String) session.getAttribute("login");
-        String password = (String) session.getAttribute("password");
-        if (login == null) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             resp.sendRedirect(String.format("%s/login", req.getContextPath()));
         } else {
-            req.setAttribute("login", login);
-            req.setAttribute("password", password);
-            req.setAttribute("rules_us", ValidateService.getInstance().findRules(login, password));
+            req.setAttribute("login", user.getLogin());
+            req.setAttribute("password", user.getPassword());
+            req.setAttribute("rules_us", ValidateService.getInstance().findRules(user));
             req.setAttribute("rules", ur.getList());
             req.getRequestDispatcher("/WEB-INF/view/update.jsp").forward(req, resp);
         }
@@ -31,19 +30,13 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
-        String rules = req.getParameter("rules");
-        String password = req.getParameter("password");
-        String email = req.getParameter("email");
-        String login = req.getParameter("login");
-        String name = req.getParameter("name");
-        String id = req.getParameter("id");
         logic.update(new User(
-                Integer.parseInt(id),
-                name,
-                login,
-                email,
-                password,
-                rules
+                Integer.parseInt(req.getParameter("id")),
+                req.getParameter("name"),
+                req.getParameter("login"),
+                req.getParameter("email"),
+                req.getParameter("password"),
+                req.getParameter("rules")
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
     }

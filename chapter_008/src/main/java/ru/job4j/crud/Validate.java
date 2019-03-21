@@ -12,11 +12,13 @@ public interface Validate {
 
     List<User> find();
 
-    boolean isConformity(String login, String password);
+    boolean isConformity(User user);
 
-    String findRules(String login, String password);
+    String findRules(User user);
 
     String findAll();
+
+    User findUser(String login, String password);
 
 
 }

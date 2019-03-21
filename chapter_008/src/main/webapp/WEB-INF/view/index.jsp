@@ -95,7 +95,6 @@
             </tr>
         </table>
     </c:when>
-
     <c:when test="${rules == 'USER'}">
         <table width='800px' border='1' cellpadding='1' cellspacing='0'>
             <caption>Table with all users</caption>
@@ -115,7 +114,6 @@
                     <c:out value="${user.id}">
 
                     </c:out>
-
                 </td>
                 <td>
                     <c:out value="${user.name}">
@@ -186,7 +184,6 @@
                     <c:out value="${user.id}">
 
                     </c:out>
-
                 </td>
                 <td>
                     <c:out value="${user.name}">

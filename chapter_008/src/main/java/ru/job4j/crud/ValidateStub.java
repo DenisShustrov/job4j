@@ -33,12 +33,12 @@ public class ValidateStub implements Validate {
     }
 
     @Override
-    public boolean isConformity(String login, String password) {
+    public boolean isConformity(User user) {
         return false;
     }
 
     @Override
-    public String findRules(String login, String password) {
+    public String findRules(User user) {
         return null;
     }
 
@@ -47,5 +47,8 @@ public class ValidateStub implements Validate {
         return null;
     }
 
-
+    @Override
+    public User findUser(String login, String password) {
+        return null;
+    }
 }
