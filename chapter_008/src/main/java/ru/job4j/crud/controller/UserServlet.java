@@ -1,4 +1,8 @@
-package ru.job4j.crud;
+package ru.job4j.crud.controller;
+
+import ru.job4j.crud.model.User;
+import ru.job4j.crud.service.Validate;
+import ru.job4j.crud.service.ValidateService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

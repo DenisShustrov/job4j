@@ -1,4 +1,6 @@
-package ru.job4j.crud;
+package ru.job4j.crud.store;
+
+import ru.job4j.crud.model.User;
 
 import java.util.ArrayList;
 import java.util.List;

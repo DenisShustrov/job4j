@@ -1,4 +1,4 @@
-package ru.job4j.crud;
+package ru.job4j.crud.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

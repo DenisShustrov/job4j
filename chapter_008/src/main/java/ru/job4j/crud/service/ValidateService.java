@@ -1,4 +1,8 @@
-package ru.job4j.crud;
+package ru.job4j.crud.service;
+
+import ru.job4j.crud.store.DbStore;
+import ru.job4j.crud.store.Store;
+import ru.job4j.crud.model.User;
 
 import java.util.List;
 
@@ -24,10 +28,11 @@ public class ValidateService implements Validate {
 
     public String findAll() {
         String result;
-        if (logic.findAll().size() == 0) {
+        List listUser = logic.findAll();
+        if (listUser.size() == 0) {
             result = "No users in the storage!";
         } else {
-            result = "All users: " + logic.findAll().toString();
+            result = "All users: " + listUser.toString();
         }
         return result;
     }

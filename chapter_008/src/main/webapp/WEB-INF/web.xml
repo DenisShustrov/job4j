@@ -10,41 +10,41 @@
     </servlet>
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>UserNewServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserNewServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserNewServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserCreateServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserCreateServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserLoginServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserLoginServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserLoginServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserUpdateServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserUpdateServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserExitServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserExitServlet</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UserExitServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <filter>
         <filter-name>UserFilter</filter-name>
-        <filter-class>ru.job4j.crud.UserFilter</filter-class>
+        <filter-class>ru.job4j.crud.filter.UserFilter</filter-class>
     </filter>
 
     <filter-mapping>

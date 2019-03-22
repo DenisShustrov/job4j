@@ -1,4 +1,4 @@
-package ru.job4j.crud;
+package ru.job4j.crud.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import ru.job4j.crud.controller.UserCreateServlet;
+import ru.job4j.crud.controller.UserNewServlet;
+import ru.job4j.crud.controller.UserUpdateServlet;
+import ru.job4j.crud.service.Validate;
+import ru.job4j.crud.service.ValidateService;
+import ru.job4j.crud.service.ValidateStub;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
