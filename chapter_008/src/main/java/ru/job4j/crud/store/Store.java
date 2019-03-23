@@ -21,5 +21,9 @@ public interface Store<User> {
 
     ArrayList<User> findByName(String key);
 
-    User findById(int id);
+    User findUser(String login, String password);
+
+    boolean checkAddUser(String login, String password);
+
+    boolean isConformity(User user);
 }

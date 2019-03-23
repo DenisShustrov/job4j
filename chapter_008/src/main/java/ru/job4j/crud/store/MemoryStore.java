@@ -77,11 +77,22 @@ public final class MemoryStore implements Store<User> {
         return temp;
     }
 
+
     @Override
-    public User findById(int id) {
+    public boolean checkAddUser(String login, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean isConformity(User user) {
+        return false;
+    }
+
+    @Override
+    public User findUser(String login, String password) {
         User result = null;
         for (User us : storage) {
-            if (us.getId() == id) {
+            if (us.getLogin().equals(login) & us.getPassword().equals(password)) {
                 result = us;
             }
         }

@@ -37,11 +37,12 @@ public class ValidateService implements Validate {
         return result;
     }
 
+
     public String add(User user) {
         String result;
-        User addUser = (User) logic.add(user);
-        if (addUser != null) {
-            result = "Added user with name :" + addUser.getName();
+        if (logic.checkAddUser(user.getLogin(), user.getPassword())) {
+            logic.add(user);
+            result = "Added user with name :" + user.getName();
         } else {
             result = "User with such id is already a subscription!";
         }
@@ -73,35 +74,18 @@ public class ValidateService implements Validate {
     }
 
     public boolean isConformity(User user) {
-        boolean result = false;
-        for (User us : find()) {
-            if (us.equals(user)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return logic.isConformity(user);
     }
 
     public String findRules(User user) {
         String result = null;
-        for (User us : find()) {
-            if (us.equals(user)) {
-                result = us.getRules();
-                break;
-            }
+        if (!isConformity(user)) {
+            result = user.getRules();
         }
         return result;
     }
 
     public User findUser(String login, String password) {
-        User result = null;
-        for (User us : find()) {
-            if (us.getLogin().equals(login) & us.getPassword().equals(password)) {
-                result = us;
-                break;
-            }
-        }
-        return result;
+        return (User) logic.findUser(login, password);
     }
 }

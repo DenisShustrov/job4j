@@ -140,29 +140,56 @@ public class DbStore implements Store<User>, AutoCloseable {
     }
 
     @Override
-    public User findById(int id) {
+    public User findUser(String login, String password) {
         User us = null;
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("SELECT * FROM items WHERE id = ?")) {
-            st.setInt(1, id);
+             PreparedStatement st = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?")) {
+            st.setString(1, login);
+            st.setString(2, password);
             ResultSet date = st.executeQuery();
-            us = new User(date.getInt("id"),
-                    date.getString("name_u"),
-                    date.getString("login"),
-                    date.getString("email"),
-                    date.getString("password"),
-                    date.getString("rules")
-            );
-            us.setCreateDate(date.getTimestamp("createDate"));
+            while (date.next()) {
+                us = new User(date.getInt("id"),
+                        date.getString("name_u"),
+                        date.getString("login"),
+                        date.getString("email"),
+                        date.getString("password"),
+                        date.getString("rules")
+                );
+                us.setCreateDate(date.getTimestamp("createDate"));
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
         return us;
     }
 
+    public boolean checkAddUser(String login, String password) {
+        boolean result = false;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?")) {
+            st.setString(1, login);
+            st.setString(2, password);
+            ResultSet date = st.executeQuery();
+            if (!date.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    public boolean isConformity(User user) {
+        boolean result = false;
+        if (checkAddUser(user.getLogin(), user.getPassword())) {
+            result = true;
+        }
+        return result;
+    }
+
+
     @Override
     public void close() throws Exception {
         SOURCE.close();
     }
-
 }
