@@ -9,15 +9,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function validate() {
-            if ($('#name').val() == "") {
+            if ($('#name').val() === "") {
                 alert("Please, enter your name!");
                 return false;
             }
-            if ($('#surname').val() == "") {
+            if ($('#surname').val() === "") {
                 alert("Please, enter your surname!");
                 return false;
             }
-            if ($('#description').val() == "") {
+            if ($('#description').val() === "") {
                 alert("Data in the field description not filled!");
                 return false;
             }
@@ -115,6 +115,5 @@
         </tbody>
     </table>
 </div>
-
 </body>
 </html>
