@@ -43,13 +43,13 @@
 <div class="container-fluid">
     <h1>My First Bootstrap Page</h1>
 </div>
-<form>
+<form action="">
     <table style="margin-left: 30px">
         <tr>
             <td>
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="name" name="name">
                 </div>
             </td>
         </tr>
@@ -57,7 +57,7 @@
             <td>
                 <div class="form-group">
                     <label for="surname">Surname:</label>
-                    <input type="text" class="form-control" id="surname">
+                    <input type="text" class="form-control" id="surname" name="surname">
                 </div>
             </td>
         </tr>
@@ -65,7 +65,7 @@
             <td>
                 <div class="form-group">
                     <label for="description">Sex:</label>
-                    <label class="radio-inline"><input type="radio" name="optradio" value="Male">Male</label>
+                    <label class="radio-inline"><input type="radio" name="optradio" value="Male" checked>Male</label>
                     <label class="radio-inline"><input type="radio" name="optradio" value="Female">Female</label>
                 </div>
             </td>
@@ -74,7 +74,7 @@
             <td>
                 <div class="form-group">
                     <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="description">
+                    <input type="text" class="form-control" id="description" name="description">
                 </div>
             </td>
         </tr>
@@ -89,7 +89,7 @@
         <tr>
             <td>
                 <div class="checkbox">
-                    <button type="button" class="btn" onclick="addRow()">Add</button>
+                    <button type="button" class="btn" onclick="addRow(); return validate()">Add</button>
                 </div>
             </td>
         </tr>
