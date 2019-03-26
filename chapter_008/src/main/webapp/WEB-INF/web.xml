@@ -42,6 +42,17 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>TableAddServlet</servlet-name>
+        <servlet-class>ru.job4j.frontend.TableAddServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TableAddServlet</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+
+
     <filter>
         <filter-name>UserFilter</filter-name>
         <filter-class>ru.job4j.crud.filter.UserFilter</filter-class>
