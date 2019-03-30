@@ -50,7 +50,8 @@ public class ValidateService implements Validate {
 
     public String update(User user) {
         String result;
-        if (logic.replace(user)) {
+        if (logic.checkAddUser(user.getLogin(), user.getPassword())) {
+            logic.replace(user);
             result = "User replaced";
         } else {
             result = "User not replaced";
