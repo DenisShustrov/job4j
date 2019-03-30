@@ -89,6 +89,21 @@ public final class MemoryStore implements Store<User> {
     }
 
     @Override
+    public List<String> getAllCountry() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllRegionByCountry(String country) {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllCitiesByRegion(String region) {
+        return null;
+    }
+
+    @Override
     public User findUser(String login, String password) {
         User result = null;
         for (User us : storage) {

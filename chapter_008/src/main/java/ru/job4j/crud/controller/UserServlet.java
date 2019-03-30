@@ -32,7 +32,11 @@ public class UserServlet extends HttpServlet {
                 req.getParameter("login"),
                 req.getParameter("email"),
                 req.getParameter("password"),
-                req.getParameter("rules")));
+                req.getParameter("rules"),
+                req.getParameter("country"),
+                req.getParameter("region"),
+                req.getParameter("city")
+        ));
     }
 
     public void add(HttpServletRequest req) {
@@ -42,7 +46,11 @@ public class UserServlet extends HttpServlet {
                 req.getParameter("login"),
                 req.getParameter("email"),
                 req.getParameter("password"),
-                req.getParameter("rules")));
+                req.getParameter("rules"),
+                req.getParameter("country"),
+                req.getParameter("region"),
+                req.getParameter("city")
+        ));
     }
 
     public void delete(HttpServletRequest req) {

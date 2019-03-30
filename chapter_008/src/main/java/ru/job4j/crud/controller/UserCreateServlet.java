@@ -20,19 +20,24 @@ public class UserCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UsersRules ur = new UsersRules();
         req.setAttribute("rules", ur.getList());
+        req.setAttribute("country", logic.getAllCountry());
         req.getRequestDispatcher("/WEB-INF/view/create.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
+        req.setCharacterEncoding("UTF-8");
         logic.add(new User(
                 Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name"),
                 req.getParameter("login"),
                 req.getParameter("email"),
                 req.getParameter("password"),
-                req.getParameter("rules")
+                req.getParameter("rules"),
+                req.getParameter("country"),
+                req.getParameter("region"),
+                req.getParameter("city")
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
 

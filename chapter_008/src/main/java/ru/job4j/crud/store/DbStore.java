@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.crud.model.User;
-import ru.job4j.crud.store.Store;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,7 +41,12 @@ public class DbStore implements Store<User>, AutoCloseable {
     @Override
     public User add(User user) {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("INSERT INTO users (id, name_u, login, email, createdate, password, rules) values (?, ?, ?, ?, ?, ?, ?)")) {
+             PreparedStatement st = connection.prepareStatement(
+                     "INSERT "
+                             +
+                             "INTO users (id, name_u, login, email, createdate, password, rules, country, region, city) "
+                             +
+                             "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             st.setInt(1, user.getId());
             st.setString(2, user.getName());
             st.setString(3, user.getLogin());
@@ -50,6 +54,9 @@ public class DbStore implements Store<User>, AutoCloseable {
             st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
             st.setString(6, user.getPassword());
             st.setString(7, user.getRules());
+            st.setString(8, user.getCountry());
+            st.setString(9, user.getRegion());
+            st.setString(10, user.getCity());
             st.executeUpdate();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -59,19 +66,93 @@ public class DbStore implements Store<User>, AutoCloseable {
 
     @Override
     public boolean replace(User user) {
-        boolean result = false;
+        boolean result = true;
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("UPDATE users SET id=?, name_u = ?, login = ?,  email = ?, createdate = ?, password = ?, rules = ? WHERE id = ?")) {
-            st.setInt(1, user.getId());
-            st.setString(2, user.getName());
-            st.setString(3, user.getLogin());
-            st.setString(4, user.getEmail());
-            st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
-            st.setString(6, user.getPassword());
-            st.setString(7, user.getRules());
-            st.setInt(8, user.getId());
-            st.executeUpdate();
-            result = true;
+             PreparedStatement st = connection.prepareStatement(
+                     "UPDATE users "
+                             +
+                             "SET id=?, name_u = ?, login = ?,  email = ?, createdate = ?, password = ?, rules = ?, country = ?, region = ?, city = ?"
+                             +
+                             "WHERE id = ?")) {
+            if (findById(user.getId()) == null) {
+                result = false;
+            } else {
+                st.setInt(1, user.getId());
+                if (user.getName().equals("")) {
+                    st.setString(2, findById(user.getId()).getName());
+                } else {
+                    st.setString(2, user.getName());
+                }
+                if (user.getLogin().equals("")) {
+                    st.setString(3, findById(user.getId()).getLogin());
+                } else {
+                    st.setString(3, user.getLogin());
+                }
+                if (user.getEmail().equals("")) {
+                    st.setString(4, findById(user.getId()).getEmail());
+                } else {
+                    st.setString(4, user.getEmail());
+                }
+                if (user.getCreateDate() == null) {
+                    st.setTimestamp(5, new Timestamp(findById(user.getId()).getCreateDate().getTime()));
+                } else {
+                    st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
+                }
+                if (user.getPassword().equals("")) {
+                    st.setString(6, findById(user.getId()).getPassword());
+                } else {
+                    st.setString(6, user.getPassword());
+                }
+                if (user.getRules() == null || user.getRules().equals("Choose a role")) {
+                    st.setString(7, findById(user.getId()).getRules());
+                } else {
+                    st.setString(7, user.getRules());
+                }
+                if (user.getCountry().equals("- choose a country -")) {
+                    st.setString(8, findById(user.getId()).getCountry());
+                } else {
+                    st.setString(8, user.getCountry());
+                }
+                if (user.getRegion().equals("- choose a region -")) {
+                    st.setString(9, findById(user.getId()).getRegion());
+                } else {
+                    st.setString(9, user.getRegion());
+                }
+                if (user.getCity().equals("- choose a city -")) {
+                    st.setString(10, findById(user.getId()).getCity());
+                } else {
+                    st.setString(10, user.getCity());
+                }
+                st.setInt(11, user.getId());
+                st.executeUpdate();
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    public User findById(int id) throws SQLException {
+        User result = null;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("SELECT * FROM users WHERE id=?")) {
+            st.setInt(1, id);
+            ResultSet date = st.executeQuery();
+            while (date.next()) {
+                User us = new User(date.getInt("id"),
+                        date.getString("name_u"),
+                        date.getString("login"),
+                        date.getString("email"),
+                        date.getString("password"),
+                        date.getString("rules"),
+                        date.getString("country"),
+                        date.getString("region"),
+                        date.getString("city")
+                );
+                us.setCreateDate(date.getTimestamp("createDate"));
+                result = us;
+
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -104,7 +185,10 @@ public class DbStore implements Store<User>, AutoCloseable {
                         date.getString("login"),
                         date.getString("email"),
                         date.getString("password"),
-                        date.getString("rules")
+                        date.getString("rules"),
+                        date.getString("country"),
+                        date.getString("region"),
+                        date.getString("city")
                 );
                 us.setCreateDate(date.getTimestamp("createDate"));
                 storage.add(us);
@@ -128,7 +212,10 @@ public class DbStore implements Store<User>, AutoCloseable {
                         date.getString("login"),
                         date.getString("email"),
                         date.getString("password"),
-                        date.getString("rules")
+                        date.getString("rules"),
+                        date.getString("country"),
+                        date.getString("region"),
+                        date.getString("city")
                 );
                 us.setCreateDate(date.getTimestamp("createDate"));
                 temp.add(us);
@@ -153,7 +240,10 @@ public class DbStore implements Store<User>, AutoCloseable {
                         date.getString("login"),
                         date.getString("email"),
                         date.getString("password"),
-                        date.getString("rules")
+                        date.getString("rules"),
+                        date.getString("country"),
+                        date.getString("region"),
+                        date.getString("city")
                 );
                 us.setCreateDate(date.getTimestamp("createDate"));
             }
@@ -187,6 +277,57 @@ public class DbStore implements Store<User>, AutoCloseable {
         return result;
     }
 
+    public List<String> getAllCountry() {
+        List<String> list = new CopyOnWriteArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("SELECT name FROM country")) {
+            ResultSet date = st.executeQuery();
+            while (date.next()) {
+                list.add(date.getString("name"));
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return list;
+    }
+
+    public List<String> getAllRegionByCountry(String country) {
+        List<String> region = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("SELECT name "
+                     +
+                     "FROM region "
+                     +
+                     "WHERE country_id = (SELECT id FROM country WHERE name = ?)")) {
+            st.setString(1, country);
+            ResultSet date = st.executeQuery();
+            while (date.next()) {
+                region.add(date.getString("name"));
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return region;
+    }
+
+    public List<String> getAllCitiesByRegion(String region) {
+        List<String> cities = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("SELECT name "
+                     +
+                     "FROM city "
+                     +
+                     "WHERE region_id = (SELECT id FROM region WHERE name = ?)")) {
+            st.setString(1, region);
+            ResultSet date = st.executeQuery();
+            while (date.next()) {
+                cities.add(date.getString("name"));
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return cities;
+    }
 
     @Override
     public void close() throws Exception {

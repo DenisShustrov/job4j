@@ -28,6 +28,7 @@ public class UserUpdateServlet extends HttpServlet {
             req.setAttribute("password", user.getPassword());
             req.setAttribute("rules_us", ValidateService.getInstance().findRules(user));
             req.setAttribute("rules", ur.getList());
+            req.setAttribute("country", logic.getAllCountry());
             req.getRequestDispatcher("/WEB-INF/view/update.jsp").forward(req, resp);
         }
     }
@@ -35,13 +36,17 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
+        req.setCharacterEncoding("UTF-8");
         logic.update(new User(
                 Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name"),
                 req.getParameter("login"),
                 req.getParameter("email"),
                 req.getParameter("password"),
-                req.getParameter("rules")
+                req.getParameter("rules"),
+                req.getParameter("country"),
+                req.getParameter("region"),
+                req.getParameter("city")
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
     }

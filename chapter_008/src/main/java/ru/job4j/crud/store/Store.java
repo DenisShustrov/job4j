@@ -26,4 +26,10 @@ public interface Store<User> {
     boolean checkAddUser(String login, String password);
 
     boolean isConformity(User user);
+
+    List<String> getAllCountry();
+
+    List<String> getAllRegionByCountry(String country);
+
+    List<String> getAllCitiesByRegion(String region);
 }

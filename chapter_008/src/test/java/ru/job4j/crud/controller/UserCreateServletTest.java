@@ -7,9 +7,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import ru.job4j.crud.controller.UserCreateServlet;
-import ru.job4j.crud.controller.UserNewServlet;
-import ru.job4j.crud.controller.UserUpdateServlet;
 import ru.job4j.crud.service.Validate;
 import ru.job4j.crud.service.ValidateService;
 import ru.job4j.crud.service.ValidateStub;
@@ -42,6 +39,9 @@ public class UserCreateServletTest {
         when(req.getParameter("email")).thenReturn("@");
         when(req.getParameter("password")).thenReturn("123");
         when(req.getParameter("rules")).thenReturn("USER");
+        when(req.getParameter("country")).thenReturn("Russia");
+        when(req.getParameter("region")).thenReturn("Moscow");
+        when(req.getParameter("city")).thenReturn("Moscow");
         new UserCreateServlet().doPost(req, resp);
         assertThat(validate.find().iterator().next().getName(), is("Petr Arsentev"));
     }
@@ -59,6 +59,9 @@ public class UserCreateServletTest {
         when(req.getParameter("email")).thenReturn("@");
         when(req.getParameter("password")).thenReturn("123");
         when(req.getParameter("rules")).thenReturn("USER");
+        when(req.getParameter("country")).thenReturn("Russia");
+        when(req.getParameter("region")).thenReturn("Moscow");
+        when(req.getParameter("city")).thenReturn("Moscow");
         new UserCreateServlet().doPost(req, resp);
         when(req.getParameter("id")).thenReturn("1");
         new UserNewServlet().doPost(req, resp);
@@ -78,6 +81,9 @@ public class UserCreateServletTest {
         when(req.getParameter("email")).thenReturn("@");
         when(req.getParameter("password")).thenReturn("123");
         when(req.getParameter("rules")).thenReturn("USER");
+        when(req.getParameter("country")).thenReturn("Russia");
+        when(req.getParameter("region")).thenReturn("Moscow");
+        when(req.getParameter("city")).thenReturn("Moscow");
         new UserCreateServlet().doPost(req, resp);
         when(req.getParameter("id")).thenReturn("1");
         when(req.getParameter("name")).thenReturn("Denis");
@@ -85,6 +91,9 @@ public class UserCreateServletTest {
         when(req.getParameter("email")).thenReturn("@");
         when(req.getParameter("password")).thenReturn("124");
         when(req.getParameter("rules")).thenReturn("ADMINISTRATOR");
+        when(req.getParameter("country")).thenReturn("Russia1");
+        when(req.getParameter("region")).thenReturn("Moscow2");
+        when(req.getParameter("city")).thenReturn("Moscow3");
         new UserUpdateServlet().doPost(req, resp);
         assertThat(validate.find().get(0).getName(), is("Denis"));
     }

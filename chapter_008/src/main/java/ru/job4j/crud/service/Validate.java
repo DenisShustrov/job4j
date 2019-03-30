@@ -3,6 +3,7 @@ package ru.job4j.crud.service;
 import ru.job4j.crud.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Validate {
 
@@ -22,5 +23,9 @@ public interface Validate {
 
     User findUser(String login, String password);
 
+    List<String> getAllCountry();
 
+    List<String> getAllRegionByCountry(String country);
+
+    List<String> getAllCitiesByRegion(String region);
 }

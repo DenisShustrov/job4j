@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,7 @@ public class TableAddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/json");
-        PrintWriter pw = new PrintWriter(resp.getOutputStream());
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "ISO-8859-1"), true);
 //        Этот код не работает, что я только не делал!!! Данные не добавляются в мапу!!!
 //        ObjectMapper mapper = new ObjectMapper();
 //        String json = mapper.writeValueAsString(map);
@@ -25,8 +26,6 @@ public class TableAddServlet extends HttpServlet {
         pw.flush();
         map.clear();
         pw.close();
-
-
     }
 
     @Override

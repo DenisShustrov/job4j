@@ -6,63 +6,227 @@
   Time: 21:25
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>Create users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#country_id').change(function () {
+                var country_id = $('#country_id').val();
+                if (country_id === '0') {
+                    $('#region_id').html('<option>- choose a region -</option>');
+                    $('#region_id').attr('disabled', true);
+                    $('#city_id').html('<option>- choose a city -</option>');
+                    $('#city_id').attr('disabled', true);
+                    return (false);
+                }
+                $('#region_id').attr('disabled', true);
+                $('#region_id').html('<option>loading...</option>');
+                var url = 'http://localhost:8080/items/region';
+                $.get(
+                    url,
+                    "country_id=" + country_id,
+                    function (result) {
+                        if (result.type === 'error') {
+                            alert('error');
+                            return (false);
+                        } else {
+                            var options = '';
+                            $(result).each(function () {
+                                options += '<option >' + $(this).attr('name') + '</option>';
+                            });
+                            $('#region_id').html('<option value="0">- choose a region -</option>' + options);
+                            $('#region_id').attr('disabled', false);
+                            $('#city_id').html('<option>- choose a city -</option>');
+                            $('#city_id').attr('disabled', true);
+                        }
+                    },
+                    "json"
+                );
+            });
+
+            $('#region_id').change(function () {
+                var region_id = $('#region_id :selected').val();
+                if (region_id === '0') {
+                    $('#city_id').html('<option>- choose a city -</option>');
+                    $('#city_id').attr('disabled', true);
+                    return (false);
+                }
+                $('#city_id').attr('disabled', true);
+                $('#city_id').html('<option>loading...</option>');
+                var url = 'http://localhost:8080/items/cities';
+                $.get(
+                    url,
+                    "region_id=" + region_id,
+                    function (result) {
+                        if (result.type === 'error') {
+                            alert('error');
+                            return (false);
+                        } else {
+                            var options = '';
+                            $(result).each(function () {
+                                options += '<option >' + $(this).attr('name') + '</option>';
+                            });
+                            $('#city_id').html('<option>- choose a city -</option>' + options);
+                            $('#city_id').attr('disabled', false);
+                        }
+                    },
+                    "json"
+                );
+            });
+        });
+
+
+        function validate() {
+            if ($('#id').val() === "") {
+                alert("Please, enter your id!");
+                return false;
+            }
+            if ($('#name').val() === "") {
+                alert("Please, enter your name!");
+                return false;
+            }
+            if ($('#login').val() === "") {
+                alert("Please, enter your login!");
+                return false;
+            }
+            if ($('#email').val() === "") {
+                alert("Please, enter your email!");
+                return false;
+            }
+            if ($('#password').val() === "") {
+                alert("Please, enter your password!");
+                return false;
+            }
+            if ($('#rules').val() === "- choose a rules -") {
+                alert("Please, enter your rules!");
+                return false;
+            }
+            if ($('#country_id').val() === "- choose a country -") {
+                alert("Please, enter your country!");
+                return false;
+            }
+            if ($('#region_id').val() === "- choose a city -") {
+                alert("Please, enter your region!");
+                return false;
+            }
+            if ($('#city_id').val() === "- choose a city -") {
+                alert("Please, enter your city!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
-
-<h3>Create users</h3>
-
-<form action='${pageContext.servletContext.contextPath}/create' method='post'>
-    <table>
+<h3 style="margin-left: 30px; margin-top:30px">Create users</h3>
+<form action='${pageContext.servletContext.contextPath}/create' method='post' onsubmit="return validate()">
+    <table style="margin-left: 30px; margin-top:30px">
         <tr>
-            <td>id:</td>
-            <td><label>
-                <input type='text' name='id'>
-            </label></td>
-        </tr>
-        <tr>
-            <td>name:</td>
-            <td><label>
-                <input type='text' name='name'>
-            </label></td>
-        </tr>
-        <tr>
-            <td>login:</td>
-            <td><label>
-                <input type='text' name='login'>
-            </label></td>
-        </tr>
-        <tr>
-            <td>email:</td>
-            <td><label>
-                <input type='text' name='email'>
-            </label></td>
-        </tr>
-        <tr>
-            <td>password:</td>
-            <td><label>
-                <input type='text' name='password'>
-            </label></td>
-        </tr>
-        <tr>
-            <td>rules:</td>
             <td>
-                <label>
-                    <select name="rules">
-                        <option>Выберите роль</option>
+                <div class="form-group">
+                    <label for="id">Id:</label>
+                    <input type="text" class="form-control" id="id" name="id">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input type="text" class="form-control" id="login" name="login">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control" id="email" name="email">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="text" class="form-control" id="password" name="password">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="rules">Rules:</label>
+                    <select class="form-control" id="rules" name="rules">
+                        <option>- choose a rules -</option>
                         <c:forEach items="${rules}" var="rul">
                             <option>${rul}</option>
                         </c:forEach>
                     </select>
-                </label>
+                </div>
             </td>
         </tr>
         <tr>
-            <td></td>
-            <td><input type='submit'></td>
+            <td>
+                <div class="form-group">
+                    <label>Country:</label>
+                    <select class="form-control" id="country_id" name="country">
+                        <option>- choose a country -</option>
+                        <c:forEach items="${country}" var="contry">
+                            <option>${contry}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label>Region:</label>
+                    <select class="form-control" id="region_id" name="region">
+                        <option>- choose a region -</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label>City:</label>
+                    <select class="form-control" id="city_id" name="city">
+                        <option>- choose a city -</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"> Remember me
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" class="btn btn-primary" onclick="validate()">Create user</button>
+            </td>
         </tr>
     </table>
 </form>

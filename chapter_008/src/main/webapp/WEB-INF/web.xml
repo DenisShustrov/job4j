@@ -52,6 +52,25 @@
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserAddRegion</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.UserAddRegion</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserAddRegion</servlet-name>
+        <url-pattern>/region</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserAddCities</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.UserAddCities</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserAddCities</servlet-name>
+        <url-pattern>/cities</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>UserFilter</filter-name>

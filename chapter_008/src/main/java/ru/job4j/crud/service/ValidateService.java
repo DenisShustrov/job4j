@@ -37,7 +37,6 @@ public class ValidateService implements Validate {
         return result;
     }
 
-
     public String add(User user) {
         String result;
         if (logic.checkAddUser(user.getLogin(), user.getPassword())) {
@@ -88,4 +87,17 @@ public class ValidateService implements Validate {
     public User findUser(String login, String password) {
         return (User) logic.findUser(login, password);
     }
+
+    public List<String> getAllCountry() {
+        return logic.getAllCountry();
+    }
+
+    public List<String> getAllRegionByCountry(String country) {
+        return logic.getAllRegionByCountry(country);
+    }
+
+    public List<String> getAllCitiesByRegion(String region) {
+        return logic.getAllCitiesByRegion(region);
+    }
+
 }
