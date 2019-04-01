@@ -38,9 +38,9 @@
                             return (false);
                         } else {
                             var options = '';
-                            $(result).each(function () {
-                                options += '<option >' + $(this).attr('name') + '</option>';
-                            });
+                            for (var i = 0; i !== result.length; ++i) {
+                                options += '<option >' + result[i] + '</option>';
+                            }
                             $('#region_id').html('<option value="0">- choose a region -</option>' + options);
                             $('#region_id').attr('disabled', false);
                             $('#city_id').html('<option>- choose a city -</option>');
@@ -70,9 +70,9 @@
                             return (false);
                         } else {
                             var options = '';
-                            $(result).each(function () {
-                                options += '<option >' + $(this).attr('name') + '</option>';
-                            });
+                            for (var i = 0; i !== result.length; ++i) {
+                                options += '<option >' + result[i] + '</option>';
+                            }
                             $('#city_id').html('<option>- choose a city -</option>' + options);
                             $('#city_id').attr('disabled', false);
                         }

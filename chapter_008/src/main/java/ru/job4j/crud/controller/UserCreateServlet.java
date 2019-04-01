@@ -1,11 +1,9 @@
 package ru.job4j.crud.controller;
 
 import ru.job4j.crud.model.User;
-import ru.job4j.crud.model.UsersRules;
 import ru.job4j.crud.service.Validate;
 import ru.job4j.crud.service.ValidateService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +15,7 @@ public class UserCreateServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersRules ur = new UsersRules();
-        req.setAttribute("rules", ur.getList());
-        req.setAttribute("country", logic.getAllCountry());
-        req.getRequestDispatcher("/WEB-INF/view/create.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
     }
 
     @Override
@@ -40,6 +34,5 @@ public class UserCreateServlet extends HttpServlet {
                 req.getParameter("city")
         ));
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
-
     }
 }

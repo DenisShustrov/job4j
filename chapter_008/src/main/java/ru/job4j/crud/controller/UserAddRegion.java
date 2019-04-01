@@ -1,5 +1,6 @@
 package ru.job4j.crud.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.crud.service.Validate;
 import ru.job4j.crud.service.ValidateService;
 
@@ -24,19 +25,10 @@ public class UserAddRegion extends HttpServlet {
         List<String> list = logic.getAllRegionByCountry(country);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(),
                 StandardCharsets.UTF_8), true);
-        StringBuilder str = new StringBuilder();
-        str.append("[");
-        for (String s : list) {
-            str.append("{\"name\": ");
-            str.append("\"").append(s);
-            str.append("\"}, ");
-        }
-        str.deleteCharAt(str.length() - 1);
-        str.deleteCharAt(str.length() - 1);
-        str.append("]");
-        pw.append(str.toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(list);
+        pw.append(json);
         pw.flush();
-        pw.close();
     }
 
     @Override
