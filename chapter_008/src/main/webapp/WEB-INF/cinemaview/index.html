@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Service Cinema</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = 'http://localhost:8080/items/halls';
+            $.get(
+                url,
+                function (result) {
+                    var options = '';
+                    var i = 1;
+                    var place;
+                    $.each((result), function (key, value) {
+                        if (value === "free") {
+                            options += key;
+                            place = "#place_" + i++;
+                            $(place).html(options);
+                            options = '';
+                        } else if (value === "bought") {
+                            options += '<b>Place bought!</b>';
+                            place = '#' + i++;
+                            $(place).html(options);
+                            options = '';
+                        }
+                    })
+                },
+                "json"
+            )
+        });
+
+        function clicker() {
+            var value = $('input[name=place]:checked').val();
+            if (value !== undefined) {
+                window.document.location = "./payment.html?name=" + value;
+            } else {
+                alert('Please choose a place!');
+                return (false);
+            }
+        }
+
+        setTimeout(function () {
+            location.reload();
+        }, 15000);
+    </script>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row pt-3">
+        <h4>
+            Бронирование месте на сеанс
+        </h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 120px;">Ряд / Место</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>1</th>
+                <td id="1"><label>
+                    <input type="radio" name="place" value="Ряд 1, Место 1">
+                </label><span id="place_1"></span></td>
+                <td id="2"><label>
+                    <input type="radio" name="place" value="Ряд 1, Место 2">
+                </label><span id="place_2"></span></td>
+                <td id="3"><label>
+                    <input type="radio" name="place" value="Ряд 1, Место 3">
+                </label><span id="place_3"></span></td>
+            </tr>
+            <tr>
+                <th>2</th>
+                <td id="4"><label>
+                    <input type="radio" name="place" value="Ряд 2, Место 4">
+                </label><span id="place_4"></span></td>
+                <td id="5"><label>
+                    <input type="radio" name="place" value="Ряд 2, Место 5">
+                </label><span id="place_5"></span></td>
+                <td id="6"><label>
+                    <input type="radio" name="place" value="Ряд 2, Место 6">
+                </label><span id="place_6"></span></td>
+            </tr>
+            <tr>
+                <th>3</th>
+                <td id="7"><label>
+                    <input type="radio" name="place" value="Ряд 3, Место 7">
+                </label><span id="place_7"></span></td>
+                <td id="8"><label>
+                    <input type="radio" name="place" value="Ряд 3, Место 8">
+                </label><span id="place_8"></span></td>
+                <td id="9"><label>
+                    <input type="radio" name="place" value="Ряд 3, Место 9">
+                </label><span id="place_9"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row float-right">
+        <button class="btn btn-success" onclick="clicker()">Оплатить</button>
+    </div>
+</div>
+</body>
+</html>

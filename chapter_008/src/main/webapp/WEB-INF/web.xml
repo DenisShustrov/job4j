@@ -123,5 +123,25 @@
         <servlet-name>UserExitServlet</servlet-name>
         <url-pattern>/exit</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HallServlet</servlet-name>
+        <servlet-class>ru.job4j.cinema.controller.HallServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HallServlet</servlet-name>
+        <url-pattern>/halls</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>Filter</filter-name>
+        <filter-class>ru.job4j.cinema.filter.Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Filter</filter-name>
+        <url-pattern>/cinema</url-pattern>
+    </filter-mapping>
 </web-app>
 
