@@ -143,5 +143,45 @@
         <filter-name>Filter</filter-name>
         <url-pattern>/cinema</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>FilterItemServlet</filter-name>
+        <filter-class>ru.job4j.todolist.filter.FilterItemServlet</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>FilterItemServlet</filter-name>
+        <url-pattern>/todolist</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>ShowItemServlet</servlet-name>
+        <servlet-class>ru.job4j.todolist.controller.ShowItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowItemServlet</servlet-name>
+        <url-pattern>/show</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChangeStatusServlet</servlet-name>
+        <servlet-class>ru.job4j.todolist.controller.ChangeStatusServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ChangeStatusServlet</servlet-name>
+        <url-pattern>/change</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowItemNotDoneServlet</servlet-name>
+        <servlet-class>ru.job4j.todolist.controller.ShowItemNotDoneServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowItemNotDoneServlet</servlet-name>
+        <url-pattern>/done</url-pattern>
+    </servlet-mapping>
 </web-app>
 
