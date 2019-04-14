@@ -74,52 +74,58 @@ public class DbStore implements Store<User>, AutoCloseable {
                              "SET id=?, name_u = ?, login = ?,  email = ?, createdate = ?, password = ?, rules = ?, country = ?, region = ?, city = ?"
                              +
                              "WHERE id = ?")) {
-            if (findById(user.getId()) == null) {
+            User userFind = null;
+            try {
+                userFind = findById(user.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (userFind == null) {
                 result = false;
             } else {
                 st.setInt(1, user.getId());
                 if (user.getName().equals("")) {
-                    st.setString(2, findById(user.getId()).getName());
+                    st.setString(2, userFind.getName());
                 } else {
                     st.setString(2, user.getName());
                 }
                 if (user.getLogin().equals("")) {
-                    st.setString(3, findById(user.getId()).getLogin());
+                    st.setString(3, userFind.getLogin());
                 } else {
                     st.setString(3, user.getLogin());
                 }
                 if (user.getEmail().equals("")) {
-                    st.setString(4, findById(user.getId()).getEmail());
+                    st.setString(4, userFind.getEmail());
                 } else {
                     st.setString(4, user.getEmail());
                 }
                 if (user.getCreateDate() == null) {
-                    st.setTimestamp(5, new Timestamp(findById(user.getId()).getCreateDate().getTime()));
+                    st.setTimestamp(5, new Timestamp(userFind.getCreateDate().getTime()));
                 } else {
                     st.setTimestamp(5, new Timestamp(user.getCreateDate().getTime()));
                 }
                 if (user.getPassword().equals("")) {
-                    st.setString(6, findById(user.getId()).getPassword());
+                    st.setString(6, userFind.getPassword());
                 } else {
                     st.setString(6, user.getPassword());
                 }
                 if (user.getRules() == null || user.getRules().equals("Choose a role")) {
-                    st.setString(7, findById(user.getId()).getRules());
+                    st.setString(7, userFind.getRules());
                 } else {
                     st.setString(7, user.getRules());
                 }
                 if (user.getCountry().equals("- choose a country -")) {
-                    st.setString(8, findById(user.getId()).getCountry());
+                    st.setString(8, userFind.getCountry());
                 } else {
                     st.setString(8, user.getCountry());
                 }
                 if (user.getRegion().equals("- choose a region -")) {
-                    st.setString(9, findById(user.getId()).getRegion());
+                    st.setString(9, userFind.getRegion());
                 } else {
                     st.setString(9, user.getRegion());
                 }
                 if (user.getCity().equals("- choose a city -")) {
-                    st.setString(10, findById(user.getId()).getCity());
+                    st.setString(10, userFind.getCity());
                 } else {
                     st.setString(10, user.getCity());
                 }
