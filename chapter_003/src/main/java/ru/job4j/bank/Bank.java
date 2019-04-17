@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Class Bank.
+ * Class bank.
  *
  * @author dshustrov
  * @version 1

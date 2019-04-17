@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.job4j.autostorage.Machine" table="machine">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="marca" column="marca_car"/>
+        <many-to-one name="body" column="body_car_id" not-null="true"
+                     class="ru.job4j.autostorage.BodyCar"/>
+        <many-to-one name="engine" column="engine_car_id" not-null="true"
+                     class="ru.job4j.autostorage.EngineCar"/>
+        <many-to-one name="transmission" column="transmission_car_id" not-null="true"
+                     class="ru.job4j.autostorage.TransmissionCar"/>
+    </class>
+
+    <class name="ru.job4j.autostorage.BodyCar" table="body_car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="typeBody" column="tupe_body"/>
+    </class>
+
+    <class name="ru.job4j.autostorage.EngineCar" table="engine_car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="volume" column="volume"/>
+        <property name="power" column="power"/>
+    </class>
+    <class name="ru.job4j.autostorage.TransmissionCar" table="transmission_car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="typeTransmission" column="tupe_transmission"/>
+    </class>
+</hibernate-mapping>
