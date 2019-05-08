@@ -1,14 +1,14 @@
 package ru.job4j.todolist.dao;
 
-        import org.hibernate.Session;
-        import org.hibernate.SessionFactory;
-        import org.hibernate.Transaction;
-        import org.hibernate.query.Query;
-        import ru.job4j.todolist.model.Item;
-        import ru.job4j.todolist.utils.HibernateSessionFactoryUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import ru.job4j.todolist.model.Item;
+import ru.job4j.todolist.utils.HibernateSessionFactoryUtil;
 
-        import java.util.List;
-        import java.util.function.Function;
+import java.util.List;
+import java.util.function.Function;
 
 public class TodolistDao {
 
@@ -21,12 +21,13 @@ public class TodolistDao {
         final Session session = sessionFactory.openSession();
         final Transaction tx = session.beginTransaction();
         try {
-            return command.apply(session);
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
         } catch (final Exception e) {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            tx.commit();
             session.close();
         }
     }
