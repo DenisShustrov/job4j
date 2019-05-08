@@ -183,5 +183,95 @@
         <servlet-name>ShowItemNotDoneServlet</servlet-name>
         <url-pattern>/done</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowAllAdvertAutoServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.ShowAllAdvertAutoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowAllAdvertAutoServlet</servlet-name>
+        <url-pattern>/adverts.html</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CreateNewSellerServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.CreateNewSellerServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>CreateNewSellerServlet</servlet-name>
+        <url-pattern>/add-seller.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateNewAdvertAutoServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.CreateNewAdvertAutoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CreateNewAdvertAutoServlet</servlet-name>
+        <url-pattern>/add-advert.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SellerLoginServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.SellerLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SellerLoginServlet</servlet-name>
+        <url-pattern>/login.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowAdvertAutoSellerServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.ShowAdvertAutoSellerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowAdvertAutoSellerServlet</servlet-name>
+        <url-pattern>/adverts-seller.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SellerExitServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.SellerExitServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SellerExitServlet</servlet-name>
+        <url-pattern>/exit.html</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DeleteAdvertAutoServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.DeleteAdvertAutoServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>DeleteAdvertAutoServlet</servlet-name>
+        <url-pattern>/delete.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChangeStatusAdvertServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.ChangeStatusAdvertServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ChangeStatusAdvertServlet</servlet-name>
+        <url-pattern>/change.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateAdvertAutoServlet</servlet-name>
+        <servlet-class>ru.job4j.carsales.controller.UpdateAdvertAutoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UpdateAdvertAutoServlet</servlet-name>
+        <url-pattern>/update.html</url-pattern>
+    </servlet-mapping>
 </web-app>
 
