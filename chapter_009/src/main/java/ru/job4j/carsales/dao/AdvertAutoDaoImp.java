@@ -139,12 +139,4 @@ public class AdvertAutoDaoImp implements AdvertAutoDao {
         session.close();
         return list;
     }
-
-    public static void main(String[] args) {
-        AdvertAutoDaoImp ad = new AdvertAutoDaoImp();
-        List<AdvertAuto> list = ad.findAdvertAutoAddByMark("ниссан");
-        System.out.println(list);
-
-
-    }
 }
