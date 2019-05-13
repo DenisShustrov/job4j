@@ -9,6 +9,10 @@ import org.hibernate.query.Query;
 import ru.job4j.carsales.model.AdvertAuto;
 import ru.job4j.carsales.utils.HibernateSessionFactoryUtil;
 
+import javax.persistence.TemporalType;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AdvertAutoDaoImp implements AdvertAutoDao {
@@ -93,5 +97,54 @@ public class AdvertAutoDaoImp implements AdvertAutoDao {
         query.executeUpdate();
         transaction.commit();
         session.close();
+    }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoAddLastDay() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = formatter.format(new Date());
+        Query query = session.createQuery("from AdvertAuto where createdate_a =?1");
+        try {
+            query.setParameter(1, new SimpleDateFormat("yyyy-MM-dd").parse(currentDate), TemporalType.DATE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<AdvertAuto> list = query.list();
+        transaction.commit();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoWithPhoto() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from AdvertAuto where photoPath != ''");
+        List<AdvertAuto> list = query.list();
+        transaction.commit();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoAddByMark(String mark) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from AdvertAuto where mark =:markParam");
+        query.setParameter("markParam", mark);
+        List<AdvertAuto> list = query.list();
+        transaction.commit();
+        session.close();
+        return list;
+    }
+
+    public static void main(String[] args) {
+        AdvertAutoDaoImp ad = new AdvertAutoDaoImp();
+        List<AdvertAuto> list = ad.findAdvertAutoAddByMark("ниссан");
+        System.out.println(list);
+
+
     }
 }

@@ -16,33 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div style="margin-left: 25px; margin-top: 25px"><a href='${pageContext.servletContext.contextPath}/add-seller.html'>Регистрация
-    нового пользователя</a></br>
-    <a href='${pageContext.servletContext.contextPath}/login.html'>Войти</a>
-    </br>
-</div>
-
-<form action='${pageContext.servletContext.contextPath}/filter.html'>
-    <table style="margin-left: 25px; margin-top:25px">
-        <tr>
-            <td>
-                <div class="form-group">
-                    <label for="exampleSelect1">Подобрать автомобиль:</label>
-                    <select class="form-control" id="exampleSelect1" name="filter">
-                        <option>выбрать</option>
-                        <option>показать за последний день</option>
-                        <option>показать с фото</option>
-                        <option>показать определенной марки</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Показать</button>
-            </td>
-        </tr>
-    </table>
-</form>
-
-
-<h3 align="center">Автомобили</h3>
+<h3 align="center">${title}</h3>
 <table class="table table-bordered">
     <thead>
     <tr>
@@ -161,6 +135,15 @@
     <tr>
         </c:forEach>
     </tbody>
+    <table>
+        <tr>
+            <td>
+                <form action='${pageContext.servletContext.contextPath}/adverts.html' method='get'>
+                    <button type="submit" class="btn btn-primary" value='exit'>Показать все объявления</button>
+                </form>
+            </td>
+        </tr>
+    </table>
 </table>
 </body>
 </html>

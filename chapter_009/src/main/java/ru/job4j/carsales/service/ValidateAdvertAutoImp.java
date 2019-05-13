@@ -53,4 +53,19 @@ public class ValidateAdvertAutoImp implements ValidateAdvertAuto {
     public void changeStatus(int id) {
         advertAutoDaoImp.changeStatus(id);
     }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoAddLastDay() {
+        return advertAutoDaoImp.findAdvertAutoAddLastDay();
+    }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoWithPhoto() {
+        return advertAutoDaoImp.findAdvertAutoWithPhoto();
+    }
+
+    @Override
+    public List<AdvertAuto> findAdvertAutoAddByMark(String mark) {
+        return advertAutoDaoImp.findAdvertAutoAddByMark(mark);
+    }
 }

@@ -36,6 +36,7 @@
         <th>Цена</th>
         <th>Имя продовца</th>
         <th>Телефон продовца</th>
+        <th>Дата размещения</th>
         <th>Статус объявления</th>
         <th>Редактировать</th>
         <th>Продано</th>
@@ -116,6 +117,11 @@
         </td>
         <td>
             <c:out value="${advertAuto.phoneNumber}">
+
+            </c:out>
+        </td>
+        <td>
+            <c:out value="${advertAuto.createDate}">
 
             </c:out>
         </td>

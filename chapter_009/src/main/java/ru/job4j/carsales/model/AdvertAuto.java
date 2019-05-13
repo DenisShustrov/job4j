@@ -1,6 +1,7 @@
 package ru.job4j.carsales.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -66,6 +67,10 @@ public class AdvertAuto {
     @Column(name = "sale_status_a")
     private boolean saleStatus;
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "createdate_a")
+    private Date createDate;
+
     public AdvertAuto(String mark,
                       String model,
                       String years,
@@ -92,6 +97,7 @@ public class AdvertAuto {
         this.price = price;
         this.nameSeller = nameSeller;
         this.phoneNumber = phoneNumber;
+        this.createDate = new Date();
     }
 
     public AdvertAuto() {
@@ -230,6 +236,14 @@ public class AdvertAuto {
         return years;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     public void setYears(String years) {
         this.years = years;
     }
@@ -275,12 +289,15 @@ public class AdvertAuto {
                 &&
                 Objects.equals(nameSeller, that.nameSeller)
                 &&
-                Objects.equals(phoneNumber, that.phoneNumber);
+                Objects.equals(phoneNumber, that.phoneNumber)
+                &&
+                Objects.equals(createDate, that.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,
+        return Objects.hash(
+                id,
                 mark,
                 model,
                 years,
@@ -296,7 +313,8 @@ public class AdvertAuto {
                 price,
                 nameSeller,
                 phoneNumber,
-                saleStatus);
+                saleStatus,
+                createDate);
     }
 
     @Override
@@ -334,6 +352,8 @@ public class AdvertAuto {
                 ", phoneNumber='" + phoneNumber + '\''
                 +
                 ", saleStatus=" + saleStatus
+                +
+                ", createDate=" + createDate
                 +
                 '}';
     }

@@ -273,5 +273,15 @@
         <servlet-name>UpdateAdvertAutoServlet</servlet-name>
         <url-pattern>/update.html</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>AdvertAutoFilter</filter-name>
+        <filter-class>ru.job4j.carsales.filter.AdvertAutoFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AdvertAutoFilter</filter-name>
+        <url-pattern>/filter.html</url-pattern>
+    </filter-mapping>
 </web-app>
 

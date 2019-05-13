@@ -19,4 +19,10 @@ public interface AdvertAutoDao {
     List<AdvertAuto> findAdvertAutoBySellerId(int id);
 
     void changeStatus(int id);
+
+    List<AdvertAuto> findAdvertAutoAddLastDay();
+
+    List<AdvertAuto> findAdvertAutoWithPhoto();
+
+    List<AdvertAuto> findAdvertAutoAddByMark(String mark);
 }
