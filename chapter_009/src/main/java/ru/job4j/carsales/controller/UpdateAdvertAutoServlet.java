@@ -7,6 +7,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.carsales.model.AdvertAuto;
 import ru.job4j.carsales.service.ValidateAdvertAuto;
 import ru.job4j.carsales.service.ValidateAdvertAutoImp;
+import ru.job4j.carsales.utils.DispatchPattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ public class UpdateAdvertAutoServlet extends HttpServlet {
     private final ValidateAdvertAuto validate = ValidateAdvertAutoImp.getInstance();
     private String fileName;
     private Integer id;
+    private DispatchPattern dispatch = new DispatchPattern().init();
 
 
     @Override
@@ -47,50 +49,9 @@ public class UpdateAdvertAutoServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        assert items != null;
         for (FileItem item : items) {
             if (item.isFormField()) {
-                String value = item.getString("UTF-8");
-                String fieldName = item.getFieldName();
-                if (fieldName.equals("mark") & !value.equals("")) {
-                    advertAuto.setMark(value);
-                }
-                if (fieldName.equals("model") & !value.equals("")) {
-                    advertAuto.setModel(value);
-                }
-                if (fieldName.equals("years") & !value.equals("")) {
-                    advertAuto.setYears(value);
-                }
-                if (fieldName.equals("bodyType") & !value.equals("")) {
-                    advertAuto.setBodyType(value);
-                }
-                if (fieldName.equals("engineType") & !value.equals("")) {
-                    advertAuto.setEngineType(value);
-                }
-                if (fieldName.equals("drive") & !value.equals("")) {
-                    advertAuto.setDrive(value);
-                }
-                if (fieldName.equals("transmission") & !value.equals("")) {
-                    advertAuto.setTransmission(value);
-                }
-                if (fieldName.equals("mileage") & !value.equals("")) {
-                    advertAuto.setMileage(Double.parseDouble(value));
-                }
-                if (fieldName.equals("condition") & !value.equals("")) {
-                    advertAuto.setCondition(value);
-                }
-                if (fieldName.equals("description") & !value.equals("")) {
-                    advertAuto.setDescription(value);
-                }
-                if (fieldName.equals("price") & !value.equals("")) {
-                    advertAuto.setPrice(Double.parseDouble(value));
-                }
-                if (fieldName.equals("nameSeller") & !value.equals("")) {
-                    advertAuto.setNameSeller(value);
-                }
-                if (fieldName.equals("phoneNumber") & !value.equals("")) {
-                    advertAuto.setPhoneNumber(value);
-                }
+                dispatch.sent(advertAuto, item);
             }
             if (!item.isFormField()) {
                 fileName = item.getName();

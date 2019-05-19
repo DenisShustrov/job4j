@@ -2,10 +2,7 @@ package ru.job4j.carsales.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import ru.job4j.carsales.model.Seller;
 import ru.job4j.carsales.utils.HibernateSessionFactoryUtil;
 
@@ -19,73 +16,39 @@ public class SellerDaoImp implements SellerDao {
 
     @Override
     public int addSeller(Seller seller) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        int id = (int) session.save(seller);
         logger.info("New seller: " + seller);
-        transaction.commit();
-        session.close();
-        return id;
+        return (int) WrapperDao.tx(session -> session.save(seller), sessionFactory);
+
     }
 
     @Override
     public void updateSeller(Seller seller) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(seller);
         logger.info("Update seller: " + seller);
-        transaction.commit();
-        session.close();
+        WrapperDao.txNotResult(session -> session.update(seller), sessionFactory);
     }
 
     @Override
     public void deleteSeller(Seller seller) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(seller);
         logger.info("Delete seller: " + seller);
-        transaction.commit();
-        session.close();
+        WrapperDao.txNotResult(session -> session.delete(seller), sessionFactory);
     }
 
     @Override
     public List<Seller> findAllSellers() {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        List<Seller> list = (List<Seller>) session.createQuery("from Seller").list();
-        logger.info("All sellers: " + list);
-        transaction.commit();
-        session.close();
-        return list;
+        return WrapperDao.tx(session -> (List<Seller>) session.createQuery("from Seller").list(),
+                sessionFactory);
     }
 
     @Override
     public Seller findSellerById(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Seller seller = session.get(Seller.class, id);
-        logger.info("Find seller: " + seller);
-        transaction.commit();
-        session.close();
-        return seller;
+        return WrapperDao.tx(session -> session.get(Seller.class, id), sessionFactory);
     }
 
     @Override
     public Seller findSeller(String login, String password) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from Seller where login =:paramLogin AND password =:paramPassword");
-        query.setParameter("paramLogin", login);
-        query.setParameter("paramPassword", password);
-        List<Seller> list = query.list();
-        Seller seller = null;
-        for (Seller s : list) {
-            seller = s;
-        }
-        logger.info("Find seller: " + seller);
-        transaction.commit();
-        session.close();
-        return seller;
+        return (Seller) WrapperDao.tx(session -> session.createQuery("from Seller where login =:paramLogin AND password =:paramPassword")
+                .setParameter("paramLogin", login)
+                .setParameter("paramPassword", password)
+                .list().iterator().next(), sessionFactory);
     }
-
 }
