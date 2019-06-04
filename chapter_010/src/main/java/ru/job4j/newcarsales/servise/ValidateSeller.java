@@ -17,4 +17,6 @@ public interface ValidateSeller {
     Seller findSellerById(int id);
 
     Seller findSeller(String login, String password);
+
+    Seller findSellerByName(String name);
 }

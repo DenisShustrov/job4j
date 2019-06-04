@@ -8,4 +8,6 @@ package ru.job4j.newcarsales.repository;
 public interface SellerCrudRepository extends CrudRepository<Seller, Integer> {
 
     Seller findSellerByLoginAndPassword(String login, String password);
+
+    Seller findSellerByName(String name);
 }

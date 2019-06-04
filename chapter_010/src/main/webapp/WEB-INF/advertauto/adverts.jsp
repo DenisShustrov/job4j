@@ -1,12 +1,5 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: denis
-  Date: 07.05.2019
-  Time: 6:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <html>
 <head>
@@ -104,7 +97,7 @@
             </c:out>
         </td>
         <td>
-            <img src="fhotocars/${advertAuto.photoPath}" width="100px">
+            <img src="fhotocars/${advertAuto.photoPath}" width="100px" alt="f">
         </td>
         <td>
             <c:out value="${advertAuto.price}">
@@ -160,7 +153,6 @@
         </c:forEach>
     </tbody>
 </table>
-
 <table>
     <tr>
         <td>
@@ -171,7 +163,7 @@
             </form>
         </td>
         <td>
-            <form action='${pageContext.servletContext.contextPath}/exit.html' method='get'>
+            <form action='${pageContext.servletContext.contextPath}/logout' method='get'>
                 <button type="submit" class="btn btn-primary" value='exit'>Выход</button>
             </form>
         </td>

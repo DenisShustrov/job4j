@@ -5,6 +5,9 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.newcarsales.model.AdvertAuto;
+import ru.job4j.newcarsales.model.Role;
 import ru.job4j.newcarsales.model.Seller;
 import ru.job4j.newcarsales.servise.ValidateAdvertAutoImp;
 import ru.job4j.newcarsales.servise.ValidateSellerImp;
@@ -19,69 +23,52 @@ import ru.job4j.newcarsales.utils.DispatchPattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class CarSalesController {
 
-    @Autowired
-    private ValidateSellerImp validateSellerImp;
+    private final ValidateSellerImp validateSellerImp;
 
-    @Autowired
-    private ValidateAdvertAutoImp validateAdvertAutoImp;
+    private final ValidateAdvertAutoImp validateAdvertAutoImp;
 
-    @Autowired
-    ServletContext servletContext;
+    private final ServletContext servletContext;
 
-    private String fileName;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private Integer id;
 
     private DispatchPattern dispatch = new DispatchPattern().init();
 
-    @RequestMapping(value = "/adverts.html", method = RequestMethod.GET)
+    @Autowired
+    public CarSalesController(final ValidateSellerImp validateSellerImp,
+                              final ValidateAdvertAutoImp validateAdvertAutoImp,
+                              final ServletContext servletContext,
+                              final BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.validateSellerImp = validateSellerImp;
+        this.validateAdvertAutoImp = validateAdvertAutoImp;
+        this.servletContext = servletContext;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @RequestMapping(value = "adverts.html", method = RequestMethod.GET)
     public String showAllAdvertAuto(ModelMap model) {
         model.addAttribute("adverts", validateAdvertAutoImp.findAllAdvertAuto());
         return "index";
     }
 
-    @RequestMapping(value = "/login.html", method = RequestMethod.GET)
-    public String sellerLoginServletGet() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/login.html", method = RequestMethod.POST)
-    public String sellerLoginServletPost(@RequestParam("login") String login,
-                                         @RequestParam("password") String password,
-                                         HttpSession session,
-                                         Model model) {
-        Seller seller = validateSellerImp.findSeller(login, password);
-        if (seller != null) {
-            session.setAttribute("seller", seller);
-            return "redirect:/adverts-seller.html";
-        } else {
-            model.addAttribute("error", "Wrong login or password! Try again.");
-            return "login";
-        }
-
-    }
-
     @RequestMapping(value = "/adverts-seller.html", method = RequestMethod.GET)
-    public String showAdvertAutoSellerServlet(HttpSession session, ModelMap model) {
-        Seller seller = (Seller) session.getAttribute("seller");
+    public String showAdvertAutoSellerServlet(ModelMap model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = validateSellerImp.findSellerByName(auth.getName());
+        System.out.println(auth.getPrincipal().toString());
         model.addAttribute("adverts", validateAdvertAutoImp.findAdvertAutoBySellerId(seller.getId()));
         return "adverts";
-    }
-
-    @RequestMapping(value = "/exit.html", method = RequestMethod.GET)
-    public String sellerExitServlet(HttpSession session) {
-        session.invalidate();
-        return "redirect: adverts.html";
     }
 
     @RequestMapping(value = "/add-advert.html", method = RequestMethod.GET)
@@ -90,7 +77,8 @@ public class CarSalesController {
     }
 
     @RequestMapping(value = "/add-advert.html", method = RequestMethod.POST)
-    public String createNewAdvertAutoServletPost(HttpSession session, HttpServletRequest request) throws UnsupportedEncodingException {
+    public String createNewAdvertAutoServletPost(HttpServletRequest request) throws UnsupportedEncodingException {
+        String fileName = null;
         List<Object> list = new ArrayList<>();
         DiskFileItemFactory factory = new DiskFileItemFactory();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -102,7 +90,6 @@ public class CarSalesController {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        assert items != null;
         for (FileItem item : items) {
             if (item.isFormField()) {
                 String value = item.getString("UTF-8");
@@ -136,8 +123,11 @@ public class CarSalesController {
                 (String) list.get(11),
                 (String) list.get(12)
         );
+        System.out.println(fileName);
         advertAuto.setPhotoPath(fileName);
-        advertAuto.setSeller((Seller) session.getAttribute("seller"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = validateSellerImp.findSellerByName(auth.getName());
+        advertAuto.setSeller(seller);
         System.out.println(advertAuto);
         validateAdvertAutoImp.addAdvertAuto(advertAuto);
         return "redirect: adverts-seller.html";
@@ -151,6 +141,7 @@ public class CarSalesController {
 
     @RequestMapping(value = "/update.html", method = RequestMethod.POST)
     public String updateAdvertAutoServletPost(HttpServletRequest request) throws UnsupportedEncodingException {
+        String fileName = null;
         AdvertAuto advertAuto = validateAdvertAutoImp.findAdvertAutoById(id);
         DiskFileItemFactory factory = new DiskFileItemFactory();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -204,7 +195,6 @@ public class CarSalesController {
                                        @RequestParam(value = "mark", required = false) String mark,
                                        Model model) throws UnsupportedEncodingException {
         StringBuilder ret = new StringBuilder();
-        System.out.println(param);
         switch (param) {
             case "показать за последний день":
                 model.addAttribute("title", "Автомобили за последний день");
@@ -222,7 +212,6 @@ public class CarSalesController {
                 } else {
                     model.addAttribute("title", "Автомобили марки " + mark);
                     model.addAttribute("adverts", validateAdvertAutoImp.findAdvertAutoAddByMark(mark));
-
                     ret.append("filter");
                 }
                 break;
@@ -240,4 +229,26 @@ public class CarSalesController {
         return "redirect: adverts.html";
     }
 
+    @RequestMapping(value = "add-seller.html", method = RequestMethod.GET)
+    public String createNewSellerServletGet() {
+        return "addseller";
+    }
+
+    @RequestMapping(value = "add-seller.html", method = RequestMethod.POST)
+    public String createNewSellerServletPost(@RequestParam("name") String name,
+                                             @RequestParam("login") String login,
+                                             @RequestParam("password") String password, ModelMap model) {
+
+        Seller seller = validateSellerImp.findSeller(login, password);
+        if (seller != null) {
+            model.addAttribute("error", "Пользователь уже создан!");
+            return "addseller";
+        } else {
+            Seller sellerAdd = new Seller(name, login, bCryptPasswordEncoder.encode(password));
+            sellerAdd.setActive(true);
+            sellerAdd.setRoles(Collections.singleton(Role.USER));
+            validateSellerImp.addSeller(sellerAdd);
+            return "redirect: adverts.html";
+        }
+    }
 }

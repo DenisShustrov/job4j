@@ -15,8 +15,13 @@ import java.util.Optional;
 @Service
 public class ValidateAdvertAutoImp implements ValidateAdvertAuto {
 
+
+    private final AdvertAutoCrudRepository advertAutoCrudRepository;
+
     @Autowired
-    private AdvertAutoCrudRepository advertAutoCrudRepository;
+    public ValidateAdvertAutoImp(final AdvertAutoCrudRepository advertAutoCrudRepository) {
+        this.advertAutoCrudRepository = advertAutoCrudRepository;
+    }
 
 
     @Override

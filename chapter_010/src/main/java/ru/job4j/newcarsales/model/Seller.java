@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class Seller.
@@ -28,8 +29,15 @@ public class Seller {
     @Column(name = "password_s")
     private String password;
 
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "seller_role", joinColumns = @JoinColumn(name = "seller_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertAuto> adverts;
+
+    private boolean active;
 
     public Seller() {
 
@@ -91,6 +99,22 @@ public class Seller {
         this.adverts = adverts;
     }
 
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -102,22 +126,26 @@ public class Seller {
         Seller seller = (Seller) o;
         return id == seller.id
                 &&
+                active == seller.active
+                &&
                 Objects.equals(name, seller.name)
                 &&
                 Objects.equals(login, seller.login)
                 &&
                 Objects.equals(password, seller.password)
                 &&
+                Objects.equals(roles, seller.roles)
+                &&
                 Objects.equals(adverts, seller.adverts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, password, adverts);
+        return Objects.hash(id, name, login, password, roles, adverts, active);
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "Seller{"
                 +
                 "id=" + id
@@ -127,6 +155,12 @@ public class Seller {
                 ", login='" + login + '\''
                 +
                 ", password='" + password + '\''
+                +
+                ", roles=" + roles
+                +
+                ", adverts=" + adverts
+                +
+                ", active=" + active
                 +
                 '}';
     }

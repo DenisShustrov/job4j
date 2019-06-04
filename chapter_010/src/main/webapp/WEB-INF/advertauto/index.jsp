@@ -18,7 +18,7 @@
 <body>
 <div style="margin-left: 25px; margin-top: 25px"><a href='${pageContext.servletContext.contextPath}/add-seller.html'>Регистрация
     нового пользователя</a></br>
-    <a href='${pageContext.servletContext.contextPath}/login.html'>Войти</a>
+    <a href='${pageContext.servletContext.contextPath}/adverts-seller.html'>Войти</a>
     </br>
 </div>
 
@@ -126,7 +126,8 @@
             </c:out>
         </td>
         <td>
-            <img src="/fhotocars/${advertAuto.photoPath}" width="100px">
+            <img src="<c:url value='fhotocars/${advertAuto.photoPath}'/>" width="100px"/>
+
         </td>
         <td>
             <c:out value="${advertAuto.price}">

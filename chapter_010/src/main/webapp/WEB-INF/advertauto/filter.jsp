@@ -138,7 +138,7 @@
     <table>
         <tr>
             <td>
-                <form action='${pageContext.servletContext.contextPath}/adverts.html' method='get'>
+                <form action='${pageContext.servletContext.contextPath}' method='get'>
                     <button type="submit" class="btn btn-primary" value='exit'>Показать все объявления</button>
                 </form>
             </td>

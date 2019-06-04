@@ -12,8 +12,13 @@ import java.util.Optional;
 @Service
 public class ValidateSellerImp implements ValidateSeller {
 
+
+    private final SellerCrudRepository sellerCrudRepository;
+
     @Autowired
-    private SellerCrudRepository sellerCrudRepository;
+    public ValidateSellerImp(final SellerCrudRepository sellerCrudRepository) {
+        this.sellerCrudRepository = sellerCrudRepository;
+    }
 
     @Override
     public int addSeller(Seller seller) {
@@ -52,5 +57,10 @@ public class ValidateSellerImp implements ValidateSeller {
     @Override
     public Seller findSeller(String login, String password) {
         return sellerCrudRepository.findSellerByLoginAndPassword(login, password);
+    }
+
+    @Override
+    public Seller findSellerByName(String name) {
+        return sellerCrudRepository.findSellerByName(name);
     }
 }
