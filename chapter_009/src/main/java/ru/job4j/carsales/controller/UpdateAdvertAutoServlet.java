@@ -57,7 +57,7 @@ public class UpdateAdvertAutoServlet extends HttpServlet {
                 fileName = item.getName();
                 byte[] data = fileName.getBytes();
                 fileName = new String(data, StandardCharsets.UTF_8);
-                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_008\\src\\main\\webapp\\fhotocars\\";
+                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_008\\src\\main\\webapp\\static\\";
                 File file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\") + 1));
                 try {
                     item.write(file);

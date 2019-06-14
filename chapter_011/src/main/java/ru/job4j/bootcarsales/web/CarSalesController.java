@@ -1,4 +1,4 @@
-package ru.job4j.newcarsales.controller;
+package ru.job4j.bootcarsales.web;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -7,6 +7,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +15,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.job4j.newcarsales.model.AdvertAuto;
-import ru.job4j.newcarsales.model.Role;
-import ru.job4j.newcarsales.model.Seller;
-import ru.job4j.newcarsales.servise.ValidateAdvertAutoImp;
-import ru.job4j.newcarsales.servise.ValidateSellerImp;
-import ru.job4j.newcarsales.utils.DispatchPattern;
+import ru.job4j.bootcarsales.domain.AdvertAuto;
+import ru.job4j.bootcarsales.domain.Role;
+import ru.job4j.bootcarsales.domain.Seller;
+import ru.job4j.bootcarsales.servise.ValidateAdvertAutoImp;
+import ru.job4j.bootcarsales.servise.ValidateSellerImp;
+import ru.job4j.bootcarsales.utils.DispatchPattern;
 
 import javax.servlet.ServletContext;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -80,11 +82,15 @@ public class CarSalesController {
     public String createNewAdvertAutoServletPost(HttpServletRequest request) throws UnsupportedEncodingException {
         String fileName = null;
         List<Object> list = new ArrayList<>();
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-        ServletFileUpload upload = new ServletFileUpload(factory);
         List<FileItem> items = null;
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(
+                new File(System.getProperty("java.io.tmpdir")));
+        factory.setSizeThreshold(
+                DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD);
+        factory.setFileCleaningTracker(null);
+        ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
@@ -99,7 +105,7 @@ public class CarSalesController {
                 fileName = item.getName();
                 byte[] data = fileName.getBytes();
                 fileName = new String(data, StandardCharsets.UTF_8);
-                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_010\\src\\main\\webapp\\static\\";
+                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_011\\src\\main\\resources\\static\\foto\\";
                 File file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\") + 1));
                 try {
                     item.write(file);
@@ -130,7 +136,7 @@ public class CarSalesController {
         advertAuto.setSeller(seller);
         System.out.println(advertAuto);
         validateAdvertAutoImp.addAdvertAuto(advertAuto);
-        return "redirect: adverts-seller.html";
+        return "redirect:/adverts-seller.html";
     }
 
     @RequestMapping(value = "/update.html", method = RequestMethod.GET)
@@ -143,11 +149,16 @@ public class CarSalesController {
     public String updateAdvertAutoServletPost(HttpServletRequest request) throws UnsupportedEncodingException {
         String fileName = null;
         AdvertAuto advertAuto = validateAdvertAutoImp.findAdvertAutoById(id);
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-        ServletFileUpload upload = new ServletFileUpload(factory);
+//        List<Object> list = new ArrayList<>();
         List<FileItem> items = null;
+//        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(
+                new File(System.getProperty("java.io.tmpdir")));
+        factory.setSizeThreshold(
+                DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD);
+        factory.setFileCleaningTracker(null);
+        ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
@@ -161,7 +172,7 @@ public class CarSalesController {
                 fileName = item.getName();
                 byte[] data = fileName.getBytes();
                 fileName = new String(data, StandardCharsets.UTF_8);
-                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_010\\src\\main\\webapp\\static\\";
+                String filePath = "C:\\Users\\denis\\projects\\job4j\\chapter_011\\src\\main\\resources\\static\\foto\\";
                 File file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\") + 1));
                 try {
                     item.write(file);
@@ -174,20 +185,20 @@ public class CarSalesController {
             advertAuto.setPhotoPath(fileName);
         }
         validateAdvertAutoImp.updateAdvertAuto(advertAuto);
-        return "redirect: adverts-seller.html";
+        return "redirect:/adverts-seller.html";
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.POST)
     public String deleteAdvertAutoServlet(@RequestParam("id") String idA) {
         AdvertAuto advertAuto = validateAdvertAutoImp.findAdvertAutoById(Integer.parseInt(idA));
         validateAdvertAutoImp.deleteAdvertAuto(advertAuto);
-        return "redirect: adverts-seller.html";
+        return "redirect:/adverts-seller.html";
     }
 
     @RequestMapping(value = "/change.html", method = RequestMethod.POST)
     public String changeStatusAdvertServlet(@RequestParam("id") String idA) {
         validateAdvertAutoImp.changeStatus(Integer.parseInt(idA));
-        return "redirect: adverts-seller.html";
+        return "redirect:/adverts-seller.html";
     }
 
     @RequestMapping(value = "/filter.html", method = RequestMethod.POST)
@@ -216,7 +227,7 @@ public class CarSalesController {
                 }
                 break;
             case "выбрать":
-                ret.append("redirect: adverts.html");
+                ret.append("redirect:/adverts.html");
                 break;
             default:
 
@@ -229,17 +240,18 @@ public class CarSalesController {
         return "redirect: adverts.html";
     }
 
-    @RequestMapping(value = "add-seller.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/add-seller.html", method = RequestMethod.GET)
     public String createNewSellerServletGet() {
         return "addseller";
     }
 
-    @RequestMapping(value = "add-seller.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/add-seller.html", method = RequestMethod.POST)
     public String createNewSellerServletPost(@RequestParam("name") String name,
                                              @RequestParam("login") String login,
                                              @RequestParam("password") String password, ModelMap model) {
 
-        Seller seller = validateSellerImp.findSeller(login, password);
+        Seller seller = validateSellerImp.findSeller(name, login);
+//        System.out.println(seller.toString());
         if (seller != null) {
             model.addAttribute("error", "Пользователь уже создан!");
             return "addseller";
@@ -248,7 +260,7 @@ public class CarSalesController {
             sellerAdd.setActive(true);
             sellerAdd.setRoles(Collections.singleton(Role.USER));
             validateSellerImp.addSeller(sellerAdd);
-            return "redirect: adverts.html";
+            return "redirect:/adverts.html";
         }
     }
 }

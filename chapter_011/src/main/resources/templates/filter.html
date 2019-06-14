@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Car sales</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h3 th:text="${title}" align="center"></h3>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Марка</th>
+        <th>Модель</th>
+        <th>Год выпуска</th>
+        <th>Тип кузова</th>
+        <th>Тип двигателя</th>
+        <th>Привод</th>
+        <th>Коробка передач</th>
+        <th>Пробег</th>
+        <th>Состояние</th>
+        <th>Описание объявления</th>
+        <th>Фото</th>
+        <th>Цена</th>
+        <th>Имя продовца</th>
+        <th>Телефон продовца</th>
+        <th>Дата размещения</th>
+        <th>Статус объявления</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="advertAuto: ${adverts}">
+        <tr>
+            <td th:text="${advertAuto.id}">
+            </td>
+            <td th:text="${advertAuto.mark}">
+            </td>
+            <td th:text="${advertAuto.model}">
+            </td>
+            <td th:text="${advertAuto.years}">
+            </td>
+            <td th:text="${advertAuto.bodyType}">
+            </td>
+            <td th:text="${advertAuto.engineType}">
+            </td>
+            <td th:text="${advertAuto.drive}">
+            </td>
+            <td th:text="${advertAuto.transmission}">
+            </td>
+            <td th:text="${advertAuto.mileage}">
+            </td>
+            <td th:text="${advertAuto.condition}">
+            </td>
+            <td th:text="${advertAuto.description}">
+            </td>
+            <td>
+                <div th:if="${advertAuto.photoPath} == ''">Фото нет</div>
+                <div th:if="${advertAuto.photoPath} != ''">
+                    <img th:attr="src=@{|foto/${advertAuto.photoPath}|}" width="100px"/>
+                </div>
+            </td>
+            <td th:text="${advertAuto.price}">
+            </td>
+            <td th:text="${advertAuto.nameSeller}">
+            </td>
+            <td th:text="${advertAuto.phoneNumber}">
+            </td>
+            <td th:text="${advertAuto.createDate}">
+            </td>
+            <td th:if="${advertAuto.saleStatus == false}">
+                <p>Не продана</p>
+            </td>
+            <td th:if="${advertAuto.saleStatus == true}">
+                <p>Продана</p>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+    <table>
+        <tr>
+            <td>
+                <form action='/adverts.html' method='get'>
+                    <button type="submit" class="btn btn-primary" value='exit'>Показать все объявления</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</table>
+</body>
+</html>
