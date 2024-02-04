@@ -34,6 +34,13 @@ public class AdditionalTask {
                 sum1 = sum1 + array[k - 1];
             }
         }
+
+
+
+
+
+
+
         return new PairArrays(transformationInt(array2), transformationInt(array3));
     }
 
